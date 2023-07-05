@@ -1,7 +1,44 @@
+"use client";
+
+import { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import axios from "axios";
 
 const Verifyemail = () => {
+	const [counting, setCounting] = useState(true);
+	const [num, setNum] = useState(59);
+
+	useEffect(() => {
+		const counter = () => {
+			let number = num;
+
+			setInterval(() => {
+				if (number <= 0) {
+					setCounting(false);
+					setNum(59);
+					clearInterval();
+				}
+				setNum(--number);
+			}, 1000);
+		};
+
+		counter();
+	}, [counting]);
+
+	const handleResend = async () => {
+		await axios
+			.post("http://localhost:5000/auth/resend-mail", {
+				email: localStorage.getItem("email"),
+			})
+			.then((res) => {
+				console.log(res);
+			})
+			.catch((err) => {
+				console.log(err);
+			});
+	};
+
 	return (
 		<main className="flex min-h-screen bg-primary flex-col justify-around">
 			<section className="w-full flex flex-col items-center justify-center gap-10">
@@ -28,9 +65,13 @@ const Verifyemail = () => {
 							creating your account.
 						</p>
 						<h1 className="text-lg font-bold mt-14">Email not recieved</h1>
-						<Link href={"/verify-email"} className="underline text-success">
-							Resend Email
-						</Link>
+						<button
+							type="button"
+							onClick={handleResend}
+							className={counting ? "text-success" : "underline text-success"}
+						>
+							{counting ? `0 : ${num < 10 ? "0" + num : num}` : "Resend Email"}
+						</button>
 					</div>
 				</div>
 			</section>

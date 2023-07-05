@@ -1,8 +1,10 @@
+"use client"
+
 import { configureStore } from '@reduxjs/toolkit'
-import accessReducer from './access';
+import authReducer from './features/auth/authSlice';
 
 export default configureStore({
   reducer: {
-    access: accessReducer
+    auth: authReducer
   },
 })

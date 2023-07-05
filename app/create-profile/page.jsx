@@ -3,8 +3,11 @@ import React from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { useSelector } from "react-redux";
 
 const Createprofile = () => {
+	const { email, access_token } = useSelector((state) => state.auth);
+	console.log({ email, access_token });
 	const router = useRouter();
 	return (
 		<main className="flex min-h-screen bg-success flex-col">

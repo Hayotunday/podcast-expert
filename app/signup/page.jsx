@@ -5,17 +5,16 @@ import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { signIn } from "next-auth/react";
-import { useSession } from "next-auth/react";
 
 import { useDispatch, useSelector } from "react-redux";
-import { update } from "@redux/access";
+import { updateEmail } from "@app/redux/features/auth/authSlice";
 
 import Input from "@components/Input";
 import Transition from "@components/Transition";
 import axios from "axios";
 
 const Signup = () => {
-	const {} = useSelector((state) => state.access);
+	const {} = useSelector((state) => state.auth);
 	const dispatch = useDispatch();
 	const [position, setPosition] = useState(1);
 	const [color, setColor] = useState("pinky");
@@ -89,7 +88,8 @@ const Signup = () => {
 		) {
 			if (formInfo.password === formInfo.confirm) {
 				if (check) {
-					dispatch(update({ email: formInfo.email }));
+					dispatch(updateEmail(formInfo.email));
+					localStorage.setItem("email", formInfo.email);
 					await axios
 						.post("http://localhost:5000/auth/register", {
 							email: formInfo.email,
