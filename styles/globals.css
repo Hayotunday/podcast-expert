@@ -1,0 +1,25 @@
+@import url("https://fonts.googleapis.com/css2?family=Public+Sans:wght@100;200;300;400;500;600;700;800;900&display=swap");
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+	@apply m-0 font-publicSans scroll-smooth;
+}
+
+input:focus ~ .input-text {
+	@apply top-6 flex text-blue-500 transform -translate-y-9 -translate-x-4 scale-75;
+}
+
+#vidimage:hover ~ .hover-show {
+	@apply block visible;
+}
+
+#playimage:hover ~ .hover-scale {
+	@apply scale-105;
+}
+
+contain {
+	@apply flex overflow-x-scroll flex-nowrap;
+}
