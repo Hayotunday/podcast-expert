@@ -2,7 +2,7 @@ import "@styles/globals.css";
 
 import { Providers } from "./redux/provider";
 
-import Root from "./Root";
+import Root from "./root";
 
 export const metadata = {
 	title: "Podcast Expert",
