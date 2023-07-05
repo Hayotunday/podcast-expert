@@ -8,6 +8,7 @@ import { signIn } from "next-auth/react";
 
 import Input from "@components/Input";
 import Transition from "@components/Transition";
+import axios from "axios";
 
 const Login = () => {
 	const [position, setPosition] = useState(1);
@@ -63,24 +64,20 @@ const Login = () => {
 		e.preventDefault();
 
 		if (loginInfo.email !== "" && loginInfo.password !== "") {
-			const response = await signIn("credentials", {
-				redirect: false,
-				type: "login",
-				email: loginInfo.email,
-				password: loginInfo.password,
-				callbackUrl: "/",
-			});
-
-			console.log("Response: ", response);
-			// if (response.error === "200") {
-			// 	router.push("/");
-			// } else if (response.error === "401") {
-			// 	alert(
-			// 		"User password or email doesn't match. Please check login details!"
-			// 	);
-			// } else {
-			// 	alert("No user found with email. Please sign up!");
-			// }
+			await axios
+				.post("http://localhost:5000/auth/login", {
+					email: loginInfo.email,
+					password: loginInfo.password,
+				})
+				.then((res) => {
+					localStorage.setItem("accessToken", res.data.accessToken);
+					if (res.status === 200) {
+						router.push("/");
+					}
+				})
+				.catch((err) => {
+					console.log(err);
+				});
 		} else {
 			alert("Please fill all field");
 		}

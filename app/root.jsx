@@ -8,6 +8,7 @@ import Topbar from "@components/Topbar";
 
 export default function Root({ children }) {
 	const pathname = usePathname();
+
 	return (
 		<>
 			{pathname !== "/login" &&
@@ -25,8 +26,10 @@ export default function Root({ children }) {
 					<section className="flex flex-row w-full">
 						<Nav />
 
-						<section className="w-full overflow-hidden">
-							<Topbar />
+						<section className="w-full relative overflow-hidden">
+							<div className="w-full sticky top-0">
+								<Topbar />
+							</div>
 							<div className="bg-grey w-full h-full p-5 flex flex-col gap-7">
 								{children}
 							</div>

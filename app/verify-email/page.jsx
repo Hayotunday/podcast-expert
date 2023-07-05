@@ -13,23 +13,28 @@ const Verifyemail = () => {
 		const counter = () => {
 			let number = num;
 
-			setInterval(() => {
-				if (number <= 0) {
-					setCounting(false);
-					setNum(59);
-					clearInterval();
-				}
-				setNum(--number);
-			}, 1000);
+			if (counting) {
+				const interval = setInterval(() => {
+					if (number <= 0) {
+						setCounting(false);
+						setNum(59);
+						clearInterval(interval);
+					}
+					setNum(--number);
+				}, 1000);
+			}
 		};
-
 		counter();
 	}, [counting]);
 
 	const handleResend = async () => {
+		setCounting(true);
+		setNum(59);
+
+		let mail = localStorage.getItem("email");
 		await axios
 			.post("http://localhost:5000/auth/resend-mail", {
-				email: localStorage.getItem("email"),
+				email: mail,
 			})
 			.then((res) => {
 				console.log(res);

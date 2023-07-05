@@ -44,7 +44,7 @@ const Verified = ({ searchParams }) => {
 			if (stat) {
 				setTimeout(() => {
 					router.push("/create-profile");
-				}, 10000);
+				}, 5000);
 			}
 		};
 
