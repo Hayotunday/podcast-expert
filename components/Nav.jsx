@@ -21,7 +21,7 @@ const Nav = () => {
 						/>
 					</div>
 				</Link>
-				<button
+				{/* <button
 					type="button"
 					className="text-white text-center bg-success w-full flex flex-row items-center justify-center gap-3 p-2 rounded-sm mt-2"
 				>
@@ -32,7 +32,27 @@ const Nav = () => {
 						alt="Plus icon"
 					/>
 					Create list
-				</button>
+				</button> */}
+
+				<div className="w-full mt-12">
+					<Link
+						href={"/"}
+						className={
+							pathname !== "/"
+								? "flex flex-row p-2 gap-5 items-center justify-start rounded hover:bg-white hover:text-white hover:bg-opacity-10"
+								: "flex flex-row p-2 gap-5 items-center justify-start rounded bg-white text-white bg-opacity-10"
+						}
+					>
+						<Image
+							src={"/svgs/podcaster.svg"}
+							width={15}
+							height={15}
+							alt="Podcaster icon"
+						/>
+						<p className="text-white text-center">Home</p>
+					</Link>
+					<hr className="mt-2" />
+				</div>
 
 				<div className="w-full mt-12">
 					<p className="text-white text-left uppercase text-sm font-normal">
@@ -77,23 +97,7 @@ const Nav = () => {
 					<p className="text-white text-left uppercase text-sm font-normal">
 						LIBRARY
 					</p>
-					<Link
-						href={"#"}
-						className={
-							pathname !== "/"
-								? "flex flex-row p-2 gap-5 items-center justify-start rounded hover:bg-white hover:text-white hover:bg-opacity-10"
-								: "flex flex-row p-2 gap-5 items-center justify-start rounded bg-white text-white bg-opacity-10"
-						}
-					>
-						<Image
-							src={"/svgs/favorite.svg"}
-							width={15}
-							height={15}
-							alt="Favorite icon"
-						/>
-						<p className="text-white text-center">Favorites</p>
-					</Link>
-					<Link
+					{/* <Link
 						href={"/saved-list"}
 						className={
 							pathname !== "/saved-list"
@@ -108,7 +112,7 @@ const Nav = () => {
 							alt="Saved icon"
 						/>
 						<p className="text-white text-center">Saved lists</p>
-					</Link>
+					</Link> */}
 					<Link
 						href={"#"}
 						className={

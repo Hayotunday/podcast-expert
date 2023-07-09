@@ -40,7 +40,7 @@ const Steptwo = () => {
 		<>
 			<div className="bg-grey w-full h-full p-5 flex flex-col gap-7">
 				<div className="flex flex-row items-center gap-10 justify-start self-start ml-5">
-					<Link href={"/"} className="">
+					<Link href={"/create-guest/step-one"} className="">
 						<div>
 							<Image
 								src={"/svgs/leftarrow.svg"}
@@ -293,7 +293,7 @@ const Steptwo = () => {
 													src={"/svgs/cancel.svg"}
 													width={15}
 													height={15}
-													alt="Search icon"
+													alt="cancel icon"
 												/>
 											</button>
 										</div>

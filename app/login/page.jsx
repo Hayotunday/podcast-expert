@@ -10,7 +10,7 @@ import Input from "@components/Input";
 import Transition from "@components/Transition";
 import axios from "axios";
 
-const Login = () => {
+const Login = ({ searchParams }) => {
 	const [position, setPosition] = useState(1);
 	const [color, setColor] = useState("pinky");
 	const [loginInfo, setLoginInfo] = useState({ email: "", password: "" });
@@ -71,7 +71,9 @@ const Login = () => {
 				})
 				.then((res) => {
 					localStorage.setItem("accessToken", res.data.accessToken);
-					if (res.status === 200) {
+					if (searchParams.return) {
+						router.push(`${searchParams.return}`);
+					} else if (res.status === 200) {
 						router.push("/");
 					}
 				})

@@ -150,28 +150,24 @@ export const podcastList = [
 
 export const dropdown_options = [{ option: 'More option 1' }, { option: 'More option 2' }, { option: 'More option 3' }, { option: 'More option 4' }]
 
-
-// var nodemailer = require('nodemailer');
-
-// var transporter = nodemailer.createTransport({
-//   service: 'gmail',
-//   auth: {
-//     user: 'youremail@gmail.com',
-//     pass: 'yourpassword'
-//   }
-// });
-
-// var mailOptions = {
-//   from: 'youremail@gmail.com',
-//   to: 'myfriend@yahoo.com',
-//   subject: 'Sending Email using Node.js',
-//   text: 'That was easy!'
-// };
-
-// transporter.sendMail(mailOptions, function(error, info){
-//   if (error) {
-//     console.log(error);
-//   } else {
-//     console.log('Email sent: ' + info.response);
-//   }
-// });
+export const category_options = [
+  { option: 'Arts' },
+  { option: 'Business' },
+  { option: 'Comedy' },
+  { option: 'Education' },
+  { option: 'Fiction' },
+  { option: 'Government' },
+  { option: 'History' },
+  { option: 'Health & Fitness' },
+  { option: 'Kids & Family' },
+  { option: 'Leisure' },
+  { option: 'Music' },
+  { option: 'News' },
+  { option: 'Religion & Spirituality' },
+  { option: 'Science' },
+  { option: 'Society & Culture' },
+  { option: 'Sports' },
+  { option: 'Technology' },
+  { option: 'True Crime' },
+  { option: 'TV & Film' }
+]

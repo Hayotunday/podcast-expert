@@ -102,9 +102,10 @@ const Signup = () => {
 							}
 						})
 						.catch((res) => {
-							if (res.response.status === 401) {
-								alert("Email already taken. Enter a unique email to continue!");
-							}
+							console.log(res);
+							// if (res.status === 401) {
+							// 	alert("Email already taken. Enter a unique email to continue!");
+							// }
 						});
 				} else {
 					alert("Please agree to our Privacy policy and Terms and conditions");

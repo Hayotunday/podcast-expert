@@ -4,11 +4,48 @@ import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useSelector } from "react-redux";
+import axios from "axios";
 
 const Createprofile = () => {
 	const { email, access_token } = useSelector((state) => state.auth);
-	console.log({ email, access_token });
 	const router = useRouter();
+
+	const handleClick = async (opt) => {
+		let text = "";
+		if (opt === 1) {
+			text = "Podcaster";
+		} else if (opt === 2) {
+			text = "Guest";
+		} else if (opt === 3) {
+			text = "Press";
+		}
+
+		const token = localStorage.getItem("accessToken");
+		const config = {
+			headers: { Authorization: `Bearer ${token}` },
+		};
+
+		await axios
+			.patch(
+				"http://localhost:5000/user/profile-type",
+				{
+					profile_type: text,
+				},
+				config
+			)
+			.then((res) => {
+				const { profile_type } = res.data;
+				if (profile_type === "Podcaster") {
+					router.push("/create-podcaster");
+				} else if (profile_type === "Guest") {
+					router.push("/create-guest");
+				} else if (profile_type === "Press") {
+					router.push("/");
+				}
+			})
+			.catch((err) => console.log(err));
+	};
+
 	return (
 		<main className="flex min-h-screen bg-success flex-col">
 			<section className="flex flex-col items-center p-10 gap-7">
@@ -72,8 +109,12 @@ const Createprofile = () => {
 							/>
 						</div>
 					</button> */}
+
 					<button
 						type="button"
+						onClick={() => {
+							handleClick(1);
+						}}
 						className="flex flex-col items-center justify-start pt-10 rounded-md gap-5 border-4 border-pinky text-center w-60 h-60 p-3 bg-white"
 					>
 						<h1 className="text-primary text-xl font-bold">Podcaster</h1>
@@ -83,6 +124,9 @@ const Createprofile = () => {
 					</button>
 					<button
 						type="button"
+						onClick={() => {
+							handleClick(2);
+						}}
 						className="flex flex-col items-center justify-start pt-10 rounded-md gap-5 border-4 border-pinky text-center w-60 h-60 p-3 bg-white"
 					>
 						<h1 className="text-primary text-xl font-bold">Guest</h1>
@@ -92,6 +136,9 @@ const Createprofile = () => {
 					</button>
 					<button
 						type="button"
+						onClick={() => {
+							handleClick(3);
+						}}
 						className="flex flex-col items-center justify-start pt-10 rounded-md gap-5 border-4 border-pinky text-center w-60 h-60 p-3 bg-white"
 					>
 						<h1 className="text-primary text-xl font-bold">Press</h1>
