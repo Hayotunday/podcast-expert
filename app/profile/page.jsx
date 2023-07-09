@@ -26,7 +26,10 @@ const Guest = () => {
 				},
 			};
 			await axios
-				.get("http://localhost:5000/user/profile-type/my-profile", config)
+				.get(
+					"https://podcastbackend-kj4h.onrender.com/user/profile-type/my-profile",
+					config
+				)
 				.then((res) => {
 					setData(res.data);
 				})

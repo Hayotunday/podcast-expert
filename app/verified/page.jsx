@@ -20,7 +20,7 @@ const Verified = ({ searchParams }) => {
 	useEffect(() => {
 		const verifyMail = async () => {
 			await axios
-				.patch("http://localhost:5000/auth/verify-mail", {
+				.patch("https://podcastbackend-kj4h.onrender.com/auth/verify-mail", {
 					id,
 					token,
 				})

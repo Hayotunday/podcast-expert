@@ -33,7 +33,7 @@ const Verifyemail = () => {
 
 		let mail = localStorage.getItem("email");
 		await axios
-			.post("http://localhost:5000/auth/resend-mail", {
+			.post("https://podcastbackend-kj4h.onrender.com/auth/resend-mail", {
 				email: mail,
 			})
 			.then((res) => {

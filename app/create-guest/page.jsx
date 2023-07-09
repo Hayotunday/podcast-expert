@@ -60,7 +60,7 @@ const CreateGuest = () => {
 		};
 		await axios
 			.post(
-				"http://localhost:5000/user/profile-type/add",
+				"https://podcastbackend-kj4h.onrender.com/user/profile-type/add",
 				{
 					profile_type: "Guest",
 					user: id,
@@ -94,7 +94,7 @@ const CreateGuest = () => {
 				},
 			};
 			await axios
-				.get("http://localhost:5000/user/profile", config)
+				.get("https://podcastbackend-kj4h.onrender.com/user/profile", config)
 				.then((res) => {
 					localStorage.setItem("podcastId", res.data.user._id);
 				})

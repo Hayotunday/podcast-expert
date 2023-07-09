@@ -91,7 +91,7 @@ const Signup = () => {
 					dispatch(updateEmail(formInfo.email));
 					localStorage.setItem("email", formInfo.email);
 					await axios
-						.post("http://localhost:5000/auth/register", {
+						.post("https://podcastbackend-kj4h.onrender.com/auth/register", {
 							email: formInfo.email,
 							name: formInfo.name,
 							password: formInfo.password,

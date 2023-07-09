@@ -65,7 +65,7 @@ const Login = ({ searchParams }) => {
 
 		if (loginInfo.email !== "" && loginInfo.password !== "") {
 			await axios
-				.post("http://localhost:5000/auth/login", {
+				.post("https://podcastbackend-kj4h.onrender.com/auth/login", {
 					email: loginInfo.email,
 					password: loginInfo.password,
 				})

@@ -49,7 +49,7 @@ export default function Root({ children }) {
 				},
 			};
 			await axios
-				.get("http://localhost:5000/user/profile", config)
+				.get("https://podcastbackend-kj4h.onrender.com/user/profile", config)
 				.then((res) => {
 					setUser({ name: res.data.user.name, image: res.data.user.image });
 				})

@@ -27,7 +27,7 @@ const Createprofile = () => {
 
 		await axios
 			.patch(
-				"http://localhost:5000/user/profile-type",
+				"https://podcastbackend-kj4h.onrender.com/user/profile-type",
 				{
 					profile_type: text,
 				},

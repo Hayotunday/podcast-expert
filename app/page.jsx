@@ -10,7 +10,7 @@ export default function Home() {
 	useEffect(() => {
 		const getUserDetails = async () => {
 			await axios
-				.get("http://localhost:5000/user")
+				.get("https://podcastbackend-kj4h.onrender.com/user")
 				.then((res) => {
 					// setProfiles(res.data.users);
 					console.log(res);
