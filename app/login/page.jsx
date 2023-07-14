@@ -79,6 +79,8 @@ const Login = ({ searchParams }) => {
 					}
 				})
 				.catch((err) => {
+					if (err.response.status === 401)
+						alert("Incorrect user email or password");
 					console.log(err);
 				});
 		} else {

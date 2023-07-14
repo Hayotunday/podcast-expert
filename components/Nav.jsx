@@ -32,7 +32,7 @@ const Nav = ({ setIsOpen }) => {
 			onBlur={() => {
 				setIsOpen(false);
 			}}
-			className="w-1/2 sm:1/6 absolute lg:static h-full flex-grow bg-primary z-50 lg:z-0"
+			className="w-1/2 sm:w-1/6 absolute lg:static h-full flex-grow bg-primary z-50 lg:z-0"
 		>
 			{/* <section className="w-1/6 h-full bg-primary"> */}
 			<nav className="w-full sticky top-0 flex flex-col pt-5 px-3 items-center">
