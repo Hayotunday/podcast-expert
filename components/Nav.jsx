@@ -1,14 +1,40 @@
 "use client";
+
+import axios from "axios";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 
-const Nav = () => {
+import { AiOutlineUser } from "react-icons/ai";
+import { BiLogOut } from "react-icons/bi";
+
+const Nav = ({ setIsOpen }) => {
 	const pathname = usePathname();
 	const router = useRouter();
 
+	const logOut = async () => {
+		localStorage.removeItem("podcastMail");
+		localStorage.removeItem("podcastId");
+		localStorage.removeItem("podcastToken");
+
+		await axios
+			.post(`${process.env.NEXT_PUBLIC_BASE_URL}/auth/logout`)
+			.then((res) => {
+				if (res.status === 204) router.push("/login");
+			})
+			.catch((err) => {
+				console.log(err);
+			});
+	};
+
 	return (
-		<section className="w-1/6 bg-primary">
+		<section
+			onBlur={() => {
+				setIsOpen(false);
+			}}
+			className="w-1/2 sm:1/6 absolute lg:static h-full flex-grow bg-primary z-50 lg:z-0"
+		>
+			{/* <section className="w-1/6 h-full bg-primary"> */}
 			<nav className="w-full sticky top-0 flex flex-col pt-5 px-3 items-center">
 				<Link href={"#"} className="flex items-center justify-center">
 					<div className="">
@@ -36,6 +62,9 @@ const Nav = () => {
 
 				<div className="w-full mt-12">
 					<Link
+						onClick={() => {
+							setIsOpen(false);
+						}}
 						href={"/"}
 						className={
 							pathname !== "/"
@@ -54,7 +83,25 @@ const Nav = () => {
 					<hr className="mt-2" />
 				</div>
 
-				<div className="w-full mt-12">
+				<div className="w-full mt-5">
+					<Link
+						onClick={() => {
+							setIsOpen(false);
+						}}
+						href={"/profile"}
+						className={
+							pathname !== "/profile"
+								? "flex flex-row p-2 gap-5 items-center justify-start rounded hover:bg-white hover:text-white hover:bg-opacity-10"
+								: "flex flex-row p-2 gap-5 items-center justify-start rounded bg-white text-white bg-opacity-10"
+						}
+					>
+						<AiOutlineUser size={20} color="#00CCBB" />
+						<p className="text-white text-center">My Profile</p>
+					</Link>
+					<hr className="mt-2" />
+				</div>
+
+				{/* <div className="w-full mt-12">
 					<p className="text-white text-left uppercase text-sm font-normal">
 						MENU
 					</p>
@@ -91,7 +138,7 @@ const Nav = () => {
 						<p className="text-white text-center">Find guests</p>
 					</Link>
 					<hr className="mt-2" />
-				</div>
+				</div> */}
 
 				<div className="w-full mt-12">
 					<p className="text-white text-left uppercase text-sm font-normal">
@@ -114,9 +161,12 @@ const Nav = () => {
 						<p className="text-white text-center">Saved lists</p>
 					</Link> */}
 					<Link
+						onClick={() => {
+							setIsOpen(false);
+						}}
 						href={"#"}
 						className={
-							pathname !== "/"
+							pathname !== "#"
 								? "flex flex-row p-2 gap-5 items-center justify-start rounded hover:bg-white hover:text-white hover:bg-opacity-10"
 								: "flex flex-row p-2 gap-5 items-center justify-start rounded bg-white text-white bg-opacity-10"
 						}
@@ -130,6 +180,20 @@ const Nav = () => {
 						<p className="text-white text-center">Recents</p>
 					</Link>
 					<hr className="mt-2" />
+				</div>
+
+				<div className="w-full mt-12">
+					<button
+						onClick={() => {
+							setIsOpen(false);
+							// setToggleDropdown(false);
+							logOut();
+						}}
+						className="w-full flex flex-row p-2 gap-5 items-center justify-start rounded text-white"
+					>
+						<BiLogOut size={20} color="#00CCBB" />
+						<p className="text-white text-center">Sign Out</p>
+					</button>
 				</div>
 
 				<div className="w-ful mt-10">

@@ -6,22 +6,19 @@ import Link from "next/link";
 import axios from "axios";
 
 import { AiOutlineLeft } from "react-icons/ai";
-import DateTimePicker from "react-datetime-picker";
 import "react-datetime-picker/dist/DateTimePicker.css";
 
 import Input from "@components/Input";
-import Dropdown from "@components/Dropdown";
-
-import { category_options } from "@utils/data";
 import { useRouter } from "next/navigation";
+import Loader from "@components/Loader";
 
-const CreatePodcaster = () => {
+const EditPodcaster = () => {
 	const router = useRouter();
 
+	const [id, setId] = useState("");
+	const [data, setData] = useState({});
 	const [name, setName] = useState("");
 	const [link, setLink] = useState("");
-	const [category, setCategory] = useState("");
-	const [date, setDate] = useState(new Date());
 	const [bio, setBio] = useState("");
 	const [recPrefers, setRecPrefers] = useState([]);
 	const [newRecPrefer, setNewRecPrefer] = useState("");
@@ -36,6 +33,7 @@ const CreatePodcaster = () => {
 	});
 	const [promo, setPromo] = useState("");
 	const [guestVal, setGuestVal] = useState(null);
+	const [isLoaded, setIsLoaded] = useState(true);
 
 	const { facebook, instagram, linkedin, twitter, youtube } = social;
 
@@ -55,6 +53,41 @@ const CreatePodcaster = () => {
 		setSocial({ ...social, linkedin: e.target.value });
 	};
 
+	useEffect(() => {
+		const getUserDetails = async () => {
+			setId(localStorage.getItem("podcastId"));
+			const token = localStorage.getItem("podcastToken");
+			const config = {
+				headers: {
+					Authorization: `Bearer ${token}`,
+				},
+			};
+			await axios
+				.get(
+					`${process.env.NEXT_PUBLIC_BASE_URL}/user/profile-type/my-profile`,
+					config
+				)
+				.then((res) => {
+					// console.log(res.data);
+					setName(res.data.podcast_name);
+					setLink(res.data.podcast_link);
+					setBio(res.data.bio);
+					setSocial(res.data.social_media);
+					setPromo(res.data.promo_expect);
+					setGuestVal(res.data.need_guest);
+					setEpisodes(res.data.episode_links);
+					setRecPrefers(res.data.record_preference);
+					setData(res.data);
+				})
+				.catch((err) => console.log(err))
+				.finally(() => {
+					setIsLoaded(false);
+				});
+		};
+
+		getUserDetails();
+	}, []);
+
 	const handleSave = async () => {
 		const token = localStorage.getItem("podcastToken");
 		const id = localStorage.getItem("podcastId");
@@ -64,18 +97,16 @@ const CreatePodcaster = () => {
 			},
 		};
 		await axios
-			.post(
-				`${process.env.NEXT_PUBLIC_BASE_URL}/user/profile-type/add`,
+			.patch(
+				`${process.env.NEXT_PUBLIC_BASE_URL}/user/profile-type/edit`,
 				{
 					profile_type: "Podcaster",
 					podcast_name: name,
 					user: id,
-					topic_categories: category,
+					highlights: [],
 					podcast_link: link,
 					bio: bio,
-					highlights: [],
 					social_media: social,
-					transmission_date: [],
 					guest_bio: "",
 					booking_details: [],
 					episode_links: episodes,
@@ -87,7 +118,7 @@ const CreatePodcaster = () => {
 			)
 			.then((res) => {
 				if (res.status === 201) {
-					router.push("/");
+					router.push("/profile");
 				}
 				// console.log(res);
 			})
@@ -96,24 +127,7 @@ const CreatePodcaster = () => {
 			});
 	};
 
-	useEffect(() => {
-		const getUserDetails = async () => {
-			const token = localStorage.getItem("podcastToken");
-			const config = {
-				headers: {
-					Authorization: `Bearer ${token}`,
-				},
-			};
-			await axios
-				.get(`${process.env.NEXT_PUBLIC_BASE_URL}/user/profile`, config)
-				.then((res) => {
-					localStorage.setItem("podcastId", res.data.user._id);
-				})
-				.catch((err) => console.log(err));
-		};
-
-		getUserDetails();
-	}, []);
+	if (isLoaded) return <Loader />;
 
 	return (
 		<>
@@ -129,7 +143,7 @@ const CreatePodcaster = () => {
 				</div>
 
 				<div className="flex flex-row items-center gap-10 justify-start self-start ml-5">
-					<Link href={"/create-profile"} className="">
+					<Link href={"/profile"} className="">
 						<div>
 							<AiOutlineLeft size={22} className="text-primary" />
 						</div>
@@ -139,11 +153,8 @@ const CreatePodcaster = () => {
 
 				<div className="text-primary self-center text-center mb-5 w-full">
 					<h1 className="text-primary text-left text-4xl font-black w-full">
-						Create podcaster <span className="text-success">profile</span>
+						Edit <span className="text-success">profile</span>
 					</h1>
-					<p className="text-primary text-left text-sm font-normal -mt-1 w-full">
-						Tell guests a little More about you
-					</p>
 				</div>
 
 				<div className="flex flex-col sm:flex-row gap-10">
@@ -164,26 +175,6 @@ const CreatePodcaster = () => {
 									}}
 									value={name}
 									type="text"
-								/>
-							</div>
-						</div>
-
-						<div>
-							<div className="w-11/12">
-								<h2 className="text-primary text-2xl font-bold text-left">
-									Category of Podcast
-								</h2>
-								<hr className="h-0.5 w-full rounded-lg bg-grey-300" />
-							</div>
-
-							<div className="w-full mt-3">
-								<Dropdown
-									onChangeValue={(e) => {
-										setCategory(e);
-									}}
-									options={category_options}
-									placeholder={"category"}
-									value={category}
 								/>
 							</div>
 						</div>
@@ -221,6 +212,7 @@ const CreatePodcaster = () => {
 									cols="30"
 									rows="10"
 									maxLength={2000}
+									value={bio}
 									onChange={(e) => {
 										setBio(e.target.value);
 									}}
@@ -588,4 +580,4 @@ const CreatePodcaster = () => {
 	);
 };
 
-export default CreatePodcaster;
+export default EditPodcaster;

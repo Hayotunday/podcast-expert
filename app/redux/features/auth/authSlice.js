@@ -16,7 +16,7 @@ export const authSlice = createSlice({
       return state
     },
     updateEmail: (state, action) => {
-      state = { ...state, access_token: action.payload }
+      state = { ...state, email: action.payload }
       return state
     }
   }

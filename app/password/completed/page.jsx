@@ -7,8 +7,18 @@ const Completed = () => {
 	return (
 		<main className="flex min-h-screen flex-row overflow-hidden">
 			{/* Form part */}
-			<section className="w-3/5 h-screen bg-white flex flex-col items-center p-10">
-				<div className="self-start mt-5 p-10">
+			<section className="lg:w-3/5 w-full h-screen bg-white flex flex-col items-center p-10">
+				<div className="mb-5 lg:hidden">
+					<Image
+						src={"/images/pow.png"}
+						width={150}
+						height={50}
+						className="self-end"
+						alt="Pow image"
+					/>
+				</div>
+
+				<div className="self-start mt-5 p-3 lg:p-10">
 					<h1 className="text-primary text-5xl font-black">
 						Nice one, all done!
 					</h1>
@@ -21,7 +31,7 @@ const Completed = () => {
 				</div>
 
 				<div className="flex flex-col w-full items-center">
-					<div className="flex flex-col gap-5 w-125">
+					<div className="flex flex-col gap-5 w-full sm:w-125">
 						<Link
 							href={"/login"}
 							className="w-full h-14 text-center flex items-center justify-center bg-success text-primary text-lg font-extrabold rounded-lg mt-5"
@@ -43,7 +53,7 @@ const Completed = () => {
 			</section>
 
 			{/* Image part */}
-			<section className="w-2/5 h-screen bg-primary flex flex-col items-center justify-around py-6 px-20">
+			<section className="lg:w-2/5 h-screen bg-primary hidden lg:flex flex-col items-center justify-around py-6 px-20">
 				<Image
 					src={"/images/pow.png"}
 					width={150}

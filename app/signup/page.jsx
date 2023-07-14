@@ -89,9 +89,9 @@ const Signup = () => {
 			if (formInfo.password === formInfo.confirm) {
 				if (check) {
 					dispatch(updateEmail(formInfo.email));
-					localStorage.setItem("email", formInfo.email);
+					localStorage.setItem("podcastMail", formInfo.email);
 					await axios
-						.post("https://podcastbackend-kj4h.onrender.com/auth/register", {
+						.post(`${process.env.NEXT_PUBLIC_BASE_URL}/auth/register`, {
 							email: formInfo.email,
 							name: formInfo.name,
 							password: formInfo.password,
@@ -120,7 +120,7 @@ const Signup = () => {
 
 	return (
 		<main className="flex min-h-screen flex-row overflow-hidden">
-			<section className="w-2/5 h-screen bg-primary flex flex-col items-center justify-around py-6 px-20">
+			<section className="lg:w-2/5 hidden h-screen bg-primary lg:flex flex-col items-center justify-around py-6 px-20">
 				<Image
 					src={"/images/pow.png"}
 					width={150}
@@ -154,18 +154,27 @@ const Signup = () => {
 			</section>
 
 			{/* Form part */}
-			<section className="w-3/5 h-screen bg-white flex flex-col items-center p-10">
+			<section className="lg:w-3/5 w-full h-screen bg-white flex flex-col items-center p-10">
+				<div className="mb-5 lg:hidden">
+					<Image
+						src={"/images/pow.png"}
+						width={150}
+						height={50}
+						className="self-end"
+						alt="Pow image"
+					/>
+				</div>
 				<div className="self-start">
 					<h1 className="text-primary text-3xl font-black">Secret sign up</h1>
 					<p className="text-primary text-sm font-light">
-						Oh well hello there! Congrats on finding the secret
-						<br />
+						Oh well hello there! Congrats on finding the secret{" "}
+						<br className="hidden sm:block" />
 						sign up page, you lucky thing!'
 					</p>
 				</div>
-				<div className="flex flex-col items-center gap-3 mt-3">
+				<div className="flex flex-col items-center gap-3 mt-5 sm:mt-3">
 					<form onSubmit={(e) => handleSubmit(e)} className="w-full mt-2">
-						<div className="flex flex-col gap-3 w-125">
+						<div className="flex flex-col gap-3 sm:w-125 w-full">
 							<Input
 								placeholder={"Full Name"}
 								onChangeValue={changeName}

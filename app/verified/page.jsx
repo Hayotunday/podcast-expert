@@ -20,14 +20,14 @@ const Verified = ({ searchParams }) => {
 	useEffect(() => {
 		const verifyMail = async () => {
 			await axios
-				.patch("https://podcastbackend-kj4h.onrender.com/auth/verify-mail", {
+				.patch(`${process.env.NEXT_PUBLIC_BASE_URL}/auth/verify-mail`, {
 					id,
 					token,
 				})
 				.then((res) => {
 					if (res.status === 200) {
 						dispatch(updateToken(res.data.accessToken));
-						localStorage.setItem("accessToken", res.data.accessToken);
+						localStorage.setItem("podcastToken", res.data.accessToken);
 						setStat(true);
 					}
 				})
@@ -79,8 +79,8 @@ const Verified = ({ searchParams }) => {
 			</section>
 
 			<section className="fixed bottom-10 w-full">
-				<div className="flex flex-row justify-between items-center px-10 w-full">
-					<p className="text-white">
+				<div className="flex flex-col lg:flex-row justify-between items-center px-10 w-full">
+					<p className="text-white text-center sm:text-left">
 						Copyright©thepodcastexpert.co.uk 2023. All rights reserved.
 					</p>
 					<div className="flex flex-row items-center justify-between gap-3 text-white">

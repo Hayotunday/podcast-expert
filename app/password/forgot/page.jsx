@@ -4,20 +4,59 @@ import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 
+import { useDispatch } from "react-redux";
+import { updateEmail } from "@app/redux/features/auth/authSlice";
+
 import Input from "@components/Input";
 import Progress from "@components/Progress";
+import axios from "axios";
+import { useRouter } from "next/navigation";
 
 const Forgot = () => {
 	const [email, setEmail] = useState("");
+
+	const router = useRouter();
+	const dispatch = useDispatch();
 
 	const changeEmail = (e) => {
 		setEmail(e.target.value);
 	};
 
+	const handleSubmit = async (e) => {
+		e.preventDefault();
+
+		dispatch(updateEmail(email));
+		localStorage.setItem("podcastMail", email);
+		if (email.trim() !== "") {
+			await axios
+				.post(`${process.env.NEXT_PUBLIC_BASE_URL}/auth/password/forgot`, {
+					email,
+				})
+				.then((res) => {
+					if (res.status === 200) router.push("/password/reset");
+				})
+				.catch((err) => {
+					console.log(err);
+				});
+		} else {
+			alert("Please fill all field");
+		}
+	};
+
 	return (
 		<main className="flex min-h-screen flex-row overflow-hidden">
 			{/* Form part */}
-			<section className="w-3/5 h-screen bg-white flex flex-col items-center p-10">
+			<section className="lg:w-3/5 w-full h-screen bg-white flex flex-col items-center p-10">
+				<div className="mb-5 lg:hidden">
+					<Image
+						src={"/images/pow.png"}
+						width={150}
+						height={50}
+						className="self-end"
+						alt="Pow image"
+					/>
+				</div>
+
 				<div className="flex flex-row items-center gap-10 justify-start self-start">
 					<Link href={"/login"} className="">
 						<div>
@@ -45,7 +84,7 @@ const Forgot = () => {
 				</div>
 
 				<div className="flex flex-col w-full items-center">
-					<div className="flex flex-col gap-20 w-125">
+					<div className="flex flex-col gap-20 sm:w-125 w-full">
 						<Input
 							placeholder={"Email"}
 							onChangeValue={changeEmail}
@@ -54,9 +93,9 @@ const Forgot = () => {
 							required
 						/>
 						<button
-							type="submit"
+							type="button"
 							className="w-full h-14 bg-success text-primary text-lg font-extrabold rounded-lg"
-							onClick={() => {}}
+							onClick={(e) => handleSubmit(e)}
 						>
 							Reset Password
 						</button>
@@ -75,7 +114,7 @@ const Forgot = () => {
 			</section>
 
 			{/* Image part */}
-			<section className="w-2/5 h-screen bg-primary flex flex-col items-center justify-around py-6 px-20">
+			<section className="lg:w-2/5 h-screen bg-primary hidden lg:flex flex-col items-center justify-around py-6 px-20">
 				<Image
 					src={"/images/pow.png"}
 					width={150}

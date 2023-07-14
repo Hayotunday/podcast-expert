@@ -31,9 +31,9 @@ const Verifyemail = () => {
 		setCounting(true);
 		setNum(59);
 
-		let mail = localStorage.getItem("email");
+		let mail = localStorage.getItem("podcastMail");
 		await axios
-			.post("https://podcastbackend-kj4h.onrender.com/auth/resend-mail", {
+			.post(`${process.env.NEXT_PUBLIC_BASE_URL}/auth/resend-mail`, {
 				email: mail,
 			})
 			.then((res) => {
@@ -54,9 +54,9 @@ const Verifyemail = () => {
 					className=""
 					alt="Pow image"
 				/>
-				<div className="text-white text-center flex flex-col items-center gap-5">
+				<div className="text-white text-center flex flex-col items-center gap-5 w-full">
 					<h1 className="text-2xl font-bold">Create your account</h1>
-					<div className="flex flex-col items-center bg-white bg-opacity-10 w-106 h-80 p-10 rounded-lg">
+					<div className="flex flex-col items-center bg-white bg-opacity-10 w-5/6 sm:w-106 h-80 p-10 rounded-lg">
 						<Image
 							src={"/svgs/mail.svg"}
 							width={60}
@@ -75,14 +75,14 @@ const Verifyemail = () => {
 							onClick={handleResend}
 							className={counting ? "text-success" : "underline text-success"}
 						>
-							{counting ? `0 : ${num < 10 ? "0" + num : num}` : "Resend Email"}
+							{counting ? `00 : ${num < 10 ? "0" + num : num}` : "Resend Email"}
 						</button>
 					</div>
 				</div>
 			</section>
 
-			<section className="flex flex-row justify-between items-center px-10">
-				<p className="text-white">
+			<section className="flex flex-col lg:flex-row justify-between items-center px-10">
+				<p className="text-white text-center sm:text-left">
 					Copyright©thepodcastexpert.co.uk 2023. All rights reserved.
 				</p>
 				<div className="flex flex-row items-center justify-between gap-3 text-white">

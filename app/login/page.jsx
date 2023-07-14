@@ -65,12 +65,13 @@ const Login = ({ searchParams }) => {
 
 		if (loginInfo.email !== "" && loginInfo.password !== "") {
 			await axios
-				.post("https://podcastbackend-kj4h.onrender.com/auth/login", {
+				.post(`${process.env.NEXT_PUBLIC_BASE_URL}/auth/login`, {
 					email: loginInfo.email,
 					password: loginInfo.password,
 				})
 				.then((res) => {
-					localStorage.setItem("accessToken", res.data.accessToken);
+					localStorage.setItem("podcastToken", res.data.accessToken);
+					localStorage.setItem("podcastId", res.data.id);
 					if (searchParams.return) {
 						router.push(`${searchParams.return}`);
 					} else if (res.status === 200) {
@@ -87,7 +88,7 @@ const Login = ({ searchParams }) => {
 
 	return (
 		<main className="flex min-h-screen flex-row overflow-hidden">
-			<section className="w-2/5 h-screen bg-primary flex flex-col items-center justify-around py-6 px-20">
+			<section className="lg:w-2/5 h-screen bg-primary hidden lg:flex flex-col items-center justify-around py-6 px-20">
 				<Image
 					src={"/images/pow.png"}
 					width={150}
@@ -121,16 +122,28 @@ const Login = ({ searchParams }) => {
 			</section>
 
 			{/* Form part */}
-			<section className="w-3/5 h-screen bg-white flex flex-col items-center p-10">
+			<section className="lg:w-3/5 w-full h-screen bg-white flex flex-col items-center p-10">
+				<div className="mb-5 lg:hidden">
+					<Image
+						src={"/images/pow.png"}
+						width={150}
+						height={50}
+						className="self-end"
+						alt="Pow image"
+					/>
+				</div>
 				<div className="self-start">
 					<h1 className="text-primary text-3xl font-black">Come on in</h1>
 					<p className="text-primary text-sm font-light">
 						Glad to have you back!
 					</p>
 				</div>
-				<div className="flex flex-col items-center gap-3 mt-5">
-					<form onSubmit={(e) => handleSubmit(e)} className="w-full mt-10">
-						<div className="flex flex-col gap-5 w-125">
+				<div className="flex flex-col items-center gap-3 mt-5 sm:mt-3 w-full">
+					<form
+						onSubmit={(e) => handleSubmit(e)}
+						className="w-full mt-10 flex flex-col items-center"
+					>
+						<div className="flex flex-col gap-5 w-full sm:w-125">
 							<Input
 								placeholder={"Email"}
 								onChangeValue={changeEmail}

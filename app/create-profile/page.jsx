@@ -20,14 +20,14 @@ const Createprofile = () => {
 			text = "Press";
 		}
 
-		const token = localStorage.getItem("accessToken");
+		const token = localStorage.getItem("podcastToken");
 		const config = {
-			headers: { Authorization: `Bearer ${token}` },
+			headers: { authorization: `Bearer ${token}` },
 		};
 
 		await axios
 			.patch(
-				"https://podcastbackend-kj4h.onrender.com/user/profile-type",
+				`${process.env.NEXT_PUBLIC_BASE_URL}/user/profile-type`,
 				{
 					profile_type: text,
 				},
@@ -40,7 +40,7 @@ const Createprofile = () => {
 				} else if (profile_type === "Guest") {
 					router.push("/create-guest");
 				} else if (profile_type === "Press") {
-					router.push("/");
+					router.push("/create-press");
 				}
 			})
 			.catch((err) => console.log(err));
@@ -49,6 +49,16 @@ const Createprofile = () => {
 	return (
 		<main className="flex min-h-screen bg-success flex-col">
 			<section className="flex flex-col items-center p-10 gap-7">
+				<div className="mb-2 lg:hidden">
+					<Image
+						src={"/images/pow.png"}
+						width={150}
+						height={50}
+						className="self-end"
+						alt="Pow image"
+					/>
+				</div>
+
 				<p className="text-primary text-center text-lg font-normal">
 					Create a profile
 				</p>
@@ -56,7 +66,7 @@ const Createprofile = () => {
 					Which best describes you?
 				</h1>
 
-				<div className="flex flex-row gap-10 items-center justify-center">
+				<div className="flex flex-col lg:flex-row gap-10 items-center justify-center">
 					{/* <button type="button" className="">
 						<div className="border-4 rounded-xl border-secondary bg-white w-80 h-90 text-center flex flex-col items-center justify-around">
 							<h1 className="text-2xl font-bold text-primary">
@@ -115,7 +125,7 @@ const Createprofile = () => {
 						onClick={() => {
 							handleClick(1);
 						}}
-						className="flex flex-col items-center justify-start pt-10 rounded-md gap-5 border-4 border-pinky text-center w-60 h-60 p-3 bg-white"
+						className="flex flex-col items-center justify-start pt-10 rounded-lg gap-5 border-4 border-pinky text-center w-5/6 lg:w-60 h-60 p-3 bg-white"
 					>
 						<h1 className="text-primary text-xl font-bold">Podcaster</h1>
 						<p className="text-secondary text-base font-normal">
@@ -127,7 +137,7 @@ const Createprofile = () => {
 						onClick={() => {
 							handleClick(2);
 						}}
-						className="flex flex-col items-center justify-start pt-10 rounded-md gap-5 border-4 border-pinky text-center w-60 h-60 p-3 bg-white"
+						className="flex flex-col items-center justify-start pt-10 rounded-lg gap-5 border-4 border-pinky text-center w-5/6 lg:w-60 h-60 p-3 bg-white"
 					>
 						<h1 className="text-primary text-xl font-bold">Guest</h1>
 						<p className="text-secondary text-base font-normal">
@@ -139,7 +149,7 @@ const Createprofile = () => {
 						onClick={() => {
 							handleClick(3);
 						}}
-						className="flex flex-col items-center justify-start pt-10 rounded-md gap-5 border-4 border-pinky text-center w-60 h-60 p-3 bg-white"
+						className="flex flex-col items-center justify-start pt-10 rounded-lg gap-5 border-4 border-pinky text-center w-5/6 lg:w-60 h-60 p-3 bg-white"
 					>
 						<h1 className="text-primary text-xl font-bold">Press</h1>
 						<p className="text-secondary text-base font-normal">
@@ -149,12 +159,12 @@ const Createprofile = () => {
 				</div>
 			</section>
 
-			<section className="w-full fixed bottom-3">
-				<div className="flex flex-row justify-between items-center px-10 w-full">
-					<p className="text-primary">
+			<section className="w-full mb-3 lg:mb-0 lg:fixed lg:bottom-3">
+				<div className="flex flex-col lg:flex-row justify-between items-center px-10 w-full">
+					<p className="text-primary text-center sm:text-left">
 						Copyright©thepodcastexpert.co.uk 2023. All rights reserved.
 					</p>
-					<div className="flex flex-row items-center justify-between gap-3 text-primary">
+					<div className="flex flex-row items-center justify-center lg:justify-between gap-3 text-primary">
 						<Link href={"#"} className="">
 							<p className="">Terms and Conditions</p>
 						</Link>

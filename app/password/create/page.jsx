@@ -3,6 +3,8 @@
 import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
+import axios from "axios";
 
 import Input from "@components/Input";
 import Progress from "@components/Progress";
@@ -10,6 +12,7 @@ import Progress from "@components/Progress";
 const Create = () => {
 	const [password, setPassword] = useState("");
 	const [cPassword, setCPassword] = useState("");
+	const router = useRouter();
 
 	const changePassword = (e) => {
 		setPassword(e.target.value);
@@ -18,10 +21,43 @@ const Create = () => {
 		setCPassword(e.target.value);
 	};
 
+	const handleSubmit = async (e) => {
+		const id = localStorage.getItem("podcastId");
+
+		if (password === cPassword) {
+			await axios
+				.post(`${process.env.NEXT_PUBLIC_BASE_URL}/auth/password/create`, {
+					id,
+					password,
+				})
+				.then((res) => {
+					console.log(res);
+					if (res.status === 200) router.push("/password/completed");
+				})
+				.catch((err) => {
+					console.log(err);
+				});
+		} else {
+			alert("Password and confirm password field");
+		}
+	};
+
+	// $2b$10$p3X8C08.l08Gt0ajstM.ket2fcuHQZOUkvfP5DU4hnOeqF1MiVdSe
+
 	return (
 		<main className="flex min-h-screen flex-row overflow-hidden">
 			{/* Form part */}
-			<section className="w-3/5 h-screen bg-white flex flex-col items-center p-10">
+			<section className="lg:w-3/5 w-full h-screen bg-white flex flex-col items-center p-10">
+				<div className="mb-5 lg:hidden">
+					<Image
+						src={"/images/pow.png"}
+						width={150}
+						height={50}
+						className="self-end"
+						alt="Pow image"
+					/>
+				</div>
+
 				<div className="self-start mt-5">
 					<h1 className="text-primary text-3xl font-black">
 						Create new password
@@ -37,7 +73,7 @@ const Create = () => {
 				</div>
 
 				<div className="flex flex-col w-full items-center">
-					<div className="flex flex-col gap-5 w-125">
+					<div className="flex flex-col gap-5 sm:w-125 w-full">
 						<Input
 							placeholder={"Password"}
 							onChangeValue={changePassword}
@@ -53,9 +89,9 @@ const Create = () => {
 							secureText
 						/>
 						<button
-							type="submit"
+							type="button"
 							className="w-full h-14 bg-success text-primary text-lg font-extrabold rounded-lg mt-5"
-							onClick={() => {}}
+							onClick={(e) => handleSubmit(e)}
 						>
 							Reset Password
 						</button>
@@ -74,7 +110,7 @@ const Create = () => {
 			</section>
 
 			{/* Image part */}
-			<section className="w-2/5 h-screen bg-primary flex flex-col items-center justify-around py-6 px-20">
+			<section className="lg:w-2/5 h-screen bg-primary hidden lg:flex flex-col items-center justify-around py-6 px-20">
 				<Image
 					src={"/images/pow.png"}
 					width={150}

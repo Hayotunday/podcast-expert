@@ -7,21 +7,30 @@ import Footer from "@components/Footer";
 import Topbar from "@components/Topbar";
 import { useEffect, useReducer, useState } from "react";
 import axios from "axios";
+import Loader from "@components/Loader";
 
 export default function Root({ children }) {
 	const pathname = usePathname();
 	const router = useRouter();
 
 	const [user, setUser] = useState({ name: "", image: "" });
+	const [isLoaded, setIsLoaded] = useState(true);
+	const [isOpen, setIsOpen] = useState(false);
 
 	useEffect(() => {
 		const token =
-			localStorage.getItem("accessToken") === undefined ||
-			localStorage.getItem("accessToken") === null
+			localStorage.getItem("podcastToken") === undefined ||
+			localStorage.getItem("podcastToken") === null
 				? ""
-				: localStorage.getItem("accessToken");
+				: localStorage.getItem("podcastToken");
 
-		const isloggedIn = () => {
+		const config = {
+			headers: {
+				Authorization: `Bearer ${token}`,
+			},
+		};
+
+		const checks = async () => {
 			if (
 				token === "" &&
 				pathname !== "/login" &&
@@ -34,30 +43,32 @@ export default function Root({ children }) {
 				pathname !== "/password/reset"
 			) {
 				router.push(`/login?return=${pathname}`);
+				setIsLoaded(false);
 			}
-		};
 
-		isloggedIn();
-	}, []);
-
-	useEffect(() => {
-		const getUserDetails = async () => {
-			const token = localStorage.getItem("accessToken");
-			const config = {
-				headers: {
-					Authorization: `Bearer ${token}`,
-				},
-			};
 			await axios
-				.get("https://podcastbackend-kj4h.onrender.com/user/profile", config)
+				.get(`${process.env.NEXT_PUBLIC_BASE_URL}/user/profile`, config)
 				.then((res) => {
-					setUser({ name: res.data.user.name, image: res.data.user.image });
+					if (res.data.user.createProfile === false) {
+						router.push(`/create-profile`);
+					}
 				})
-				.catch((err) => console.log(err));
+				.catch((err) => {
+					console.log(err);
+				})
+				.finally(() => setIsLoaded(false));
 		};
 
-		getUserDetails();
+		checks();
 	}, []);
+
+	if (isLoaded) {
+		return (
+			<div className="w-screen h-screen">
+				<Loader />;
+			</div>
+		);
+	}
 
 	return (
 		<>
@@ -71,24 +82,44 @@ export default function Root({ children }) {
 			pathname !== "/password/forgot" &&
 			pathname !== "/password/reset" &&
 			pathname !== "/create-guest" &&
+			pathname !== "/create-guest/edit" &&
 			pathname !== "/create-podcaster" &&
+			pathname !== "/create-podcaster/edit" &&
 			pathname !== "/create-press" &&
-			pathname !== "/create-guest/step-two" &&
-			pathname !== "/create-podcaster/step-two" ? (
-				<main className="flex min-h-screen w-screen flex-col">
-					<section className="flex flex-row w-full">
-						<Nav />
+			pathname !== "/create-press/edit" ? (
+				<main className="bg-grey h-screen w-screen">
+					<section className="flex flex-row w-full h-full">
+						{innerWidth > 0 && innerWidth < 1024 ? (
+							isOpen && <Nav setIsOpen={setIsOpen} />
+						) : (
+							<Nav />
+						)}
 
-						<section className="w-full relative overflow-hidden">
-							<Topbar name={user.name} image={user.image} />
+						<section className="w-full h-full relative overflow-x-hidden z-0 lg:z-10">
+							<Topbar isOpen={isOpen} setIsOpen={setIsOpen} />
 
-							<div className="bg-grey w-full h-full p-5 flex flex-col gap-7">
+							<div className="w-full h-full p-5 flex flex-col gap-7">
 								{children}
 							</div>
 						</section>
 					</section>
-
-					<Footer />
+					{/* 
+					{pathname !== "/login" &&
+			pathname !== "/signup" &&
+			pathname !== "/verify-email" &&
+			pathname !== "/verified" &&
+			pathname !== "/create-profile" &&
+			pathname !== "/password/completed" &&
+			pathname !== "/password/create" &&
+			pathname !== "/password/forgot" &&
+			pathname !== "/password/reset" &&
+			pathname !== "/create-guest" &&
+			pathname !== "/create-guest/edit" &&
+			pathname !== "/create-podcaster" &&
+			pathname !== "/create-podcaster/edit" &&
+			pathname !== "/create-press" &&
+			pathname !== "/create-press/edit" &&(
+					<Footer />)} */}
 				</main>
 			) : (
 				children

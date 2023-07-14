@@ -1,18 +1,26 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
+import axios from "axios";
+
+import { useSelector } from "react-redux";
 
 import Progress from "@components/Progress";
 
 const Reset = () => {
+	const { email } = useSelector((state) => state.auth);
+	const router = useRouter();
+
 	const firstInput = useRef();
 	const secondInput = useRef();
 	const thirdInput = useRef();
 	const fourthInput = useRef();
 	const fifthInput = useRef();
 
+	const [mail, setMail] = useState();
 	const [otp, setOtp] = useState({
 		first: "",
 		second: "",
@@ -21,10 +29,46 @@ const Reset = () => {
 		fifth: "",
 	});
 
+	useEffect(() => {
+		const email = localStorage.getItem("podcastMail");
+		setMail(email);
+	}, []);
+
+	const handleSubmit = async (e) => {
+		const code = otp.first + otp.second + otp.third + otp.fourth + otp.fifth;
+
+		if (code.length === 5) {
+			await axios
+				.post(`${process.env.NEXT_PUBLIC_BASE_URL}/auth/password/reset`, {
+					email,
+					code,
+				})
+				.then((res) => {
+					// console.log(res);
+					if (res.status === 200) router.push("/password/create");
+				})
+				.catch((err) => {
+					console.log(err);
+				});
+		} else {
+			alert("Please fill all field");
+		}
+	};
+
 	return (
 		<main className="flex min-h-screen flex-row overflow-hidden">
 			{/* Form part */}
-			<section className="w-3/5 h-screen bg-white flex flex-col items-center p-10">
+			<section className="lg:w-3/5 w-full h-screen bg-white flex flex-col items-center p-10">
+				<div className="mb-5 lg:hidden">
+					<Image
+						src={"/images/pow.png"}
+						width={150}
+						height={50}
+						className="self-end"
+						alt="Pow image"
+					/>
+				</div>
+
 				<div className="flex flex-row items-center gap-10 justify-start self-start">
 					<Link href={"/password/forgot"} className="">
 						<div>
@@ -45,7 +89,7 @@ const Reset = () => {
 					<p className="text-primary text-sm font-light">
 						We sent your a code to{" "}
 						<span className="text-success font-semibold">
-							andreagomez@gmail.com
+							{email ? email : mail}
 						</span>
 					</p>
 				</div>
@@ -55,7 +99,7 @@ const Reset = () => {
 				</div>
 
 				<div className="flex flex-col w-full items-center">
-					<div className="flex flex-col gap-20 w-125">
+					<div className="flex flex-col gap-20 sm:w-125 w-full">
 						<div className="flex flex-row gap-3 items-center justify-around">
 							<input
 								type="text"
@@ -68,7 +112,7 @@ const Reset = () => {
 									setOtp({ ...otp, first: e.target.value });
 									e.target.value && secondInput.current.focus();
 								}}
-								className="h-16 w-16 border-2 border-grey-100 focus:border-blue-500 placeholder:text-2xl placeholder:text-center text-center text-xl font-bold text-primary rounded-xl flex items-center justify-center"
+								className="h-14 w-14 border-2 border-grey-100 focus:border-blue-500 placeholder:text-2xl placeholder:text-center text-center text-xl font-bold text-primary rounded-xl flex items-center justify-center"
 							/>
 							<input
 								type="text"
@@ -83,7 +127,7 @@ const Reset = () => {
 										? thirdInput.current.focus()
 										: firstInput.current.focus();
 								}}
-								className="h-16 w-16 border-2 border-grey-100 focus:border-blue-500 placeholder:text-2xl placeholder:text-center text-center text-xl font-bold text-primary rounded-xl flex items-center justify-center"
+								className="h-14 w-14 border-2 border-grey-100 focus:border-blue-500 placeholder:text-2xl placeholder:text-center text-center text-xl font-bold text-primary rounded-xl flex items-center justify-center"
 							/>
 							<input
 								type="text"
@@ -98,7 +142,7 @@ const Reset = () => {
 										? fourthInput.current.focus()
 										: secondInput.current.focus();
 								}}
-								className="h-16 w-16 border-2 border-grey-100 focus:border-blue-500 placeholder:text-2xl placeholder:text-center text-center text-xl font-bold text-primary rounded-xl flex items-center justify-center"
+								className="h-14 w-14 border-2 border-grey-100 focus:border-blue-500 placeholder:text-2xl placeholder:text-center text-center text-xl font-bold text-primary rounded-xl flex items-center justify-center"
 							/>
 							<input
 								type="text"
@@ -113,7 +157,7 @@ const Reset = () => {
 										? fifthInput.current.focus()
 										: thirdInput.current.focus();
 								}}
-								className="h-16 w-16 border-2 border-grey-100 focus:border-blue-500 placeholder:text-2xl placeholder:text-center text-center text-xl font-bold text-primary rounded-xl flex items-center justify-center"
+								className="h-14 w-14 border-2 border-grey-100 focus:border-blue-500 placeholder:text-2xl placeholder:text-center text-center text-xl font-bold text-primary rounded-xl flex items-center justify-center"
 							/>
 							<input
 								type="text"
@@ -126,15 +170,15 @@ const Reset = () => {
 									setOtp({ ...otp, fifth: e.target.value });
 									!e.target.value && fourthInput.current.focus();
 								}}
-								className="h-16 w-16 border-2 border-grey-100 focus:border-blue-500 placeholder:text-2xl placeholder:text-center text-center text-xl font-bold text-primary rounded-xl flex items-center justify-center"
+								className="h-14 w-14 border-2 border-grey-100 focus:border-blue-500 placeholder:text-2xl placeholder:text-center text-center text-xl font-bold text-primary rounded-xl flex items-center justify-center"
 							/>
 						</div>
 
 						<div className="">
 							<button
-								type="submit"
+								type="button"
 								className="w-full h-14 bg-success text-primary text-lg font-extrabold rounded-lg"
-								onClick={() => {}}
+								onClick={(e) => handleSubmit(e)}
 							>
 								Continue
 							</button>
@@ -163,7 +207,7 @@ const Reset = () => {
 			</section>
 
 			{/* Image part */}
-			<section className="w-2/5 h-screen bg-primary flex flex-col items-center justify-around py-6 px-20">
+			<section className="lg:w-2/5 h-screen bg-primary hidden lg:flex flex-col items-center justify-around py-6 px-20">
 				<Image
 					src={"/images/pow.png"}
 					width={150}

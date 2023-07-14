@@ -3,11 +3,11 @@ import Link from "next/link";
 
 const Footer = ({ isText }) => {
 	return (
-		<section className="bg-primary max-w-screen p-10 flex flex-col justify-between gap-20">
-			<div className="flex flex-row items-center justify-around gap-10">
+		<section className="bg-primary max-w-full p-10 flex flex-col justify-between gap-20">
+			<div className="flex flex-col sm:flex-row items-center justify-around gap-10">
 				<div className="">
 					{isText ? (
-						<h1 className="text-center text-secondary text-5xl font-black">
+						<h1 className="text-center text-secondary text-5xl font-black uppercase">
 							THE <br /> PODCAST <br /> GUESTLIST
 						</h1>
 					) : (
@@ -20,7 +20,7 @@ const Footer = ({ isText }) => {
 					)}
 				</div>
 
-				<div className="grid grid-cols-4 gap-8">
+				<div className="grid grid-cols-2 sm:grid-cols-3 gap-8">
 					<div className="flex flex-col gap-2 justify-start">
 						<h1 className="capitalize text-success text-xl font-medium">
 							Features
@@ -79,34 +79,6 @@ const Footer = ({ isText }) => {
 
 					<div className="flex flex-col gap-2 justify-start">
 						<h1 className="capitalize text-success text-xl font-medium">
-							Company
-						</h1>
-						<ul className="flex flex-col justify-start">
-							<li className="capitalize text-white text-base font-medium">
-								<Link href={"#"} className="">
-									About
-								</Link>
-							</li>
-							<li className="capitalize text-white text-base font-medium">
-								<Link href={"#"} className="">
-									Integration
-								</Link>
-							</li>
-							<li className="capitalize text-white text-base font-medium">
-								<Link href={"#"} className="">
-									Manage My Podcasts
-								</Link>
-							</li>
-							<li className="capitalize text-white text-base font-medium">
-								<Link href={"#"} className="">
-									Manage My Guests
-								</Link>
-							</li>
-						</ul>
-					</div>
-
-					<div className="flex flex-col gap-2 justify-start">
-						<h1 className="capitalize text-success text-xl font-medium">
 							Resources
 						</h1>
 						<ul className="flex flex-col justify-start">
@@ -125,8 +97,8 @@ const Footer = ({ isText }) => {
 				</div>
 			</div>
 
-			<div className="flex flex-row justify-between items-center">
-				<p className="text-white">
+			<div className="flex flex-col lg:flex-row justify-between items-center">
+				<p className="text-white text-center sm:text-left">
 					Copyright©thepodcastexpert.co.uk 2023. All rights reserved.
 				</p>
 				<div className="flex flex-row items-center justify-between gap-3 text-white">

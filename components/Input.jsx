@@ -19,7 +19,7 @@ const Input = ({
 	};
 
 	return (
-		<label htmlFor="" className="relative">
+		<label htmlFor="" className="relative w-full">
 			<input
 				autoComplete={show ? "password" : type}
 				type={show ? "password" : type}

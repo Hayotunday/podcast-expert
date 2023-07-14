@@ -3,25 +3,22 @@
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 import axios from "axios";
+import { useRouter } from "next/navigation";
 
 import { AiOutlineLeft } from "react-icons/ai";
 
 import Input from "@components/Input";
-import Dropdown from "@components/Dropdown";
+import { data } from "autoprefixer";
+import Loader from "@components/Loader";
 
-import { category_options } from "@utils/data";
-
-const CreateGuest = () => {
+const CreatePodcaster = () => {
 	const router = useRouter();
 
-	const [category, setCategory] = useState("");
-	const [mission, setMission] = useState("");
+	const [id, setId] = useState("");
+	const [data, setData] = useState({});
 	const [bio, setBio] = useState("");
 	const [experience, setExperience] = useState("");
-	const [recPrefers, setRecPrefers] = useState([]);
-	const [newRecPrefer, setNewRecPrefer] = useState("");
 	const [social, setSocial] = useState({
 		facebook: "",
 		instagram: "",
@@ -30,7 +27,9 @@ const CreateGuest = () => {
 		youtube: "",
 	});
 	const [interview, setInterview] = useState("");
-	const [recordVal, setRecordVal] = useState("");
+	const [own, setOwn] = useState("");
+	const [contact, setContact] = useState(null);
+	const [isLoaded, setIsLoaded] = useState(true);
 
 	const { facebook, instagram, linkedin, twitter, youtube } = social;
 
@@ -50,6 +49,39 @@ const CreateGuest = () => {
 		setSocial({ ...social, linkedin: e.target.value });
 	};
 
+	useEffect(() => {
+		const getUserDetails = async () => {
+			setId(localStorage.getItem("podcastId"));
+			const token = localStorage.getItem("podcastToken");
+			const config = {
+				headers: {
+					Authorization: `Bearer ${token}`,
+				},
+			};
+			await axios
+				.get(
+					`${process.env.NEXT_PUBLIC_BASE_URL}/user/profile-type/my-profile`,
+					config
+				)
+				.then((res) => {
+					// console.log(res.data);
+					setBio(res.data.short_bio);
+					setExperience(res.data.experience),
+						setSocial(res.data.social_media),
+						setInterview(res.data.interview_links[0]),
+						setOwn(res.data.own_podcast),
+						setContact(res.data.contact_me),
+						setData(res.data);
+				})
+				.catch((err) => console.log(err))
+				.finally(() => {
+					setIsLoaded(false);
+				});
+		};
+
+		getUserDetails();
+	}, []);
+
 	const handleSave = async () => {
 		const token = localStorage.getItem("podcastToken");
 		const id = localStorage.getItem("podcastId");
@@ -59,19 +91,18 @@ const CreateGuest = () => {
 			},
 		};
 		await axios
-			.post(
-				`${process.env.NEXT_PUBLIC_BASE_URL}/user/profile-type/add`,
+			.patch(
+				`${process.env.NEXT_PUBLIC_BASE_URL}/user/profile-type/edit`,
 				{
-					profile_type: "Guest",
+					profile_type: "Press",
 					user: id,
-					category: category,
 					short_bio: bio,
-					mission: mission,
-					experience_bio: experience,
+					experience: experience,
 					social_media: social,
-					interview_link: [interview],
-					record_preference: recPrefers,
-					own_podcast: recordVal,
+					interview_links: interview,
+					own_podcast: own,
+					contact_me: contact,
+					podcast_alert: true,
 				},
 				config
 			)
@@ -85,24 +116,7 @@ const CreateGuest = () => {
 			});
 	};
 
-	useEffect(() => {
-		const getUserDetails = async () => {
-			const token = localStorage.getItem("podcastToken");
-			const config = {
-				headers: {
-					Authorization: `Bearer ${token}`,
-				},
-			};
-			await axios
-				.get(`${process.env.NEXT_PUBLIC_BASE_URL}/user/profile`, config)
-				.then((res) => {
-					localStorage.setItem("podcastId", res.data.user._id);
-				})
-				.catch((err) => console.log(err));
-		};
-
-		getUserDetails();
-	}, []);
+	if (isLoaded) return <Loader />;
 
 	return (
 		<>
@@ -117,8 +131,8 @@ const CreateGuest = () => {
 					/>
 				</div>
 
-				<div className="flex flex-row items-center gap-5 justify-start self-start">
-					<Link href={"/create-profile"} className="">
+				<div className="flex flex-row items-center gap-10 justify-start self-start lg:ml-5">
+					<Link href={"/profile"} className="">
 						<div>
 							<AiOutlineLeft size={22} className="text-primary" />
 						</div>
@@ -126,38 +140,15 @@ const CreateGuest = () => {
 					<p className="text-primary text-base font-normal">Back</p>
 				</div>
 
-				<div className="text-primary self-center mb-5">
-					<h1 className="text-primary text-left text-4xl font-black">
-						Create a <span className="text-pinky">guest</span> profile
+				<div className="text-primary self-center text-center mb-5 w-full">
+					<h1 className="text-primary text-left text-4xl font-black w-full">
+						Edit <span className="text-success">profile</span>
 					</h1>
-					<p className="text-primary text-left sm:text-center text-sm font-normal mt-5 lg:-mt-1">
-						More about you
-					</p>
 				</div>
 
 				<div className="flex flex-col sm:flex-row gap-10">
 					<div className="w-full sm:w-1/2 flex flex-col gap-5">
-						<div className="w-full">
-							<div className="w-11/12">
-								<h2 className="text-primary text-2xl font-bold text-left">
-									Category of Podcast
-								</h2>
-								<hr className="h-0.5 w-full rounded-lg bg-grey-300" />
-							</div>
-
-							<div className="w-full mt-3">
-								<Dropdown
-									onChangeValue={(e) => {
-										setCategory(e);
-									}}
-									options={category_options}
-									placeholder={"category"}
-									value={category}
-								/>
-							</div>
-						</div>
-
-						<div className="w-full">
+						<div>
 							<div className="w-11/12">
 								<h2 className="text-primary text-2xl font-bold text-left">
 									Short Bio about yourself
@@ -173,6 +164,7 @@ const CreateGuest = () => {
 									onChange={(e) => {
 										setBio(e.target.value);
 									}}
+									value={bio}
 									className="w-full rounded-md peer bg-white border flex items-end border-grey-100 px-6 pt-4 
 												text-sm outline outline-0	transition-all focus:border-2 focus:border-blue-500 focus:outline-0"
 								></textarea>
@@ -188,35 +180,27 @@ const CreateGuest = () => {
 						<div className="w-full">
 							<div className="w-11/12">
 								<h2 className="text-primary text-2xl font-bold text-left">
-									Mission as a guest on podcast
+									Interview Link
 								</h2>
 								<hr className="h-0.5 w-full rounded-lg bg-grey-300" />
 							</div>
 
-							<div className="relative w-full mt-3">
-								<textarea
-									cols="30"
-									rows="10"
-									maxLength={2000}
-									onChange={(e) => {
-										setMission(e.target.value);
+							<div className="mt-3">
+								<Input
+									onChangeValue={(e) => {
+										setInterview(e.target.value);
 									}}
-									className="w-full rounded-md peer bg-white border flex items-end border-grey-100 px-6 pt-4 
-												text-sm outline outline-0	transition-all focus:border-2 focus:border-blue-500 focus:outline-0"
-								></textarea>
-								<p className="text-sm font-medium text-right text-primary">
-									{mission.length}/2000
-								</p>
-								<span className="peer-focus:text-blue-500 text-grey-100 text-xs font-light absolute left-5 top-1">
-									mission
-								</span>
+									placeholder={"interview link"}
+									value={interview}
+									type="url"
+								/>
 							</div>
 						</div>
 
-						<div className="w-full">
+						<div>
 							<div className="w-11/12">
 								<h2 className="text-primary text-2xl font-bold text-left">
-									Short bio about your experience
+									Short Bio about your experience
 								</h2>
 								<hr className="h-0.5 w-full rounded-lg bg-grey-300" />
 							</div>
@@ -226,6 +210,7 @@ const CreateGuest = () => {
 									cols="30"
 									rows="10"
 									maxLength={2000}
+									value={experience}
 									onChange={(e) => {
 										setExperience(e.target.value);
 									}}
@@ -236,7 +221,7 @@ const CreateGuest = () => {
 									{experience.length}/2000
 								</p>
 								<span className="peer-focus:text-blue-500 text-grey-100 text-xs font-light absolute left-5 top-1">
-									experience bio
+									experience
 								</span>
 							</div>
 						</div>
@@ -340,30 +325,10 @@ const CreateGuest = () => {
 							</div>
 						</div>
 
-						<div className="w-full">
-							<div className="w-11/12">
-								<h2 className="text-primary text-2xl font-bold text-left">
-									Past Interview Link
-								</h2>
-								<hr className="h-0.5 w-full rounded-lg bg-grey-300" />
-							</div>
-
-							<div className="mt-3">
-								<Input
-									onChangeValue={(e) => {
-										setInterview(e.target.value);
-									}}
-									placeholder={"interview link"}
-									value={interview}
-									type="url"
-								/>
-							</div>
-						</div>
-
 						<div className="w-full flex flex-col items-start mt-5">
 							<div className="w-11/12">
 								<h2 className="text-primary text-2xl font-bold text-left">
-									Do you have a podcast?
+									Do you own a podcast?
 								</h2>
 								<hr className="h-0.5 w-full rounded-lg bg-grey-300" />
 							</div>
@@ -374,9 +339,9 @@ const CreateGuest = () => {
 										type="radio"
 										value={true}
 										onChange={(e) => {
-											setRecordVal(true);
+											setOwn(true);
 										}}
-										checked={recordVal === true}
+										checked={own === true}
 									/>
 									<span className="text-primary text-base font-semibold">
 										Yes, I do
@@ -387,9 +352,9 @@ const CreateGuest = () => {
 										type="radio"
 										value={false}
 										onChange={(e) => {
-											setRecordVal(false);
+											setOwn(false);
 										}}
-										checked={recordVal === false}
+										checked={own === false}
 									/>
 									<span className="text-primary text-base font-semibold">
 										No, I don't
@@ -398,73 +363,41 @@ const CreateGuest = () => {
 							</div>
 						</div>
 
-						<div>
+						<div className="w-full flex flex-col items-start mt-5">
 							<div className="w-11/12">
 								<h2 className="text-primary text-2xl font-bold text-left">
-									Your recording preferences
+									Can people contact you?
 								</h2>
 								<hr className="h-0.5 w-full rounded-lg bg-grey-300" />
 							</div>
-							<div className="w-full mt-3 flex flex-col gap-1">
-								{recPrefers.map((recPrefer, index) => (
-									<div
-										key={index}
-										className="flex flex-row items-center justify-between overflow-hidden h-12 p-2 rounded-md max-w-full bg-white border px-3 border-grey-100"
-									>
-										<p className="text-base font-medium z-0 truncate break-words">
-											{recPrefer}
-										</p>
-										<button
-											type="button"
-											className="bg-lightgreen p-1.5 z-10 rounded-md self-end"
-											onClick={() => {
-												const tempArr = [...recPrefers];
-												tempArr.splice(index, 1);
-												setRecPrefers(tempArr);
-											}}
-										>
-											<Image
-												src={"/svgs/cancel.svg"}
-												width={15}
-												height={15}
-												alt="cancel icon"
-											/>
-										</button>
-									</div>
-								))}
-								<input
-									type="text"
-									value={newRecPrefer}
-									onChange={(e) => {
-										setNewRecPrefer(e.target.value);
-									}}
-									placeholder="Unique Preferences"
-									className="h-12 w-full mt-5 rounded-md peer bg-white border flex items-end border-grey-100 px-6 text-sm outline
-								outline-0 transition-all focus:border-2 focus:border-blue-500 focus:outline-0"
-								/>
-								<button
-									type="button"
-									onClick={() => {
-										setRecPrefers([...recPrefers, newRecPrefer]);
-										setNewRecPrefer("");
-									}}
-									disabled={newRecPrefer === ""}
-									className="w-full h-12 mt-3 flex flex-row items-center justify-center gap-2 bg-primary disabled:bg-grey-300 rounded-md text-success disabled:text-grey-100 text-base font-semibold"
-								>
-									<svg
-										width="15"
-										height="15"
-										viewBox="0 0 12 12"
-										fill="none"
-										xmlns="http://www.w3.org/2000/svg"
-									>
-										<path
-											d="M6.75 1C6.75 0.585786 6.41421 0.25 6 0.25C5.58579 0.25 5.25 0.585786 5.25 1V5.25H1C0.585787 5.25 0.25 5.58579 0.25 6C0.25 6.41421 0.585787 6.75 1 6.75H5.25V11C5.25 11.4142 5.58579 11.75 6 11.75C6.41421 11.75 6.75 11.4142 6.75 11V6.75H11C11.4142 6.75 11.75 6.41421 11.75 6C11.75 5.58579 11.4142 5.25 11 5.25H6.75V1Z"
-											fill={newRecPrefer === "" ? "#868686" : "#00CCBB"}
-										/>
-									</svg>
-									Add Preference
-								</button>
+
+							<div className="flex flex-col w-full gap-2 mt-3">
+								<div className="flex flex-row items-center gap-3">
+									<input
+										type="radio"
+										value={true}
+										onChange={(e) => {
+											setContact(true);
+										}}
+										checked={contact == true}
+									/>
+									<span className="text-primary text-base font-semibold">
+										Yes
+									</span>
+								</div>
+								<div className="flex flex-row items-center gap-3">
+									<input
+										type="radio"
+										value={false}
+										onChange={(e) => {
+											setContact(false);
+										}}
+										checked={contact == false}
+									/>
+									<span className="text-primary text-base font-semibold">
+										No
+									</span>
+								</div>
 							</div>
 						</div>
 					</div>
@@ -486,4 +419,4 @@ const CreateGuest = () => {
 	);
 };
 
-export default CreateGuest;
+export default CreatePodcaster;

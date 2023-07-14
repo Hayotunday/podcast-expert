@@ -4,12 +4,15 @@ import { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import axios from "axios";
+import { useRouter } from "next/navigation";
 
 import { AiOutlineLeft } from "react-icons/ai";
 
 import Input from "@components/Input";
 
 const CreatePodcaster = () => {
+	const router = useRouter();
+
 	const [bio, setBio] = useState("");
 	const [experience, setExperience] = useState("");
 	const [social, setSocial] = useState({
@@ -42,7 +45,7 @@ const CreatePodcaster = () => {
 	};
 
 	const handleSave = async () => {
-		const token = localStorage.getItem("accessToken");
+		const token = localStorage.getItem("podcastToken");
 		const id = localStorage.getItem("podcastId");
 		const config = {
 			headers: {
@@ -51,7 +54,7 @@ const CreatePodcaster = () => {
 		};
 		await axios
 			.post(
-				"https://podcastbackend-kj4h.onrender.com/user/profile-type/add",
+				`${process.env.NEXT_PUBLIC_BASE_URL}/user/profile-type/add`,
 				{
 					profile_type: "Press",
 					user: id,
@@ -69,7 +72,6 @@ const CreatePodcaster = () => {
 				if (res.status === 201) {
 					router.push("/");
 				}
-				console.log(res);
 			})
 			.catch((err) => {
 				console.log(err);
@@ -78,14 +80,14 @@ const CreatePodcaster = () => {
 
 	useEffect(() => {
 		const getUserDetails = async () => {
-			const token = localStorage.getItem("accessToken");
+			const token = localStorage.getItem("podcastToken");
 			const config = {
 				headers: {
 					Authorization: `Bearer ${token}`,
 				},
 			};
 			await axios
-				.get("https://podcastbackend-kj4h.onrender.com/user/profile", config)
+				.get(`${process.env.NEXT_PUBLIC_BASE_URL}/user/profile`, config)
 				.then((res) => {
 					localStorage.setItem("podcastId", res.data.user._id);
 				})
@@ -97,8 +99,18 @@ const CreatePodcaster = () => {
 
 	return (
 		<>
-			<div className="bg-success w-screen h-full p-16 flex flex-col gap-7">
-				<div className="flex flex-row items-center gap-10 justify-start self-start ml-5">
+			<div className="bg-success w-screen h-full p-5 lg:p-16 flex flex-col gap-7">
+				<div className="mb-5 self-center">
+					<Image
+						src={"/images/pow.png"}
+						width={150}
+						height={50}
+						className="self-end"
+						alt="Pow image"
+					/>
+				</div>
+
+				<div className="flex flex-row items-center gap-10 justify-start self-start lg:ml-5">
 					<Link href={"/create-profile"} className="">
 						<div>
 							<AiOutlineLeft size={22} className="text-primary" />
@@ -116,8 +128,8 @@ const CreatePodcaster = () => {
 					</p>
 				</div>
 
-				<div className="flex flex-row gap-10">
-					<div className="w-1/2 flex flex-col gap-5">
+				<div className="flex flex-col sm:flex-row gap-10">
+					<div className="w-full sm:w-1/2 flex flex-col gap-5">
 						<div>
 							<div className="w-11/12">
 								<h2 className="text-primary text-2xl font-bold text-left">
@@ -197,7 +209,7 @@ const CreatePodcaster = () => {
 						</div>
 					</div>
 
-					<div className="w-1/2 flex flex-col gap-8">
+					<div className="w-full sm:w-1/2 flex flex-col gap-8">
 						<div className="w-full flex flex-col items-start">
 							<div className="w-11/12">
 								<h2 className="text-primary text-2xl font-bold text-left">
