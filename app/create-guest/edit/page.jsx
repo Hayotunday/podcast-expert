@@ -111,7 +111,7 @@ const CreateGuest = () => {
 			)
 			.then((res) => {
 				if (res.status === 201) {
-					router.push("/");
+					router.push("/profile");
 				}
 			})
 			.catch((err) => {

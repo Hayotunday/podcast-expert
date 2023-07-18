@@ -8,7 +8,7 @@ import { useRouter } from "next/navigation";
 
 import { FiMenu } from "react-icons/fi";
 
-const Topbar = ({ isOpen, setIsOpen }) => {
+const Topbar = ({ handleClick, componentRef }) => {
 	const [search, setSearch] = useState("");
 	const [user, setUser] = useState({ name: "", image: "" });
 	const [toggleDropdown, setToggleDropdown] = useState(false);
@@ -60,14 +60,13 @@ const Topbar = ({ isOpen, setIsOpen }) => {
 	}, []);
 
 	return (
-		<div className="sticky top-0 flex flex-row w-full bg-white p-5 justify-between z-50">
+		<div className="sticky top-0 flex flex-row w-full bg-white p-5 justify-between z-50 md:z-auto">
 			<div className="flex flex-row gap-2 w-full items-center">
 				<button
 					type="button"
-					onClick={() => {
-						setIsOpen(!isOpen);
-					}}
-					className="flex lg:hidden"
+					onClick={handleClick}
+					ref={componentRef}
+					className="flex md:hidden"
 				>
 					<FiMenu size={30} />
 				</button>

@@ -8,7 +8,7 @@ import { usePathname, useRouter } from "next/navigation";
 import { AiOutlineUser } from "react-icons/ai";
 import { BiLogOut } from "react-icons/bi";
 
-const Nav = ({ handleClick, navRef }) => {
+const MobileNav = ({ handleClick, navRef }) => {
 	const pathname = usePathname();
 	const router = useRouter();
 
@@ -31,7 +31,7 @@ const Nav = ({ handleClick, navRef }) => {
 		<section
 			ref={navRef}
 			onBlur={() => {}}
-			className="md:w-2/6 lg:w-1/6 sticky top-0 min-h-full hidden md:block flex-grow bg-primary"
+			className="w-1/2 sm:w-2/6 absolute top-0 min-h-full md:hidden flex-grow bg-primary"
 		>
 			{/* <section className="w-1/6 h-full bg-primary"> */}
 			<nav className="w-full sticky top-0 flex flex-col pt-5 px-3 items-center">
@@ -208,4 +208,4 @@ const Nav = ({ handleClick, navRef }) => {
 	);
 };
 
-export default Nav;
+export default MobileNav;

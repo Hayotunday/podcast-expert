@@ -9,6 +9,7 @@ import Featured from "@components/Featured";
 export default function Home() {
 	const [profiles, setProfiles] = useState([]);
 	const [id, setId] = useState("");
+	const [recent, setRecent] = useState([]);
 
 	useEffect(() => {
 		setId(localStorage.getItem("podcastId"));
@@ -28,11 +29,67 @@ export default function Home() {
 		getUserDetails();
 	}, []);
 
+	useEffect(() => {
+		const getRecents = async () => {
+			const token = localStorage.getItem("podcastToken");
+			const config = {
+				headers: {
+					Authorization: `Bearer ${token}`,
+				},
+			};
+			await axios
+				.get(`${process.env.NEXT_PUBLIC_BASE_URL}/user/profile/recents`, config)
+				.then((res) => {
+					console.log(res.data);
+					setRecent(res.data);
+				})
+				.catch((err) => console.log(err));
+		};
+
+		getRecents();
+	}, []);
+
+	const handleAddRecent = async (id) => {
+		const token =
+			localStorage.getItem("podcastToken") === undefined ||
+			localStorage.getItem("podcastToken") === null
+				? ""
+				: localStorage.getItem("podcastToken");
+
+		const config = {
+			headers: {
+				Authorization: `Bearer ${token}`,
+			},
+		};
+
+		if (!recent.includes(id)) {
+			await axios
+				.patch(
+					`${process.env.NEXT_PUBLIC_BASE_URL}/user/profile-type/recents`,
+					{
+						id: id,
+						data: [...recent, id],
+					},
+					config
+				)
+				.then((res) => {
+					return;
+				})
+				.catch((err) => {
+					console.log(err);
+				});
+		}
+	};
+
+	useEffect(() => {
+		console.log("recent: ", recent);
+	}, [recent]);
+
 	return (
 		<>
 			<div className="bg-grey w-full h-full p-5 flex flex-col gap-7">
 				{profiles.length > 0 ? (
-					<div className="grid min-[380px]:grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-5">
+					<div className="grid min-[380px]:grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 2xl:grid-cols-6 gap-5">
 						{profiles.map(
 							(
 								{ user: { image, name, _id, profile_type }, topic_categories },
@@ -45,6 +102,7 @@ export default function Home() {
 										name={name}
 										type={profile_type}
 										id={_id}
+										handleClick={handleAddRecent}
 										categories={topic_categories}
 									/>
 								</div>

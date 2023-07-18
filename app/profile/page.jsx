@@ -21,7 +21,6 @@ const Guest = () => {
 	const [id, setId] = useState("");
 	const [data, setData] = useState({});
 	const [category, setCategory] = useState("");
-	const [image, setImage] = useState("");
 
 	const inputFile = useRef(null);
 
@@ -47,6 +46,9 @@ const Guest = () => {
 				.then((res) => {
 					// console.log(res.data);
 					setData(res.data);
+					// console.log(
+					// 	`${process.env.NEXT_PUBLIC_BASE_URL}/Images/${res.data.user.image}`
+					// );
 				})
 				.finally(() => {
 					setIsLoaded(false);
@@ -56,6 +58,28 @@ const Guest = () => {
 
 		getUserDetails();
 	}, []);
+
+	const handleImageChange = async (data) => {
+		const token = localStorage.getItem("podcastToken");
+		const config = {
+			headers: {
+				Authorization: `Bearer ${token}`,
+				"content-type": "multipart/form-data",
+			},
+		};
+		const form = new FormData();
+		form.append("image", data);
+		await axios
+			.patch(
+				`${process.env.NEXT_PUBLIC_BASE_URL}/user/profile-type/image`,
+				form,
+				config
+			)
+			.then((res) => {
+				router.refresh();
+			})
+			.catch((err) => console.log(err));
+	};
 
 	const handleAddCategory = async () => {
 		var categories = [];
@@ -81,27 +105,6 @@ const Guest = () => {
 			.catch((err) => console.log(err));
 	};
 
-	const handleImageChange = async () => {
-		const token = localStorage.getItem("podcastToken");
-		const config = {
-			headers: {
-				Authorization: `Bearer ${token}`,
-				"content-type": "multipart/form-data",
-			},
-		};
-		await axios
-			.patch(
-				`${process.env.NEXT_PUBLIC_BASE_URL}/user/profile-type/image`,
-				{ image: image },
-				config
-			)
-			.then((res) => {
-				setImage("");
-				router.refresh();
-			})
-			.catch((err) => console.log(err));
-	};
-
 	if (isLoaded) {
 		return <Loader />;
 	}
@@ -110,7 +113,7 @@ const Guest = () => {
 		<>
 			{data.user.profile_type === "Guest" && (
 				<div className="bg-grey w-full h-full p-5 flex flex-col gap-7 relative">
-					<div className="flex flex-row items-center gap-10 justify-start self-start ml-5">
+					<div className="flex flex-row items-center gap-10 justify-start self-start lg:ml-5">
 						<Link href={"/"} className="">
 							<div>
 								<Image
@@ -128,11 +131,9 @@ const Guest = () => {
 					<div className="flex flex-col md:flex-row gap-5">
 						<div className="flex flex-col items-center">
 							<div className="rounded-full h-32 sm:h-60 w-32 sm:w-60">
-								{data.user.image || image ? (
+								{data.user.image ? (
 									<img
-										src={`data:image/png;charset=utf-8;base64,${
-											image ? image : data.user.image
-										}`}
+										src={`${process.env.NEXT_PUBLIC_BASE_URL}/images/${data.user.image}`}
 										id="img"
 										alt="image"
 										className="rounded-full h-full w-full flex items-center justify-center"
@@ -150,19 +151,8 @@ const Guest = () => {
 								accept="image/*"
 								style={{ display: "none" }}
 								onChange={(e) => {
-									e.stopPropagation();
 									e.preventDefault();
-
-									var file = e.target.files[0];
-									const fileReader = new FileReader();
-									fileReader.onload = () => {
-										const srcData = fileReader.result;
-										let img = srcData.replace("data:image/jpeg;base64,", "");
-										setImage(img);
-									};
-									fileReader.readAsDataURL(file);
-									handleImageChange();
-									console.log("done");
+									handleImageChange(e.target.files[0]);
 								}}
 							/>
 							{/* <button
@@ -504,7 +494,7 @@ const Guest = () => {
 
 			{data.user.profile_type === "Podcaster" && (
 				<div className="bg-grey w-full h-full p-5 flex flex-col gap-7 relative">
-					<div className="flex flex-row items-center gap-10 justify-start self-start ml-5">
+					<div className="flex flex-row items-center gap-10 justify-start self-start lg:ml-5">
 						<Link href={"/"} className="">
 							<div>
 								<Image
@@ -522,11 +512,9 @@ const Guest = () => {
 					<div className="flex flex-col md:flex-row gap-5">
 						<div className="flex flex-col items-center">
 							<div className="rounded-full h-32 sm:h-60 w-32 sm:w-60">
-								{data.user.image || image ? (
+								{data.user.image ? (
 									<img
-										src={`data:image/png;charset=utf-8;base64,${
-											image ? image : data.user.image
-										}`}
+										src={`${process.env.NEXT_PUBLIC_BASE_URL}/images/${data.user.image}`}
 										id="img"
 										alt="image"
 										className="rounded-full h-full w-full flex items-center justify-center"
@@ -544,19 +532,8 @@ const Guest = () => {
 								accept="image/*"
 								style={{ display: "none" }}
 								onChange={(e) => {
-									e.stopPropagation();
 									e.preventDefault();
-
-									var file = e.target.files[0];
-									const fileReader = new FileReader();
-									fileReader.onload = () => {
-										const srcData = fileReader.result;
-										let img = srcData.replace("data:image/jpeg;base64,", "");
-										setImage(img);
-									};
-									fileReader.readAsDataURL(file);
-									handleImageChange();
-									console.log("done");
+									handleImageChange(e.target.files[0]);
 								}}
 							/>
 							{/* <button
@@ -917,7 +894,7 @@ const Guest = () => {
 
 			{data.user.profile_type === "Press" && (
 				<div className="bg-grey w-full h-full p-5 flex flex-col gap-7 relative">
-					<div className="flex flex-row items-center gap-10 justify-start self-start ml-5">
+					<div className="flex flex-row items-center gap-10 justify-start self-start lg:ml-5">
 						<Link href={"/"} className="">
 							<div>
 								<Image
@@ -935,11 +912,9 @@ const Guest = () => {
 					<div className="flex flex-col md:flex-row gap-5">
 						<div className="flex flex-col items-center">
 							<div className="rounded-full h-40 sm:h-60 w-40 sm:w-60">
-								{data.user.image || image ? (
+								{data.user.image ? (
 									<img
-										src={`data:image/png;charset=utf-8;base64,${
-											image ? image : data.user.image
-										}`}
+										src={`${process.env.NEXT_PUBLIC_BASE_URL}/images/${data.user.image}`}
 										id="img"
 										alt="image"
 										className="rounded-full h-full w-full flex items-center justify-center"
@@ -957,14 +932,8 @@ const Guest = () => {
 								accept="image/*"
 								style={{ display: "none" }}
 								onChange={(e) => {
-									e.stopPropagation();
 									e.preventDefault();
-
-									var file = e.target.files[0];
-									// const form = FormData();
-									// formData.set("file", file);
-									// handleImageChange();
-									console.log("done");
+									handleImageChange(e.target.files[0]);
 								}}
 							/>
 							{/* <button

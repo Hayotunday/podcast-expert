@@ -5,17 +5,35 @@ import { usePathname, useRouter } from "next/navigation";
 import Nav from "@components/Nav";
 import Footer from "@components/Footer";
 import Topbar from "@components/Topbar";
-import { useEffect, useReducer, useState } from "react";
+import { useEffect, useReducer, useRef, useState } from "react";
 import axios from "axios";
 import Loader from "@components/Loader";
+import MobileNav from "@components/MobileNav";
 
 export default function Root({ children }) {
 	const pathname = usePathname();
 	const router = useRouter();
 
+	const navbarRef = useRef(null);
+	const menuRef = useRef(null);
+
 	const [user, setUser] = useState({ name: "", image: "" });
 	const [isLoaded, setIsLoaded] = useState(true);
 	const [isOpen, setIsOpen] = useState(false);
+
+	const handleClickOutsideComponent = (event) => {
+		if (
+			isOpen &&
+			!navbarRef.current?.contains(event.target) &&
+			!menuRef.current?.contains(event.target)
+		) {
+			setIsOpen(false);
+		}
+	};
+
+	window.addEventListener("click", handleClickOutsideComponent);
+
+	// console.log(navbarRef.current);
 
 	useEffect(() => {
 		const token =
@@ -89,17 +107,25 @@ export default function Root({ children }) {
 			pathname !== "/create-press/edit" ? (
 				<main className="bg-grey h-screen w-screen">
 					<section className="flex flex-row w-full h-full">
-						{innerWidth > 0 && innerWidth < 1024 ? (
-							isOpen && <Nav setIsOpen={setIsOpen} />
-						) : (
-							<Nav />
-						)}
+						<Nav />
+						{/*   */}
 
-						<section className="w-full h-full relative overflow-x-hidden z-0 lg:z-10">
-							<Topbar isOpen={isOpen} setIsOpen={setIsOpen} />
+						<section className="w-full h-full relative overflow-x-hidden  md:static">
+							<Topbar
+								componentRef={menuRef}
+								handleClick={() => {
+									setIsOpen(!isOpen);
+								}}
+							/>
 
-							<div className="w-full h-full p-5 flex flex-col gap-7">
+							<div className="w-full h-full flex flex-col relative md:static">
 								{children}
+								{isOpen && (
+									<MobileNav
+										handleClick={() => setIsOpen(false)}
+										navRef={navbarRef}
+									/>
+								)}
 							</div>
 						</section>
 					</section>

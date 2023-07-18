@@ -1,10 +1,16 @@
 import Link from "next/link";
-import Image from "next/image";
 
-const Featured = ({ image, name, categories, type, id }) => {
+import { HiOutlineDotsVertical } from "react-icons/hi";
+
+const Featured = ({ image, name, categories, type, id, handleClick }) => {
 	return (
 		<Link href={`/profile/${id}`} className="">
-			<div className="w-full h-full hover:shadow hover:shadow-primary p-1 rounded-lg">
+			<div
+				onClick={() => {
+					handleClick && handleClick(id);
+				}}
+				className="w-full h-full hover:shadow hover:shadow-primary p-1 rounded-lg"
+			>
 				<div className="rounded-xl h-40 w-full">
 					{image ? (
 						<img
@@ -19,6 +25,15 @@ const Featured = ({ image, name, categories, type, id }) => {
 						</div>
 					)}
 				</div>
+
+				{/* <button
+					type="button"
+					onClick={() => {}}
+					className="absolute top-3 left-3"
+				>
+					<AiOutlineHeart size={20} color="red" />
+				</button> */}
+
 				<div className=" truncate">
 					<abbr
 						title={name}
@@ -35,6 +50,14 @@ const Featured = ({ image, name, categories, type, id }) => {
 						<p className="text-primary text-left text-sm font-normal">{type}</p>
 					</div>
 				</div>
+
+				{/* <button
+					type="button"
+					onClick={() => {}}
+					className="absolute bottom-3 right-3 hover:rounded-full hover:bg-slate-300 hover:bg-opacity-30 p-2"
+				>
+					<HiOutlineDotsVertical size={20} color="red" />
+				</button> */}
 			</div>
 		</Link>
 	);

@@ -79,8 +79,8 @@ const Guest = () => {
 							</div>
 						</div>
 
-						<div className="flex-col flex justify-between">
-							<div className="flex flex-col  text-center sm:text-left">
+						<div className="flex-col flex justify-between gap-5 h-full">
+							<div className="flex flex-col text-center sm:text-left">
 								<div className="flex flex-row gap-3 items-end">
 									<h1 className="text-primary text-5xl font-black capitalize">
 										{data.user.name}
@@ -361,7 +361,7 @@ const Guest = () => {
 							)}
 						</div>
 
-						<div className="flex-col flex justify-between">
+						<div className="flex-col flex justify-between gap-5 h-full">
 							<div className="flex flex-col text-center sm:text-left">
 								<div className="flex flex-row gap-3 items-end">
 									<h1 className="text-primary text-5xl font-black capitalize">
@@ -664,7 +664,7 @@ const Guest = () => {
 							</div>
 						</div>
 
-						<div className="flex-col flex justify-between">
+						<div className="flex-col flex justify-between gap-5 h-full">
 							<div className="flex flex-col text-center sm:text-left">
 								<div className="flex flex-row gap-3 items-end">
 									<h1 className="text-primary text-5xl font-black capitalize">
