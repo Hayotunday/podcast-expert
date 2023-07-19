@@ -82,7 +82,7 @@ export default function Root({ children }) {
 						pathname !== "/password/forgot" &&
 						pathname !== "/password/reset"
 					) {
-						router.push(`/verify-mail`);
+						router.push(`/verify-email`);
 					} else if (res.data.user.createProfile === false) {
 						router.push(`/create-profile`);
 					}
