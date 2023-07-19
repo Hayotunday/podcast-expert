@@ -31,7 +31,10 @@ export default function Root({ children }) {
 		}
 	};
 
-	window.addEventListener("click", handleClickOutsideComponent);
+	if (typeof window !== "undefined") {
+		// browser code
+		window.addEventListener("click", handleClickOutsideComponent);
+	}
 
 	// console.log(navbarRef.current);
 
@@ -67,7 +70,9 @@ export default function Root({ children }) {
 			await axios
 				.get(`${process.env.NEXT_PUBLIC_BASE_URL}/user/profile`, config)
 				.then((res) => {
-					if (res.data.user.createProfile === false) {
+					if (res.data.user.email_verified === false) {
+						router.push(`/verify-mail`);
+					} else if (res.data.user.createProfile === false) {
 						router.push(`/create-profile`);
 					}
 				})
@@ -110,23 +115,20 @@ export default function Root({ children }) {
 						<Nav />
 						{/*   */}
 
-						<section className="w-full h-full relative overflow-x-hidden  md:static">
+						<section className="w-full h-full relative overflow-x-hidden">
 							<Topbar
 								componentRef={menuRef}
 								handleClick={() => {
 									setIsOpen(!isOpen);
 								}}
 							/>
-
-							<div className="w-full h-full flex flex-col relative md:static">
-								{children}
-								{isOpen && (
-									<MobileNav
-										handleClick={() => setIsOpen(false)}
-										navRef={navbarRef}
-									/>
-								)}
-							</div>
+							{children}
+							{isOpen && (
+								<MobileNav
+									handleClick={() => setIsOpen(false)}
+									navRef={navbarRef}
+								/>
+							)}
 						</section>
 					</section>
 					{/* 

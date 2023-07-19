@@ -138,9 +138,9 @@ const Nav = ({ handleClick, navRef }) => {
 						LIBRARY
 					</p>
 					{/* <Link
-						href={"/saved-list"}
+						href={"/favorites"}
 						className={
-							pathname !== "/saved-list"
+							pathname !== "/favorites"
 								? "flex flex-row p-2 gap-5 items-center justify-start rounded hover:bg-white hover:text-white hover:bg-opacity-10"
 								: "flex flex-row p-2 gap-5 items-center justify-start rounded bg-white text-white bg-opacity-10"
 						}
@@ -151,7 +151,7 @@ const Nav = ({ handleClick, navRef }) => {
 							height={15}
 							alt="Saved icon"
 						/>
-						<p className="text-white text-center">Saved lists</p>
+						<p className="text-white text-center">Favorites</p>
 					</Link> */}
 					<Link
 						href={"/recent"}

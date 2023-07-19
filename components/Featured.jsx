@@ -1,15 +1,76 @@
 import Link from "next/link";
+import { useEffect, useState } from "react";
 
-import { HiOutlineDotsVertical } from "react-icons/hi";
+import { AiOutlineHeart, AiFillHeart } from "react-icons/ai";
 
-const Featured = ({ image, name, categories, type, id, handleClick }) => {
+const Featured = ({
+	image,
+	name,
+	categories,
+	type,
+	id,
+	handleClick,
+	isFavorite,
+	favorite,
+	setFavorite,
+}) => {
+	const [fav, setFav] = useState(isFavorite);
+
+	const handleUpdateFavorite = async (id) => {
+		const token =
+			localStorage.getItem("podcastToken") === undefined ||
+			localStorage.getItem("podcastToken") === null
+				? ""
+				: localStorage.getItem("podcastToken");
+
+		const config = {
+			headers: {
+				Authorization: `Bearer ${token}`,
+			},
+		};
+
+		if (!favorite.includes(id)) {
+			await axios
+				.patch(
+					`${process.env.NEXT_PUBLIC_BASE_URL}/user/profile-type/favorites`,
+					{
+						id: id,
+						data: favorite,
+					},
+					config
+				)
+				.then((res) => {
+					return;
+				})
+				.catch((err) => {
+					console.log(err);
+				});
+		} else {
+			await axios
+				.patch(
+					`${process.env.NEXT_PUBLIC_BASE_URL}/user/profile-type/favorites`,
+					{
+						id: id,
+						data: favorite,
+					},
+					config
+				)
+				.then((res) => {
+					return;
+				})
+				.catch((err) => {
+					console.log(err);
+				});
+		}
+	};
+
 	return (
 		<Link href={`/profile/${id}`} className="">
 			<div
 				onClick={() => {
 					handleClick && handleClick(id);
 				}}
-				className="w-full h-full hover:shadow hover:shadow-primary p-1 rounded-lg"
+				className="w-full h-full hover:shadow hover:shadow-primary p-1 rounded-lg relative z-0"
 			>
 				<div className="rounded-xl h-40 w-full">
 					{image ? (
@@ -26,15 +87,7 @@ const Featured = ({ image, name, categories, type, id, handleClick }) => {
 					)}
 				</div>
 
-				{/* <button
-					type="button"
-					onClick={() => {}}
-					className="absolute top-3 left-3"
-				>
-					<AiOutlineHeart size={20} color="red" />
-				</button> */}
-
-				<div className=" truncate">
+				<div className="truncate">
 					<abbr
 						title={name}
 						className="text-primary text-left text-lg font-bold no-underline"
@@ -50,6 +103,28 @@ const Featured = ({ image, name, categories, type, id, handleClick }) => {
 						<p className="text-primary text-left text-sm font-normal">{type}</p>
 					</div>
 				</div>
+
+				{/* <button
+				type="button"
+				onClick={() => {
+					if (!fav) {
+						const newFav = favorite.filter((i) => {
+							return id !== i;
+						});
+						setFavorite(newFav);
+					} else {
+						const newFav = [...favorite, id];
+						setFavorite(newFav);
+					}
+				}}
+				className="absolute top-3 left-3"
+				>
+				{fav ? (
+					<AiOutlineHeart size={25} color="red" className="" />
+					) : (
+						<AiFillHeart size={25} color="red" className="" />
+						)}
+					</button> */}
 
 				{/* <button
 					type="button"

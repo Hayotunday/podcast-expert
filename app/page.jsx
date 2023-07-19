@@ -5,11 +5,13 @@ import axios from "axios";
 import Image from "next/image";
 
 import Featured from "@components/Featured";
+import Favorites from "./favorites/page";
 
 export default function Home() {
 	const [profiles, setProfiles] = useState([]);
 	const [id, setId] = useState("");
 	const [recent, setRecent] = useState([]);
+	const [favorite, setFavorite] = useState([]);
 
 	useEffect(() => {
 		setId(localStorage.getItem("podcastId"));
@@ -18,9 +20,9 @@ export default function Home() {
 				.get(`${process.env.NEXT_PUBLIC_BASE_URL}/user/profiles`)
 				.then((res) => {
 					const prof = res.data.filter((i) => {
-						return localStorage.getItem("podcastId") !== i.user._id;
+						return localStorage.getItem("podcastId") !== i.user?._id;
 					});
-					// console.log("profiles: ", prof);
+					// console.log("profiles: ", res);
 					setProfiles(prof);
 				})
 				.catch((err) => console.log(err));
@@ -30,23 +32,29 @@ export default function Home() {
 	}, []);
 
 	useEffect(() => {
-		const getRecents = async () => {
-			const token = localStorage.getItem("podcastToken");
-			const config = {
-				headers: {
-					Authorization: `Bearer ${token}`,
-				},
-			};
+		const token =
+			localStorage.getItem("podcastToken") === undefined ||
+			localStorage.getItem("podcastToken") === null
+				? ""
+				: localStorage.getItem("podcastToken");
+
+		const config = {
+			headers: {
+				Authorization: `Bearer ${token}`,
+			},
+		};
+		const getUserDetails = async () => {
 			await axios
-				.get(`${process.env.NEXT_PUBLIC_BASE_URL}/user/profile/recents`, config)
+				.get(`${process.env.NEXT_PUBLIC_BASE_URL}/user/profile`, config)
 				.then((res) => {
-					console.log(res.data);
-					setRecent(res.data);
+					// console.log("profile: ", res);
+					setRecent(res.data.user.recent);
+					setFavorite(res.data.user.saved_list);
 				})
 				.catch((err) => console.log(err));
 		};
 
-		getRecents();
+		getUserDetails();
 	}, []);
 
 	const handleAddRecent = async (id) => {
@@ -81,9 +89,13 @@ export default function Home() {
 		}
 	};
 
+	const updateFavorite = (data) => {
+		setFavorite(data);
+	};
+
 	useEffect(() => {
-		console.log("recent: ", recent);
-	}, [recent]);
+		console.log(favorite);
+	}, [favorite]);
 
 	return (
 		<>
@@ -103,7 +115,11 @@ export default function Home() {
 										type={profile_type}
 										id={_id}
 										handleClick={handleAddRecent}
+										// handleFavorite={handleUpdateFavorite}
 										categories={topic_categories}
+										isFavorite={!favorite?.includes(_id)}
+										favorite={favorite}
+										setFavorite={updateFavorite}
 									/>
 								</div>
 							)

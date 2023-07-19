@@ -60,7 +60,7 @@ const Topbar = ({ handleClick, componentRef }) => {
 	}, []);
 
 	return (
-		<div className="sticky top-0 flex flex-row w-full bg-white p-5 justify-between z-50 md:z-auto">
+		<div className="sticky top-0 flex flex-row w-full bg-white p-5 justify-between z-50">
 			<div className="flex flex-row gap-2 w-full items-center">
 				<button
 					type="button"

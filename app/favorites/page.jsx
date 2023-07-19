@@ -7,7 +7,7 @@ import Saved from "@components/Saved";
 
 import { savedList } from "@utils/data";
 
-const Savedlist = () => {
+const Favorites = () => {
 	return (
 		<>
 			<div className="bg-grey w-full h-full p-5 flex flex-col gap-7">
@@ -27,26 +27,12 @@ const Savedlist = () => {
 				</div>
 
 				<div className="h-full">
-					<p className="text-primary text-5xl font-black">
-						Saved <span className="text-pinky">list</span>
-					</p>
-					<div className="">
-						{savedList.map((list, index) => (
-							<Saved
-								key={index}
-								date={list.date}
-								image={list.image}
-								length={list.length}
-								link={list.link}
-								podcaster={list.podcaster}
-								title={list.title}
-							/>
-						))}
-					</div>
+					<p className="text-primary text-5xl font-black">Favorites</p>
+					<div className="">{}</div>
 				</div>
 			</div>
 		</>
 	);
 };
 
-export default Savedlist;
+export default Favorites;
