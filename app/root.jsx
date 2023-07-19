@@ -70,7 +70,18 @@ export default function Root({ children }) {
 			await axios
 				.get(`${process.env.NEXT_PUBLIC_BASE_URL}/user/profile`, config)
 				.then((res) => {
-					if (res.data.user.email_verified === false) {
+					if (
+						res.data.user.email_verified === false &&
+						pathname !== "/login" &&
+						pathname !== "/signup" &&
+						pathname !== "/verify-email" &&
+						pathname !== "/verified" &&
+						pathname !== "/create-profile" &&
+						pathname !== "/password/completed" &&
+						pathname !== "/password/create" &&
+						pathname !== "/password/forgot" &&
+						pathname !== "/password/reset"
+					) {
 						router.push(`/verify-mail`);
 					} else if (res.data.user.createProfile === false) {
 						router.push(`/create-profile`);
