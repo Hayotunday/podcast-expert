@@ -18,6 +18,7 @@ const Verified = ({ searchParams }) => {
 	const [stat, setStat] = useState(false);
 
 	useEffect(() => {
+		console.log(id, token);
 		const verifyMail = async () => {
 			await axios
 				.patch(`${process.env.NEXT_PUBLIC_BASE_URL}/auth/verify-mail`, {
