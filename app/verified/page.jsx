@@ -3,22 +3,25 @@
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useDispatch } from "react-redux";
 
 import axios from "axios";
 
 import { updateToken } from "@app/redux/features/auth/authSlice";
 
-const Verified = ({ searchParams }) => {
-	const { id, token } = searchParams;
+const Verified = ({}) => {
+	// const { id, token } = searchParams;
 	const dispatch = useDispatch();
 	const router = useRouter();
+	const searchParams = useSearchParams();
+
+	const id = searchParams.get("id");
+	const token = searchParams.get("token");
 
 	const [stat, setStat] = useState(false);
 
 	useEffect(() => {
-		console.log(id, token);
 		const verifyMail = async () => {
 			await axios
 				.patch(`${process.env.NEXT_PUBLIC_BASE_URL}/auth/verify-mail`, {
