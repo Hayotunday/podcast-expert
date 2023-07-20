@@ -47,7 +47,7 @@ const Createprofile = () => {
 	};
 
 	return (
-		<main className="flex min-h-screen bg-success flex-col">
+		<main className="flex min-h-screen bg-create-profile bg-cover flex-col">
 			<section className="flex flex-col items-center p-10 gap-7">
 				<div className="mb-2 lg:hidden">
 					<Image

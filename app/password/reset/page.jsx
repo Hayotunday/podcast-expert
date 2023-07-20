@@ -56,7 +56,7 @@ const Reset = () => {
 	};
 
 	return (
-		<main className="flex min-h-screen flex-row lg:overflow-hidden">
+		<main className="flex min-h-screen flex-row lg:overflow-hidden bg-password bg-right bg-contain">
 			{/* Form part */}
 			<section className="lg:w-3/5 w-full h-screen bg-white flex flex-col items-center p-10">
 				<div className="mb-5 lg:hidden">
@@ -207,7 +207,7 @@ const Reset = () => {
 			</section>
 
 			{/* Image part */}
-			<section className="lg:w-2/5 h-screen bg-primary hidden lg:flex flex-col items-center justify-around py-6 px-20">
+			<section className="lg:w-2/5 h-screen hidden lg:flex flex-col items-center justify-around py-6 px-20">
 				<Image
 					src={"/images/pow.png"}
 					width={150}

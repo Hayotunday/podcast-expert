@@ -11,6 +11,11 @@ module.exports = {
         'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
         'gradient-conic':
           'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
+        'create-profile': "url('/images/bg-create-profile.png')",
+        'signup': "url('/images/bg-signup.png')",
+        'login': "url('/images/bg-login.png')",
+        'password': "url('/images/bg-password.png')",
+        'verified': "url('/images/bg-verify.png')",
       },
       colors: {
         primary: '#232E60',

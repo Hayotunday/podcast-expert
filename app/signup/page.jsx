@@ -124,8 +124,8 @@ const Signup = () => {
 	};
 
 	return (
-		<main className="flex min-h-screen flex-row lg:overflow-hidden ">
-			<section className="lg:w-2/5 hidden h-screen bg-primary lg:flex flex-col items-center justify-around py-6 px-20">
+		<main className="flex min-h-screen flex-row lg:overflow-hidden bg-signup bg-contain">
+			<section className="lg:w-2/5 hidden h-screen lg:flex flex-col items-center justify-around py-6 px-20">
 				<Image
 					src={"/images/pow.png"}
 					width={150}

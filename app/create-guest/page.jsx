@@ -105,8 +105,8 @@ const CreateGuest = () => {
 	}, []);
 
 	return (
-		<>
-			<div className="bg-success w-screen h-full p-5 lg:p-16 flex flex-col gap-7">
+		<main className="bg-create-profile bg-center bg-contain">
+			<div className="w-screen h-full p-5 lg:p-16 flex flex-col gap-7">
 				<div className="mb-5 self-center">
 					<Image
 						src={"/images/pow.png"}
@@ -482,7 +482,7 @@ const CreateGuest = () => {
 					</button>
 				</div>
 			</div>
-		</>
+		</main>
 	);
 };
 

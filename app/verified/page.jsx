@@ -56,7 +56,7 @@ const Verified = ({}) => {
 	}, [stat]);
 
 	return (
-		<main className="flex min-h-screen bg-primary flex-col justify-around">
+		<main className="flex min-h-screen bg-verified bg-center bg-contain flex-col justify-around">
 			<section className="w-full flex flex-col items-center justify-center gap-10">
 				<Image
 					src={"/images/pow.png"}

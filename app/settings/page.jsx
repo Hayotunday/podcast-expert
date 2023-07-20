@@ -10,7 +10,7 @@ import Dropdown from "@components/Dropdown";
 
 import { dropdown_options, podcastList } from "@utils/data";
 
-const Findguest = () => {
+const Settings = () => {
 	const [category, setCategory] = useState("");
 	const [location, setLocation] = useState("");
 	const [value, setValue] = useState("");
@@ -109,4 +109,4 @@ const Findguest = () => {
 	);
 };
 
-export default Findguest;
+export default Settings;
