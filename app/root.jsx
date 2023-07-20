@@ -133,13 +133,15 @@ export default function Root({ children }) {
 									setIsOpen(!isOpen);
 								}}
 							/>
-							{children}
-							{isOpen && (
-								<MobileNav
-									handleClick={() => setIsOpen(false)}
-									navRef={navbarRef}
-								/>
-							)}
+							<div className="w-full h-full flex flex-row">
+								{isOpen && (
+									<MobileNav
+										handleClick={() => setIsOpen(false)}
+										navRef={navbarRef}
+									/>
+								)}
+								{children}
+							</div>
 						</section>
 					</section>
 					{/* 

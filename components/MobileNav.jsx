@@ -31,7 +31,7 @@ const MobileNav = ({ handleClick, navRef }) => {
 		<section
 			ref={navRef}
 			onBlur={() => {}}
-			className="w-1/2 sm:w-2/6 absolute top-0 min-h-full md:hidden flex-grow bg-primary"
+			className="w-1/2 sm:w-2/6 fixed top-0 min-h-screen md:hidden flex-grow bg-primary z-30"
 		>
 			{/* <section className="w-1/6 h-full bg-primary"> */}
 			<nav className="w-full sticky top-0 flex flex-col pt-5 px-3 items-center">

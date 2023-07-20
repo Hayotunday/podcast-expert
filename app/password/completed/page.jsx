@@ -5,7 +5,7 @@ import Progress from "@components/Progress";
 
 const Completed = () => {
 	return (
-		<main className="flex min-h-screen flex-row overflow-hidden">
+		<main className="flex min-h-screen flex-row lg:overflow-hidden">
 			{/* Form part */}
 			<section className="lg:w-3/5 w-full h-screen bg-white flex flex-col items-center p-10">
 				<div className="mb-5 lg:hidden">

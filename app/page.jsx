@@ -20,7 +20,7 @@ export default function Home() {
 				.get(`${process.env.NEXT_PUBLIC_BASE_URL}/user/profiles`)
 				.then((res) => {
 					const prof = res.data.filter((i) => {
-						return localStorage.getItem("podcastId") !== i.user?._id;
+						return localStorage.getItem("podcastId") !== i.user._id;
 					});
 					// console.log("profiles: ", res);
 					setProfiles(prof);

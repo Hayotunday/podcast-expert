@@ -295,8 +295,8 @@ const Guest = () => {
 						</div>
 					</div>
 
-					<div className="mt-5">
-						<div className="flex flex-row gap-4">
+					<div className="mt-5 w-full">
+						<div className="flex flex-row gap-4 justify-center w-full">
 							<button
 								type="button"
 								className={
@@ -676,8 +676,8 @@ const Guest = () => {
 						</div>
 					</div>
 
-					<div className="mt-5">
-						<div className="flex flex-row gap-4">
+					<div className="mt-5 w-full">
+						<div className="flex flex-row gap-4 justify-center w-full">
 							<button
 								type="button"
 								className={
@@ -1012,8 +1012,8 @@ const Guest = () => {
 						</div>
 					</div>
 
-					<div className="mt-5">
-						<div className="flex flex-row gap-4">
+					<div className="mt-5 w-full">
+						<div className="flex flex-row gap-4 justify-center w-full">
 							<button
 								type="button"
 								className={

@@ -25,6 +25,7 @@ const Signup = () => {
 		confirm: "",
 	});
 	const [check, setCheck] = useState(false);
+	const [submitting, setSubmitting] = useState(false);
 
 	const router = useRouter();
 
@@ -78,6 +79,7 @@ const Signup = () => {
 
 	// Credentials handler function
 	const handleSubmit = async (e) => {
+		setSubmitting(true);
 		e.preventDefault();
 
 		if (
@@ -102,24 +104,27 @@ const Signup = () => {
 							}
 						})
 						.catch((res) => {
-							console.log(res);
-							// if (res.status === 401) {
-							// 	alert("Email already taken. Enter a unique email to continue!");
-							// }
+							// console.log(res);
+							if (res.status === 401) {
+								alert("Email already taken. Enter a unique email to continue!");
+							}
 						});
 				} else {
+					setSubmitting(false);
 					alert("Please agree to our Privacy policy and Terms and conditions");
 				}
 			} else {
+				setSubmitting(false);
 				alert("Password and Confirm password not the same");
 			}
 		} else {
+			setSubmitting(false);
 			alert("Please fill all field");
 		}
 	};
 
 	return (
-		<main className="flex min-h-screen flex-row overflow-hidden">
+		<main className="flex min-h-screen flex-row lg:overflow-hidden ">
 			<section className="lg:w-2/5 hidden h-screen bg-primary lg:flex flex-col items-center justify-around py-6 px-20">
 				<Image
 					src={"/images/pow.png"}
@@ -225,7 +230,7 @@ const Signup = () => {
 								type="submit"
 								className="w-full h-12 bg-success text-primary text-lg font-extrabold rounded-lg"
 							>
-								signup
+								{!submitting ? "signup" : "signing up..."}
 							</button>
 
 							<p className="text-grey-100 text-base text-center">

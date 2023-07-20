@@ -89,7 +89,7 @@ const Login = ({ searchParams }) => {
 	};
 
 	return (
-		<main className="flex min-h-screen flex-row overflow-hidden">
+		<main className="flex min-h-screen flex-row lg:overflow-hidden">
 			<section className="lg:w-2/5 h-screen bg-primary hidden lg:flex flex-col items-center justify-around py-6 px-20">
 				<Image
 					src={"/images/pow.png"}
