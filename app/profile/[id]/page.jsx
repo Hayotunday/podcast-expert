@@ -137,7 +137,7 @@ const Guest = () => {
 							</div>
 
 							{data?.short_bio && (
-								<p className="text-primary text-base font-medium  text-center md:text-left">
+								<p className="text-primary text-base font-medium text-center md:text-left">
 									{data?.short_bio}
 								</p>
 							)}
