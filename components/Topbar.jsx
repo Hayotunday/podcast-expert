@@ -8,22 +8,12 @@ import { useRouter } from "next/navigation";
 
 import { FiMenu } from "react-icons/fi";
 
-const Topbar = ({ handleClick, componentRef }) => {
+const Topbar = ({ handleClick, componentRef, refreshRef }) => {
 	const [search, setSearch] = useState("");
 	const [user, setUser] = useState({ name: "", image: "" });
 	const [toggleDropdown, setToggleDropdown] = useState(false);
 
 	const router = useRouter();
-
-	const optiion = useRef();
-
-	// const setFocus = () => {
-	// 	if (document.activeElement === optiion.current) {
-	// 		optiion.current.blur();
-	// 	} else {
-	// 		optiion.current.focus();
-	// 	}
-	// };
 
 	const logOut = async () => {
 		localStorage.removeItem("podcastMail");
@@ -57,7 +47,7 @@ const Topbar = ({ handleClick, componentRef }) => {
 		};
 
 		getUserDetails();
-	}, []);
+	}, [refreshRef.currrent]);
 
 	return (
 		<div className="sticky top-0 flex flex-row w-full bg-white p-5 justify-between z-50">
@@ -99,7 +89,7 @@ const Topbar = ({ handleClick, componentRef }) => {
 
 			<div className="flex flex-row gap-5 items-center w-full justify-end mr-5">
 				<p className="text-primary font-bold capitalize hidden sm:block">
-					<span className="text-black">Hello!</span> {user.name}
+					<span className="text-black">Hello!</span> {user?.name}
 				</p>
 				{/* <Link href={"/profile"}> */}
 				<div className="relative cursor-pointer">
@@ -107,13 +97,13 @@ const Topbar = ({ handleClick, componentRef }) => {
 						className="rounded-full h-10 w-10"
 						onClick={() => setToggleDropdown((prev) => !prev)}
 					>
-						{user.image === "" ? (
+						{user?.image === "" ? (
 							<div className="rounded-full bg-green-500 text-primary uppercase h-10 w-10 font-bold flex items-center justify-center">
 								{user.name.charAt(0)}
 							</div>
 						) : (
 							<img
-								src={`data:image/png;charset=utf-8;base64,${user.image}`}
+								src={`${process.env.NEXT_PUBLIC_BASE_URL}/images/${user?.image}`}
 								id="img"
 								alt="image"
 								className="rounded-full h-10 w-10 flex items-center justify-center"

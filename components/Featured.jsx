@@ -75,7 +75,7 @@ const Featured = ({
 				<div className="rounded-xl h-40 w-full">
 					{image ? (
 						<img
-							src={`data:image/png;charset=utf-8;base64,${image}`}
+							src={`${process.env.NEXT_PUBLIC_BASE_URL}/images/${image}`}
 							id="img"
 							alt="image"
 							className="rounded-xl h-full w-full flex items-center justify-center"

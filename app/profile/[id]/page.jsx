@@ -61,14 +61,14 @@ const Guest = () => {
 			.post(
 				`${process.env.NEXT_PUBLIC_BASE_URL}/user/send-mail`,
 				{
-					email: data.user.email,
+					email: data?.user?.email,
 					text,
 					sender: email,
 				},
 				config
 			)
 			.then((res) => {
-				console.log(res.data);
+				// console.log(res.data);
 				setText("");
 				setSubmitting(false);
 				setSubmit("Sent");
@@ -88,7 +88,7 @@ const Guest = () => {
 
 	return (
 		<>
-			{data.user.profile_type === "Guest" && (
+			{data?.user?.profile_type === "Guest" && (
 				<div className="bg-grey w-full h-full p-5 flex flex-col gap-7 relative mb-24 z-0">
 					<div className="flex flex-row items-center gap-10 justify-start self-start ml-5">
 						<Link href={"/"} className="">
@@ -108,16 +108,16 @@ const Guest = () => {
 					<div className="flex flex-col md:flex-row gap-5">
 						<div className="flex flex-col items-center">
 							<div className="rounded-full h-32 sm:h-60 w-32 sm:w-60">
-								{data.user.image ? (
+								{data?.user?.image ? (
 									<img
-										src={`data:image/png;charset=utf-8;base64,${data.user.image}`}
+										src={`${process.env.NEXT_PUBLIC_BASE_URL}/images/${data?.user?.image}`}
 										id="img"
 										alt="image"
 										className="rounded-full h-full w-full flex items-center justify-center"
 									/>
 								) : (
 									<div className="rounded-full bg-green-500 text-primary uppercase h-32 sm:h-60 w-32 sm:w-60 text-7xl sm:text-9xl font-bold flex items-center justify-center">
-										{data.user.name.charAt(0)}
+										{data?.user?.name.charAt(0)}
 									</div>
 								)}
 							</div>
@@ -127,23 +127,23 @@ const Guest = () => {
 							<div className="flex flex-col text-center md:text-left">
 								<div className="flex flex-row gap-3 items-end">
 									<h1 className="text-primary text-5xl font-black capitalize">
-										{data.user.name}
+										{data?.user?.name}
 									</h1>
 								</div>
 
 								<p className="text-grey-100 text-sm font-semibold">
-									{data.user.email}
+									{data?.user?.email}
 								</p>
 							</div>
 
-							{data.short_bio && (
+							{data?.short_bio && (
 								<p className="text-primary text-base font-medium  text-center md:text-left">
-									{data.short_bio}
+									{data?.short_bio}
 								</p>
 							)}
 
 							<div className="flex flex-row flex-wrap gap-3 items-center justify-center lg:justify-start relative mb-5 sm:mb-0 w-full self-center">
-								{data.topic_categories.map((cate, index) => (
+								{data?.topic_categories.map((cate, index) => (
 									<Tag key={index} text={cate} />
 								))}
 							</div>
@@ -222,17 +222,17 @@ const Guest = () => {
 								<div className="flex flex-col gap-3 pt-5 pl-2 mb-5">
 									<h1 className="text-primary text-xl font-bold">Experience</h1>
 									<p className="text-primary text-base font-medium text-left">
-										{data.experience_bio}
+										{data?.experience_bio}
 									</p>
 									<h1 className="text-primary text-xl font-bold">Mission</h1>
 									<p className="text-primary text-base font-medium text-left">
-										{data.mission}
+										{data?.mission}
 									</p>
 									<h1 className="text-primary text-xl font-bold">
 										Recording preference
 									</h1>
 									<ul className="text-primary text-base font-medium text-left">
-										{data.record_preference.map((pref, index) => (
+										{data?.record_preference.map((pref, index) => (
 											<li
 												key={index}
 												className="flex flex-row items-center gap-2"
@@ -246,7 +246,7 @@ const Guest = () => {
 											Own Podcast
 										</h1>
 										<p className="text-primary text-base font-medium text-left">
-											{data.own_podcast ? "Yes" : "No"}
+											{data?.own_podcast ? "Yes" : "No"}
 										</p>
 									</div>
 									<div className="flex flex-row gap-5 items-center">
@@ -254,7 +254,7 @@ const Guest = () => {
 											Contact me
 										</h1>
 										<p className="text-primary">
-											{data.contact_me ? "Yes" : "No"}
+											{data?.contact_me ? "Yes" : "No"}
 										</p>
 									</div>
 								</div>
@@ -265,7 +265,7 @@ const Guest = () => {
 										Social Media
 									</h1>
 									<ul className="flex flex-col gap-3">
-										{data.social_media.facebook && (
+										{data?.social_media.facebook && (
 											<li className="flex flex-row gap-3 items-center hover:underline">
 												<Image
 													src={"/svgs/facebookii.svg"}
@@ -275,14 +275,14 @@ const Guest = () => {
 													className=""
 												/>
 												<a
-													href={data.social_media.facebook}
+													href={data?.social_media.facebook}
 													className="text-primary text-left text-base font-normal"
 												>
-													{data.social_media.facebook}
+													{data?.social_media.facebook}
 												</a>
 											</li>
 										)}
-										{data.social_media.instagram && (
+										{data?.social_media.instagram && (
 											<li className="flex flex-row gap-3 items-center hover:underline">
 												<Image
 													src={"/svgs/instagram.svg"}
@@ -292,15 +292,15 @@ const Guest = () => {
 													className=""
 												/>
 												<a
-													href={data.social_media.instagram}
+													href={data?.social_media.instagram}
 													target="_blank"
 													className="text-primary text-left text-base font-normal"
 												>
-													{data.social_media.instagram}
+													{data?.social_media.instagram}
 												</a>
 											</li>
 										)}
-										{data.social_media.linkedin && (
+										{data?.social_media.linkedin && (
 											<li className="flex flex-row gap-3 items-center hover:underline">
 												<Image
 													src={"/svgs/linkedin.svg"}
@@ -310,14 +310,14 @@ const Guest = () => {
 													className=""
 												/>
 												<a
-													href={data.social_media.linkedin}
+													href={data?.social_media.linkedin}
 													className="text-primary text-left text-base font-normal"
 												>
-													{data.social_media.linkedin}
+													{data?.social_media.linkedin}
 												</a>
 											</li>
 										)}
-										{data.social_media.twitter && (
+										{data?.social_media.twitter && (
 											<li className="flex flex-row gap-3 items-center hover:underline">
 												<Image
 													src={"/svgs/twitter.svg"}
@@ -327,14 +327,14 @@ const Guest = () => {
 													className=""
 												/>
 												<a
-													href={data.social_media.twitter}
+													href={data?.social_media.twitter}
 													className="text-primary text-left text-base font-normal"
 												>
-													{data.social_media.twitter}
+													{data?.social_media.twitter}
 												</a>
 											</li>
 										)}
-										{data.social_media.youtube && (
+										{data?.social_media.youtube && (
 											<li className="flex flex-row gap-3 items-center hover:underline">
 												<Image
 													src={"/svgs/youtube.svg"}
@@ -344,10 +344,10 @@ const Guest = () => {
 													className=""
 												/>
 												<a
-													href={data.social_media.youtube}
+													href={data?.social_media.youtube}
 													className="text-primary text-left text-base font-normal"
 												>
-													{data.social_media.youtube}
+													{data?.social_media.youtube}
 												</a>
 											</li>
 										)}
@@ -356,7 +356,7 @@ const Guest = () => {
 										Previous Interviews
 									</h1>
 									<ul className="text-primary text-base font-medium text-left mb-5">
-										{data.interview_links.map((interview, index) => (
+										{data?.interview_links.map((interview, index) => (
 											<li
 												key={index}
 												className="flex flex-row items-center gap-2"
@@ -405,7 +405,7 @@ const Guest = () => {
 				</div>
 			)}
 
-			{data.user.profile_type === "Podcaster" && (
+			{data?.user?.profile_type === "Podcaster" && (
 				<div className="bg-grey w-full h-full p-5 flex flex-col gap-7 relative">
 					<div className="flex flex-row items-center gap-10 justify-start self-start ml-5">
 						<Link href={"/"} className="">
@@ -424,16 +424,16 @@ const Guest = () => {
 
 					<div className="flex flex-col sm:flex-row gap-5 items-center">
 						<div className="rounded-full h-32 sm:h-60 w-32 sm:w-60">
-							{data.user.image ? (
+							{data?.user?.image ? (
 								<img
-									src={`data:image/png;charset=utf-8;base64,${data.user.image}`}
+									src={`${process.env.NEXT_PUBLIC_BASE_URL}/images/${data?.user?.image}`}
 									id="img"
 									alt="image"
 									className="rounded-full h-full w-full flex items-center justify-center"
 								/>
 							) : (
 								<div className="rounded-full bg-green-500 text-primary uppercase h-32 sm:h-60 w-32 sm:w-60 text-7xl sm:text-9xl font-bold flex items-center justify-center">
-									{data.user.name.charAt(0)}
+									{data?.user?.name.charAt(0)}
 								</div>
 							)}
 						</div>
@@ -442,23 +442,23 @@ const Guest = () => {
 							<div className="flex flex-col items-center text-center md:text-left w-full">
 								<div className="flex items-end justify-center w-full">
 									<h1 className="text-primary text-5xl text-center lg:text-left font-black capitalize">
-										{data.user.name}
+										{data?.user?.name}
 									</h1>
 								</div>
 
 								<p className="text-grey-100 text-sm font-semibold">
-									{data.user.email}
+									{data?.user?.email}
 								</p>
 							</div>
 
-							{data.bio && (
+							{data?.bio && (
 								<p className="text-primary text-base font-medium text-center md:text-left">
-									{data.bio}
+									{data?.bio}
 								</p>
 							)}
 
 							<div className="grid grid-cols-3 sm:flex sm:flex-row gap-3 items-center justify-center sm:justify-start relative mb-5 sm:mb-0">
-								{data.topic_categories.map((cate, index) => (
+								{data?.topic_categories.map((cate, index) => (
 									<Tag key={index} text={cate} />
 								))}
 							</div>
@@ -551,7 +551,7 @@ const Guest = () => {
 									Recording preference
 								</h1>
 								<ul className="text-primary text-base font-medium text-left">
-									{data.record_preference.map((pref, index) => (
+									{data?.record_preference.map((pref, index) => (
 										<li
 											key={index}
 											className="flex flex-row items-center gap-2"
@@ -569,21 +569,21 @@ const Guest = () => {
 										Podcast Name
 									</h1>
 									<p className="text-primary text-base font-medium text-left">
-										{data.podcast_name}
+										{data?.podcast_name}
 									</p>
 								</div>
 								<div className="flex flex-row gap-5 items-center">
 									<h1 className="text-primary text-xl font-bold">Need Guest</h1>
 									<p className="text-primary text-base font-medium text-left">
-										{data.need_guest ? "Yes" : "No"}
+										{data?.need_guest ? "Yes" : "No"}
 									</p>
 								</div>
 								<h1 className="text-primary text-xl font-bold">
 									Booking Details
 								</h1>
-								{data.booking_details.lenght > 0 ? (
+								{data?.booking_details.lenght > 0 ? (
 									<ul className="text-primary text-base font-medium text-left">
-										{data.booking_details.map((pref, index) => (
+										{data?.booking_details.map((pref, index) => (
 											<li
 												key={index}
 												className="flex flex-row items-center gap-2"
@@ -601,15 +601,15 @@ const Guest = () => {
 									Guest Expectation
 								</h1>
 								<p className="text-primary text-base font-medium text-left">
-									{data.guest_bio ? data.guest_bio : "Not available"}
+									{data?.guest_bio ? data?.guest_bio : "Not available"}
 								</p>
-								<p className="text-primary">{data.guest_bio}</p>
+								<p className="text-primary">{data?.guest_bio}</p>
 								<div className="flex flex-row gap-5 items-center">
 									<h1 className="font-bold text-lg text-primary">
 										Expect guest to promo
 									</h1>
 									<p className="text-primary">
-										{data.promo_expect ? "Yes" : "No"}
+										{data?.promo_expect ? "Yes" : "No"}
 									</p>
 								</div>
 							</div>
@@ -618,7 +618,7 @@ const Guest = () => {
 							<div className="flex flex-col gap-3 pt-5 pl-2 mb-5">
 								<h1 className="text-primary text-xl font-bold">Social Media</h1>
 								<ul className="flex flex-col gap-3">
-									{data.social_media.facebook && (
+									{data?.social_media.facebook && (
 										<li className="flex flex-row gap-3 items-center hover:underline">
 											<Image
 												src={"/svgs/facebookii.svg"}
@@ -628,14 +628,14 @@ const Guest = () => {
 												className=""
 											/>
 											<a
-												href={data.social_media.facebook}
+												href={data?.social_media.facebook}
 												className="text-primary text-left text-base font-normal"
 											>
-												{data.social_media.facebook}
+												{data?.social_media.facebook}
 											</a>
 										</li>
 									)}
-									{data.social_media.instagram && (
+									{data?.social_media.instagram && (
 										<li className="flex flex-row gap-3 items-center hover:underline">
 											<Image
 												src={"/svgs/instagram.svg"}
@@ -645,15 +645,15 @@ const Guest = () => {
 												className=""
 											/>
 											<a
-												href={data.social_media.instagram}
+												href={data?.social_media.instagram}
 												target="_blank"
 												className="text-primary text-left text-base font-normal"
 											>
-												{data.social_media.instagram}
+												{data?.social_media.instagram}
 											</a>
 										</li>
 									)}
-									{data.social_media.linkedin && (
+									{data?.social_media.linkedin && (
 										<li className="flex flex-row gap-3 items-center hover:underline">
 											<Image
 												src={"/svgs/linkedin.svg"}
@@ -663,14 +663,14 @@ const Guest = () => {
 												className=""
 											/>
 											<a
-												href={data.social_media.linkedin}
+												href={data?.social_media.linkedin}
 												className="text-primary text-left text-base font-normal"
 											>
-												{data.social_media.linkedin}
+												{data?.social_media.linkedin}
 											</a>
 										</li>
 									)}
-									{data.social_media.twitter && (
+									{data?.social_media.twitter && (
 										<li className="flex flex-row gap-3 items-center hover:underline">
 											<Image
 												src={"/svgs/twitter.svg"}
@@ -680,14 +680,14 @@ const Guest = () => {
 												className=""
 											/>
 											<a
-												href={data.social_media.twitter}
+												href={data?.social_media.twitter}
 												className="text-primary text-left text-base font-normal"
 											>
-												{data.social_media.twitter}
+												{data?.social_media.twitter}
 											</a>
 										</li>
 									)}
-									{data.social_media.youtube && (
+									{data?.social_media.youtube && (
 										<li className="flex flex-row gap-3 items-center hover:underline">
 											<Image
 												src={"/svgs/youtube.svg"}
@@ -697,10 +697,10 @@ const Guest = () => {
 												className=""
 											/>
 											<a
-												href={data.social_media.youtube}
+												href={data?.social_media.youtube}
 												className="text-primary text-left text-base font-normal"
 											>
-												{data.social_media.youtube}
+												{data?.social_media.youtube}
 											</a>
 										</li>
 									)}
@@ -709,7 +709,7 @@ const Guest = () => {
 									Previous Episodes
 								</h1>
 								<ul className="text-primary text-base font-medium text-left">
-									{data.episode_links.map((interview, index) => (
+									{data?.episode_links.map((interview, index) => (
 										<li
 											key={index}
 											className="flex flex-row items-center gap-2"
@@ -753,7 +753,7 @@ const Guest = () => {
 				</div>
 			)}
 
-			{data.user.profile_type === "Press" && (
+			{data?.user?.profile_type === "Press" && (
 				<div className="bg-grey w-full h-full p-5 flex flex-col gap-7 relative">
 					<div className="flex flex-row items-center gap-10 justify-start self-start ml-5">
 						<Link href={"/"} className="">
@@ -773,16 +773,16 @@ const Guest = () => {
 					<div className="flex flex-col md:flex-row gap-5">
 						<div className="flex flex-col items-center">
 							<div className="rounded-full h-32 sm:h-60 w-32 sm:w-60">
-								{data.user.image ? (
+								{data?.user?.image ? (
 									<img
-										src={`data:image/png;charset=utf-8;base64,${data.user.image}`}
+										src={`${process.env.NEXT_PUBLIC_BASE_URL}/images/${data?.user?.image}`}
 										id="img"
 										alt="image"
 										className="rounded-full h-full w-full flex items-center justify-center"
 									/>
 								) : (
 									<div className="rounded-full bg-green-500 text-primary uppercase h-32 sm:h-60 w-32 sm:w-60 text-7xl sm:text-9xl font-bold flex items-center justify-center">
-										{data.user.name.charAt(0)}
+										{data?.user?.name.charAt(0)}
 									</div>
 								)}
 							</div>
@@ -792,18 +792,18 @@ const Guest = () => {
 							<div className="flex flex-col text-center md:text-left">
 								<div className="flex flex-row gap-3 items-end">
 									<h1 className="text-primary text-5xl font-black capitalize">
-										{data.user.name}
+										{data?.user?.name}
 									</h1>
 								</div>
 
 								<p className="text-grey-100 text-sm font-semibold">
-									{data.user.email}
+									{data?.user?.email}
 								</p>
 							</div>
 
-							{data.short_bio && (
+							{data?.short_bio && (
 								<p className="text-primary text-base font-medium text-center md:text-left">
-									{data.short_bio}
+									{data?.short_bio}
 								</p>
 							)}
 
@@ -880,20 +880,20 @@ const Guest = () => {
 							<div className="flex flex-col gap-3 pt-5 pl-2">
 								<h1 className="text-primary text-xl font-bold">Experience</h1>
 								<p className="text-primary text-base font-medium text-left">
-									{data.experience}
+									{data?.experience}
 								</p>
 								<div className="flex flex-row gap-5 items-center">
 									<h1 className="text-primary text-xl font-bold">
 										Own Podcast
 									</h1>
 									<p className="text-primary text-base font-medium text-left">
-										{data.own_podcast ? "Yes" : "No"}
+										{data?.own_podcast ? "Yes" : "No"}
 									</p>
 								</div>
 								<div className="flex flex-row gap-5 items-center">
 									<h1 className="font-bold text-lg text-primary">Contact me</h1>
 									<p className="text-primary">
-										{data.contact_me ? "Yes" : "No"}
+										{data?.contact_me ? "Yes" : "No"}
 									</p>
 								</div>
 							</div>
@@ -902,7 +902,7 @@ const Guest = () => {
 							<div className="flex flex-col gap-3 pt-5 pl-2">
 								<h1 className="text-primary text-xl font-bold">Social Media</h1>
 								<ul className="flex flex-col gap-3">
-									{data.social_media.facebook && (
+									{data?.social_media.facebook && (
 										<li className="flex flex-row gap-3 items-center hover:underline">
 											<Image
 												src={"/svgs/facebookii.svg"}
@@ -912,14 +912,14 @@ const Guest = () => {
 												className=""
 											/>
 											<a
-												href={data.social_media.facebook}
+												href={data?.social_media.facebook}
 												className="text-primary text-left text-base font-normal"
 											>
-												{data.social_media.facebook}
+												{data?.social_media.facebook}
 											</a>
 										</li>
 									)}
-									{data.social_media.instagram && (
+									{data?.social_media.instagram && (
 										<li className="flex flex-row gap-3 items-center hover:underline">
 											<Image
 												src={"/svgs/instagram.svg"}
@@ -929,15 +929,15 @@ const Guest = () => {
 												className=""
 											/>
 											<a
-												href={data.social_media.instagram}
+												href={data?.social_media.instagram}
 												target="_blank"
 												className="text-primary text-left text-base font-normal"
 											>
-												{data.social_media.instagram}
+												{data?.social_media.instagram}
 											</a>
 										</li>
 									)}
-									{data.social_media.linkedin && (
+									{data?.social_media.linkedin && (
 										<li className="flex flex-row gap-3 items-center hover:underline">
 											<Image
 												src={"/svgs/linkedin.svg"}
@@ -947,14 +947,14 @@ const Guest = () => {
 												className=""
 											/>
 											<a
-												href={data.social_media.linkedin}
+												href={data?.social_media.linkedin}
 												className="text-primary text-left text-base font-normal"
 											>
-												{data.social_media.linkedin}
+												{data?.social_media.linkedin}
 											</a>
 										</li>
 									)}
-									{data.social_media.twitter && (
+									{data?.social_media.twitter && (
 										<li className="flex flex-row gap-3 items-center hover:underline">
 											<Image
 												src={"/svgs/twitter.svg"}
@@ -964,14 +964,14 @@ const Guest = () => {
 												className=""
 											/>
 											<a
-												href={data.social_media.twitter}
+												href={data?.social_media.twitter}
 												className="text-primary text-left text-base font-normal"
 											>
-												{data.social_media.twitter}
+												{data?.social_media.twitter}
 											</a>
 										</li>
 									)}
-									{data.social_media.youtube && (
+									{data?.social_media.youtube && (
 										<li className="flex flex-row gap-3 items-center hover:underline">
 											<Image
 												src={"/svgs/youtube.svg"}
@@ -981,10 +981,10 @@ const Guest = () => {
 												className=""
 											/>
 											<a
-												href={data.social_media.youtube}
+												href={data?.social_media.youtube}
 												className="text-primary text-left text-base font-normal"
 											>
-												{data.social_media.youtube}
+												{data?.social_media.youtube}
 											</a>
 										</li>
 									)}
@@ -993,7 +993,7 @@ const Guest = () => {
 									Previous Interviews
 								</h1>
 								<ul className="text-primary text-base font-medium text-left">
-									{data.interview_links.map((interview, index) => (
+									{data?.interview_links.map((interview, index) => (
 										<li
 											key={index}
 											className="flex flex-row items-center gap-2"

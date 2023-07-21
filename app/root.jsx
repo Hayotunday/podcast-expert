@@ -16,6 +16,7 @@ export default function Root({ children }) {
 
 	const navbarRef = useRef(null);
 	const menuRef = useRef(null);
+	const childrenRef = useRef(null);
 
 	const [user, setUser] = useState({ name: "", image: "" });
 	const [isLoaded, setIsLoaded] = useState(true);
@@ -63,8 +64,8 @@ export default function Root({ children }) {
 				pathname !== "/password/forgot" &&
 				pathname !== "/password/reset"
 			) {
-				router.push(`/login?return=${pathname}`);
 				setIsLoaded(false);
+				return router.push(`/login?return=${pathname}`);
 			}
 
 			await axios
@@ -128,12 +129,13 @@ export default function Root({ children }) {
 
 						<section className="w-full h-full relative overflow-x-hidden">
 							<Topbar
+								refreshRef={childrenRef}
 								componentRef={menuRef}
 								handleClick={() => {
 									setIsOpen(!isOpen);
 								}}
 							/>
-							<div className="w-full h-full flex flex-row">
+							<div ref={childrenRef} className="w-full h-full flex flex-row">
 								{isOpen && (
 									<MobileNav
 										handleClick={() => setIsOpen(false)}
