@@ -157,7 +157,7 @@ const Guest = () => {
 									handleImageChange(e.target.files[0]);
 								}}
 							/>
-							<button
+							{/* <button
 								type="button"
 								onClick={onButtonClick}
 								className="bg-success flex flex-row gap-3 justify-center items-center rounded-lg p-2 self-center my-2"
@@ -170,7 +170,7 @@ const Guest = () => {
 									className=""
 								/>
 								<p className="text-primary font-semibold">Change Avatar</p>
-							</button>
+							</button> */}
 						</div>
 
 						<div className="flex-col flex justify-between gap-3">
@@ -575,7 +575,7 @@ const Guest = () => {
 									handleImageChange(e.target.files[0]);
 								}}
 							/>
-							<button
+							{/* <button
 								type="button"
 								onClick={onButtonClick}
 								className="bg-success flex flex-row gap-3 justify-center items-center rounded-lg p-2 self-center my-2"
@@ -588,7 +588,7 @@ const Guest = () => {
 									className=""
 								/>
 								<p className="text-primary font-semibold">Change Avatar</p>
-							</button>
+							</button> */}
 						</div>
 
 						<div className="flex-col flex justify-between">
@@ -1012,7 +1012,7 @@ const Guest = () => {
 									handleImageChange(e.target.files[0]);
 								}}
 							/>
-							<button
+							{/* <button
 								type="button"
 								onClick={onButtonClick}
 								className="bg-success flex flex-row gap-3 justify-center items-center rounded-lg p-2 self-center my-2"
@@ -1025,7 +1025,7 @@ const Guest = () => {
 									className=""
 								/>
 								<p className="text-primary font-semibold">Change Avatar</p>
-							</button>
+							</button> */}
 						</div>
 
 						<div className="flex-col flex justify-between">
