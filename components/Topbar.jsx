@@ -3,15 +3,19 @@
 import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import axios from "axios";
 import { useRouter } from "next/navigation";
+import { useDispatch, useSelector } from "react-redux";
+import axios from "axios";
+import { updateSearch } from "@app/redux/features/search/searchSlice";
 
 import { FiMenu } from "react-icons/fi";
 
 const Topbar = ({ handleClick, componentRef, refreshRef }) => {
-	const [search, setSearch] = useState("");
+	const { searched } = useSelector((state) => state.search);
 	const [user, setUser] = useState({ name: "", image: "" });
 	const [toggleDropdown, setToggleDropdown] = useState(false);
+
+	const dispatch = useDispatch();
 
 	const router = useRouter();
 
@@ -65,9 +69,9 @@ const Topbar = ({ handleClick, componentRef, refreshRef }) => {
 						type="text"
 						name="search"
 						id="search"
-						value={search}
+						value={searched}
 						onChange={(e) => {
-							setSearch(e.target.value);
+							dispatch(updateSearch(e.target.value));
 						}}
 						placeholder="search"
 						className="bg-grey w-full outline-0 focus:outline-0"
@@ -103,7 +107,7 @@ const Topbar = ({ handleClick, componentRef, refreshRef }) => {
 							</div>
 						) : (
 							<img
-								src={`${process.env.NEXT_PUBLIC_BASE_URL}/images/${user?.image}`}
+								src={`data:image/jpeg;base64,${user?.image}`}
 								id="img"
 								alt="image"
 								className="rounded-full h-10 w-10 flex items-center justify-center"

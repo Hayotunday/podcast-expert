@@ -29,10 +29,48 @@ const Reset = () => {
 		fifth: "",
 	});
 
+	const [counting, setCounting] = useState(true);
+	const [num, setNum] = useState(59);
+
+	useEffect(() => {
+		const counter = () => {
+			let number = num;
+
+			if (counting) {
+				const interval = setInterval(() => {
+					if (number <= 0) {
+						setCounting(false);
+						setNum(59);
+						clearInterval(interval);
+					}
+					setNum(--number);
+				}, 1000);
+			}
+		};
+		counter();
+	}, [counting]);
+
 	useEffect(() => {
 		const email = localStorage.getItem("podcastMail");
 		setMail(email);
 	}, []);
+
+	const handleResend = async () => {
+		setCounting(true);
+		setNum(59);
+
+		let mail = localStorage.getItem("podcastMail");
+		await axios
+			.post(`${process.env.NEXT_PUBLIC_BASE_URL}/auth/password/forgot`, {
+				email: mail,
+			})
+			.then((res) => {
+				// console.log(res);
+			})
+			.catch((err) => {
+				console.log(err);
+			});
+	};
 
 	const handleSubmit = async (e) => {
 		const code = otp.first + otp.second + otp.third + otp.fourth + otp.fifth;
@@ -48,6 +86,7 @@ const Reset = () => {
 					if (res.status === 200) router.push("/password/create");
 				})
 				.catch((err) => {
+					alert("Invalid reset code!");
 					console.log(err);
 				});
 		} else {
@@ -112,7 +151,7 @@ const Reset = () => {
 									setOtp({ ...otp, first: e.target.value });
 									e.target.value && secondInput.current.focus();
 								}}
-								className="h-14 w-14 border-2 border-grey-100 focus:border-blue-500 placeholder:text-2xl placeholder:text-center text-center text-xl font-bold text-primary rounded-xl flex items-center justify-center"
+								className="h-10 sm:h-14 w-10 sm:w-14 border-2 border-grey-100 focus:border-blue-500 placeholder:text-2xl placeholder:text-center text-center text-xl font-bold text-primary rounded-xl flex items-center justify-center"
 							/>
 							<input
 								type="text"
@@ -127,7 +166,7 @@ const Reset = () => {
 										? thirdInput.current.focus()
 										: firstInput.current.focus();
 								}}
-								className="h-14 w-14 border-2 border-grey-100 focus:border-blue-500 placeholder:text-2xl placeholder:text-center text-center text-xl font-bold text-primary rounded-xl flex items-center justify-center"
+								className="h-10 sm:h-14 w-10 sm:w-14 border-2 border-grey-100 focus:border-blue-500 placeholder:text-2xl placeholder:text-center text-center text-xl font-bold text-primary rounded-xl flex items-center justify-center"
 							/>
 							<input
 								type="text"
@@ -142,7 +181,7 @@ const Reset = () => {
 										? fourthInput.current.focus()
 										: secondInput.current.focus();
 								}}
-								className="h-14 w-14 border-2 border-grey-100 focus:border-blue-500 placeholder:text-2xl placeholder:text-center text-center text-xl font-bold text-primary rounded-xl flex items-center justify-center"
+								className="h-10 sm:h-14 w-10 sm:w-14 border-2 border-grey-100 focus:border-blue-500 placeholder:text-2xl placeholder:text-center text-center text-xl font-bold text-primary rounded-xl flex items-center justify-center"
 							/>
 							<input
 								type="text"
@@ -157,7 +196,7 @@ const Reset = () => {
 										? fifthInput.current.focus()
 										: thirdInput.current.focus();
 								}}
-								className="h-14 w-14 border-2 border-grey-100 focus:border-blue-500 placeholder:text-2xl placeholder:text-center text-center text-xl font-bold text-primary rounded-xl flex items-center justify-center"
+								className="h-10 sm:h-14 w-10 sm:w-14 border-2 border-grey-100 focus:border-blue-500 placeholder:text-2xl placeholder:text-center text-center text-xl font-bold text-primary rounded-xl flex items-center justify-center"
 							/>
 							<input
 								type="text"
@@ -170,7 +209,7 @@ const Reset = () => {
 									setOtp({ ...otp, fifth: e.target.value });
 									!e.target.value && fourthInput.current.focus();
 								}}
-								className="h-14 w-14 border-2 border-grey-100 focus:border-blue-500 placeholder:text-2xl placeholder:text-center text-center text-xl font-bold text-primary rounded-xl flex items-center justify-center"
+								className="h-10 sm:h-14 w-10 sm:w-14 border-2 border-grey-100 focus:border-blue-500 placeholder:text-2xl placeholder:text-center text-center text-xl font-bold text-primary rounded-xl flex items-center justify-center"
 							/>
 						</div>
 
@@ -186,9 +225,11 @@ const Reset = () => {
 							<p className="text-grey-100 text-base text-center mt-5">
 								Didn't receive email?{" "}
 								<span className="text-success">
-									<Link href={"/password/reset-password"} className="">
-										Click to resend
-									</Link>
+									<button type="button" onClick={handleResend} className="">
+										{counting
+											? `00 : ${num < 10 ? "0" + num : num}`
+											: "Click to resend"}
+									</button>
 								</span>
 							</p>
 						</div>

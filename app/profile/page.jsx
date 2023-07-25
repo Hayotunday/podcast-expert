@@ -3,13 +3,17 @@
 import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import axios from "axios";
+
+import { MdDeleteForever } from "react-icons/md";
+import { CgDanger } from "react-icons/cg";
+
+import { category_options } from "@utils/data";
 
 import Loader from "@components/Loader";
 import Tag from "@components/Tag";
-import { category_options } from "@utils/data";
 import Dropdown from "@components/Dropdown";
-import { useRouter } from "next/navigation";
 
 const Guest = () => {
 	const router = useRouter();
@@ -84,7 +88,6 @@ const Guest = () => {
 	};
 
 	const handleAddCategory = async () => {
-		var categories = [];
 		if (!data.topic_categories.includes(category)) {
 			data.topic_categories = [...data.topic_categories, category];
 		}
@@ -107,13 +110,55 @@ const Guest = () => {
 			.catch((err) => console.log(err));
 	};
 
+	const handleRemoveCategory = async (i) => {
+		const categories = [...data.topic_categories];
+		categories.splice(categories.indexOf(i), 1);
+		data.topic_categories = [...categories];
+		router.refresh();
+
+		const token = localStorage.getItem("podcastToken");
+		const config = {
+			headers: {
+				Authorization: `Bearer ${token}`,
+			},
+		};
+		await axios
+			.patch(
+				`${process.env.NEXT_PUBLIC_BASE_URL}/user/profile-type/category`,
+				{ category: data.topic_categories },
+				config
+			)
+			.then((res) => {
+				console.log(res);
+				console.log("Done");
+			})
+			.catch((err) => console.log(err));
+	};
+
+	const handleDeleteAccount = async (data) => {
+		const id = localStorage.getItem("podcastId");
+		const token = localStorage.getItem("podcastToken");
+		const config = {
+			headers: {
+				Authorization: `Bearer ${token}`,
+				"content-type": "multipart/form-data",
+			},
+		};
+		await axios
+			.delete(`${process.env.NEXT_PUBLIC_BASE_URL}/user/${id}`, config)
+			.then((res) => {
+				router.push("/login");
+			})
+			.catch((err) => console.log(err));
+	};
+
 	if (isLoaded) {
 		return <Loader />;
 	}
 
 	return (
 		<>
-			{data.user.profile_type === "Guest" && (
+			{data?.user?.profile_type === "Guest" && (
 				<div className="bg-grey w-full h-full p-5 flex flex-col gap-7 relative">
 					<div className="flex flex-row items-center gap-10 justify-start self-start lg:ml-5">
 						<Link href={"/"} className="">
@@ -135,7 +180,7 @@ const Guest = () => {
 							<div className="rounded-full h-32 sm:h-60 w-32 sm:w-60">
 								{data?.user?.image ? (
 									<img
-										src={`${process.env.NEXT_PUBLIC_BASE_URL}/images/${data?.user?.image}`}
+										src={`data:image/jpeg;base64,${data?.user?.image}`}
 										id="img"
 										alt="image"
 										className="rounded-full h-full w-full flex items-center justify-center"
@@ -157,7 +202,7 @@ const Guest = () => {
 									handleImageChange(e.target.files[0]);
 								}}
 							/>
-							{/* <button
+							<button
 								type="button"
 								onClick={onButtonClick}
 								className="bg-success flex flex-row gap-3 justify-center items-center rounded-lg p-2 self-center my-2"
@@ -170,7 +215,7 @@ const Guest = () => {
 									className=""
 								/>
 								<p className="text-primary font-semibold">Change Avatar</p>
-							</button> */}
+							</button>
 						</div>
 
 						<div className="flex-col flex justify-between gap-3">
@@ -194,7 +239,11 @@ const Guest = () => {
 
 							<div className="flex flex-wrap flex-row gap-3 items-center justify-center md:justify-start relative mb-5 sm:mb-0 w-full">
 								{data?.topic_categories.map((cate, index) => (
-									<Tag key={index} text={cate} />
+									<Tag
+										key={index}
+										text={cate}
+										handleRemove={handleRemoveCategory}
+									/>
 								))}
 								<div className="relative">
 									<button
@@ -346,17 +395,6 @@ const Guest = () => {
 							>
 								<p className="font-semibold capitalize">About Me</p>
 							</button>
-							{/* <button
-								type="button"
-								className={
-									tab === 2
-										? "bg-success text-primary duration-300 flex flex-row items-center justify-center gap-3 rounded-lg py-3 w-40"
-										: "bg-grey-300 text-grey-100 duration-300 flex flex-row items-center justify-center gap-3 rounded-lg py-3 w-40"
-								}
-								onClick={() => setTab(2)}
-							>
-								<p className="font-semibold capitalize">Availability</p>
-							</button> */}
 							<button
 								type="button"
 								className={
@@ -408,20 +446,17 @@ const Guest = () => {
 								</div>
 							</div>
 						)}
-						{tab === 2 && (
-							<div className="flex flex-col gap-3 pt-5 pl-2">
-								<p className="text-base font-light">
-									{data?.user?.profile_type === "Guest" &&
-										"I am open for podcast interviews"}
-									{data?.user?.profile_type === "Podcaster" &&
-										"I have a recording slot open now"}
-									{data?.user?.profile_type === "Press" && ""}
-								</p>
-							</div>
-						)}
 						{tab === 3 && (
 							<div className="flex flex-col gap-3 pt-5 pl-2">
-								<h1 className="text-primary text-xl font-bold">Social Media</h1>
+								{data?.social_media.facebook &&
+									data?.social_media.instagram &&
+									data?.social_media.linkedin &&
+									data?.social_media.twitter &&
+									data?.social_media.youtube && (
+										<h1 className="text-primary text-xl font-bold">
+											Social Media
+										</h1>
+									)}
 								<ul className="flex flex-col gap-3">
 									{data?.social_media.facebook && (
 										<li className="flex flex-row gap-3 items-center hover:underline">
@@ -528,6 +563,39 @@ const Guest = () => {
 							</div>
 						)}
 					</div>
+
+					<div className="text-primary">
+						<h1 className="text-center w-full text-2xl font-bold capitalize">
+							Advanced Options
+						</h1>
+						<div className="">
+							<p className="font-semibold text-lg">
+								Do you want to change your password or you forgot you password
+							</p>
+							<Link
+								href={"/password/forgot"}
+								className="bg-success flex flex-row gap-3 justify-center w-fit items-center rounded-lg p-2 self-center my-2"
+							>
+								Change Password
+							</Link>
+						</div>
+						<div className="">
+							<p className="flex text-red-600 font-semibold text-lg items-center">
+								<span>
+									<CgDanger size={20} />
+								</span>
+								Danger!. Delete Account
+							</p>
+							<button
+								type="button"
+								onClick={handleDeleteAccount}
+								className="bg-red-500 text-white flex flex-row gap-3 justify-center w-fit items-center capitalize rounded-lg p-2 self-center my-2"
+							>
+								<MdDeleteForever size={20} />
+								Delete Account
+							</button>
+						</div>
+					</div>
 				</div>
 			)}
 
@@ -575,7 +643,7 @@ const Guest = () => {
 									handleImageChange(e.target.files[0]);
 								}}
 							/>
-							{/* <button
+							<button
 								type="button"
 								onClick={onButtonClick}
 								className="bg-success flex flex-row gap-3 justify-center items-center rounded-lg p-2 self-center my-2"
@@ -588,7 +656,7 @@ const Guest = () => {
 									className=""
 								/>
 								<p className="text-primary font-semibold">Change Avatar</p>
-							</button> */}
+							</button>
 						</div>
 
 						<div className="flex-col flex justify-between">
@@ -612,7 +680,11 @@ const Guest = () => {
 
 							<div className="grid grid-cols-3 sm:flex sm:flex-row gap-3 items-center justify-center md:justify-start relative mb-5 sm:mb-0">
 								{data?.topic_categories.map((cate, index) => (
-									<Tag key={index} text={cate} />
+									<Tag
+										key={index}
+										text={cate}
+										handleRemove={handleRemoveCategory}
+									/>
 								))}
 								<div className="relative">
 									<button
@@ -965,6 +1037,39 @@ const Guest = () => {
 							</div>
 						)}
 					</div>
+
+					<div className="text-primary">
+						<h1 className="text-center w-full text-2xl font-bold capitalize">
+							Advanced Options
+						</h1>
+						<div className="">
+							<p className="font-semibold text-lg">
+								Do you want to change your password or you forgot you password
+							</p>
+							<Link
+								href={"/password/forgot"}
+								className="bg-success flex flex-row gap-3 justify-center w-fit items-center rounded-lg p-2 self-center my-2"
+							>
+								Change Password
+							</Link>
+						</div>
+						<div className="">
+							<p className="flex text-red-600 font-semibold text-lg items-center">
+								<span>
+									<CgDanger size={20} />
+								</span>
+								Danger!. Delete Account
+							</p>
+							<button
+								type="button"
+								onClick={handleDeleteAccount}
+								className="bg-red-500 text-white flex flex-row gap-3 justify-center w-fit items-center capitalize rounded-lg p-2 self-center my-2"
+							>
+								<MdDeleteForever size={20} />
+								Delete Account
+							</button>
+						</div>
+					</div>
 				</div>
 			)}
 
@@ -1012,7 +1117,7 @@ const Guest = () => {
 									handleImageChange(e.target.files[0]);
 								}}
 							/>
-							{/* <button
+							<button
 								type="button"
 								onClick={onButtonClick}
 								className="bg-success flex flex-row gap-3 justify-center items-center rounded-lg p-2 self-center my-2"
@@ -1025,7 +1130,7 @@ const Guest = () => {
 									className=""
 								/>
 								<p className="text-primary font-semibold">Change Avatar</p>
-							</button> */}
+							</button>
 						</div>
 
 						<div className="flex-col flex justify-between">
@@ -1138,17 +1243,6 @@ const Guest = () => {
 							>
 								<p className="font-semibold capitalize">About Me</p>
 							</button>
-							{/* <button
-								type="button"
-								className={
-									tab === 2
-										? "bg-success text-primary duration-300 flex flex-row items-center justify-center gap-3 rounded-lg py-3 w-40"
-										: "bg-grey-300 text-grey-100 duration-300 flex flex-row items-center justify-center gap-3 rounded-lg py-3 w-40"
-								}
-								onClick={() => setTab(2)}
-							>
-								<p className="font-semibold capitalize">Availability</p>
-							</button> */}
 							<button
 								type="button"
 								className={
@@ -1300,6 +1394,39 @@ const Guest = () => {
 								</ul>
 							</div>
 						)}
+					</div>
+
+					<div className="text-primary">
+						<h1 className="text-center w-full text-2xl font-bold capitalize">
+							Advanced Options
+						</h1>
+						<div className="">
+							<p className="font-semibold text-lg">
+								Do you want to change your password or you forgot you password
+							</p>
+							<Link
+								href={"/password/forgot"}
+								className="bg-success flex flex-row gap-3 justify-center w-fit items-center rounded-lg p-2 self-center my-2"
+							>
+								Change Password
+							</Link>
+						</div>
+						<div className="">
+							<p className="flex text-red-600 font-semibold text-lg items-center">
+								<span>
+									<CgDanger size={20} />
+								</span>
+								Danger!. Delete Account
+							</p>
+							<button
+								type="button"
+								onClick={handleDeleteAccount}
+								className="bg-red-500 text-white flex flex-row gap-3 justify-center w-fit items-center capitalize rounded-lg p-2 self-center my-2"
+							>
+								<MdDeleteForever size={20} />
+								Delete Account
+							</button>
+						</div>
 					</div>
 				</div>
 			)}
