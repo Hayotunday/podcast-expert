@@ -31,7 +31,7 @@ const Nav = ({ handleClick, navRef }) => {
 		<section
 			ref={navRef}
 			onBlur={() => {}}
-			className="md:w-2/6 lg:w-1/6 sticky top-0 min-h-full hidden md:block flex-grow bg-primary"
+			className="md:w-2/6 lg:w-1/4 xl:w-1/6 sticky top-0 min-h-full hidden lg:block flex-grow bg-primary"
 		>
 			{/* <section className="w-1/6 h-full bg-primary"> */}
 			<nav className="w-full sticky top-0 flex flex-col pt-5 px-3 items-center">
@@ -59,7 +59,7 @@ const Nav = ({ handleClick, navRef }) => {
 					Create list
 				</button> */}
 
-				<div className="w-full mt-12">
+				<div className="w-full mt-8">
 					<Link
 						href={"/"}
 						className={
@@ -76,10 +76,6 @@ const Nav = ({ handleClick, navRef }) => {
 						/>
 						<p className="text-white text-center">Home</p>
 					</Link>
-					<hr className="mt-2" />
-				</div>
-
-				<div className="w-full mt-5">
 					<Link
 						href={"/profile"}
 						className={
@@ -89,12 +85,12 @@ const Nav = ({ handleClick, navRef }) => {
 						}
 					>
 						<AiOutlineUser size={20} color="#00CCBB" />
-						<p className="text-white text-center">My Profile</p>
+						<p className="text-white text-center">Profile</p>
 					</Link>
 					<hr className="mt-2" />
 				</div>
 
-				{/* <div className="w-full mt-12">
+				<div className="w-full mt-8">
 					<p className="text-white text-left uppercase text-sm font-normal">
 						MENU
 					</p>
@@ -131,13 +127,13 @@ const Nav = ({ handleClick, navRef }) => {
 						<p className="text-white text-center">Find guests</p>
 					</Link>
 					<hr className="mt-2" />
-				</div> */}
+				</div>
 
-				<div className="w-full mt-12">
+				<div className="w-full mt-8">
 					<p className="text-white text-left uppercase text-sm font-normal">
 						LIBRARY
 					</p>
-					{/* <Link
+					<Link
 						href={"/favorites"}
 						className={
 							pathname !== "/favorites"
@@ -146,13 +142,13 @@ const Nav = ({ handleClick, navRef }) => {
 						}
 					>
 						<Image
-							src={"/svgs/saved.svg"}
+							src={"/svgs/favorite.svg"}
 							width={15}
 							height={15}
-							alt="Saved icon"
+							alt="favorite icon"
 						/>
 						<p className="text-white text-center">Favorites</p>
-					</Link> */}
+					</Link>
 					<Link
 						href={"/recent"}
 						className={

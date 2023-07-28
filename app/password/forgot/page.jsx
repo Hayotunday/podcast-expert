@@ -58,17 +58,15 @@ const Forgot = () => {
 				</div>
 
 				<div className="flex flex-row items-center gap-10 justify-start self-start">
-					<Link href={"/login"} className="">
-						<div>
-							<Image
-								src={"/svgs/leftarrow.svg"}
-								width={10}
-								height={10}
-								alt="Left arrow to go back"
-								className=""
-							/>
-						</div>
-					</Link>
+					<button type="button" onClick={() => router.back()}>
+						<Image
+							src={"/svgs/leftarrow.svg"}
+							width={10}
+							height={10}
+							alt="Left arrow to go back"
+							className=""
+						/>
+					</button>
 					<p className="text-primary text-base font-normal">Back</p>
 				</div>
 

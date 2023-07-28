@@ -29,7 +29,7 @@ const Podcasts = ({ image, title, podcaster }) => {
 							className=""
 						/>
 					</button>
-					<button
+					{/* <button
 						id="playimage"
 						type="button"
 						onClick={() => {}}
@@ -42,7 +42,7 @@ const Podcasts = ({ image, title, podcaster }) => {
 							alt="Play button"
 							className=""
 						/>
-					</button>
+					</button> */}
 				</div>
 
 				<div className="flex flex-col">

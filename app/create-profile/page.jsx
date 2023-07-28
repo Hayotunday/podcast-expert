@@ -67,7 +67,13 @@ const Createprofile = () => {
 				</h1>
 
 				<div className="flex flex-col lg:flex-row gap-10 items-center justify-center">
-					{/* <button type="button" className="">
+					<button
+						type="button"
+						onClick={() => {
+							handleClick(1);
+						}}
+						className=""
+					>
 						<div className="border-4 rounded-xl border-secondary bg-white w-80 h-90 text-center flex flex-col items-center justify-around">
 							<h1 className="text-2xl font-bold text-primary">
 								I have a <span className="text-success">podcast</span>
@@ -89,19 +95,12 @@ const Createprofile = () => {
 
 					<button
 						type="button"
-						onClick={async () => {
-							const response = await fetch("/api/auth/profile-type", {
-								method: "POST",
-								body: JSON.stringify({
-									type: "Podcaster",
-									useremail: "idowudanielayotunde@gmail.com",
-								}),
-							});
-							router.push("/create-podcaster/step-one");
+						onClick={() => {
+							handleClick(2);
 						}}
 						className=""
 					>
-						<div className="border-4 rounded-xl border-primary bg-white w-80 h-90 text-center flex flex-col items-center justify-around">
+						<div className="border-4 rounded-xl border-primary bg-white w-60 sm:w-80 h-72 sm:h-90 text-center flex flex-col items-center justify-around">
 							<h1 className="text-2xl font-bold text-primary">
 								I'm looking for note worthy
 								<br />
@@ -118,9 +117,9 @@ const Createprofile = () => {
 								className=""
 							/>
 						</div>
-					</button> */}
+					</button>
 
-					<button
+					{/* <button
 						type="button"
 						onClick={() => {
 							handleClick(1);
@@ -155,7 +154,7 @@ const Createprofile = () => {
 						<p className="text-secondary text-base font-normal">
 							I want to browse podcasts and great guests
 						</p>
-					</button>
+					</button> */}
 				</div>
 			</section>
 

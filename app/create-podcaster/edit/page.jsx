@@ -4,54 +4,59 @@ import { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import axios from "axios";
+import { useRouter } from "next/navigation";
+import { useDispatch, useSelector } from "react-redux";
+import {
+	setBio,
+	setContact,
+	setHeadline,
+	setInterviews,
+	setName,
+	setPrefers,
+	setSocial,
+	setRecording,
+	setWebsite,
+	setNextRec,
+	setDate,
+	setDetails,
+	setFacebook,
+	setInstagram,
+	setLinkedin,
+	setTime,
+	setTwitter,
+	setYoutube,
+} from "@app/redux/features/podcaster/podcasterSlice";
 
 import { AiOutlineLeft } from "react-icons/ai";
-import "react-datetime-picker/dist/DateTimePicker.css";
 
 import Input from "@components/Input";
-import { useRouter } from "next/navigation";
 import Loader from "@components/Loader";
 
 const EditPodcaster = () => {
-	const router = useRouter();
+	const {
+		name,
+		headline,
+		bio,
+		categories,
+		website,
+		interviews,
+		social,
+		social: { facebook, instagram, linkedin, twitter, youtube },
+		prefers,
+		nextRec,
+		nextRec: { detail, date, time },
+		recording,
+		contact_me,
+	} = useSelector((state) => state.podcaster);
 
-	const [id, setId] = useState("");
-	const [data, setData] = useState({});
-	const [name, setName] = useState("");
-	const [link, setLink] = useState("");
-	const [bio, setBio] = useState("");
-	const [recPrefers, setRecPrefers] = useState([]);
-	const [newRecPrefer, setNewRecPrefer] = useState("");
-	const [episodes, setEpisodes] = useState([]);
-	const [newEpisode, setNewEpisode] = useState("");
-	const [social, setSocial] = useState({
-		facebook: "",
-		instagram: "",
-		linkedin: "",
-		twitter: "",
-		youtube: "",
-	});
-	const [promo, setPromo] = useState("");
-	const [guestVal, setGuestVal] = useState(null);
+	const [id, setId] = useState(true);
+	const [data, setData] = useState(true);
 	const [isLoaded, setIsLoaded] = useState(true);
+	const [newlink, setNewlink] = useState("");
+	const [newPrefer, setNewPrefer] = useState("");
 
-	const { facebook, instagram, linkedin, twitter, youtube } = social;
-
-	const changeTwitter = (e) => {
-		setSocial({ ...social, twitter: e.target.value });
-	};
-	const changeFacebook = (e) => {
-		setSocial({ ...social, facebook: e.target.value });
-	};
-	const changeYoutube = (e) => {
-		setSocial({ ...social, youtube: e.target.value });
-	};
-	const changeInstagram = (e) => {
-		setSocial({ ...social, instagram: e.target.value });
-	};
-	const changeLinkedin = (e) => {
-		setSocial({ ...social, linkedin: e.target.value });
-	};
+	const router = useRouter();
+	const dispatch = useDispatch();
 
 	useEffect(() => {
 		const getUserDetails = async () => {
@@ -69,14 +74,16 @@ const EditPodcaster = () => {
 				)
 				.then((res) => {
 					// console.log(res.data);
-					setName(res.data.podcast_name);
-					setLink(res.data.podcast_link);
-					setBio(res.data.bio);
-					setSocial(res.data.social_media);
-					setPromo(res.data.promo_expect);
-					setGuestVal(res.data.need_guest);
-					setEpisodes(res.data.episode_links);
-					setRecPrefers(res.data.record_preference);
+					dispatch(setName(res.data.podcast_name));
+					dispatch(setWebsite(res.data.url));
+					dispatch(setBio(res.data.bio));
+					dispatch(setSocial(res.data.social_media));
+					dispatch(setHeadline(res.data.headline));
+					dispatch(setRecording(res.data.recording));
+					dispatch(setContact(res.data.contact_me));
+					dispatch(setInterviews(res.data.interviews));
+					dispatch(setPrefers(res.data.record_preference));
+					dispatch(setNextRec(res.data.next_transmission));
 					setData(res.data);
 				})
 				.catch((err) => console.log(err))
@@ -101,18 +108,19 @@ const EditPodcaster = () => {
 				`${process.env.NEXT_PUBLIC_BASE_URL}/user/profile-type/edit`,
 				{
 					profile_type: "Podcaster",
-					podcast_name: name,
 					user: id,
-					highlights: [],
-					podcast_link: link,
+					podcast_name: name,
+					topic_categories: data.topic_categories,
+					url: website,
 					bio: bio,
+					highlights: data.highlights,
 					social_media: social,
-					guest_bio: "",
-					booking_details: [],
-					episode_links: episodes,
-					record_preference: recPrefers,
-					promo_expect: promo,
-					need_guest: guestVal,
+					next_transmission: nextRec,
+					headline: headline,
+					interview: interviews,
+					record_preference: prefers,
+					recording: recording,
+					contact_me: contact_me,
 				},
 				config
 			)
@@ -130,7 +138,7 @@ const EditPodcaster = () => {
 	if (isLoaded) return <Loader />;
 
 	return (
-		<main className="bg-create-profile bg-center bg-contain">
+		<main className="bg-grey bg-center bg-contain">
 			<div className="w-screen h-full p-5 lg:p-16 flex flex-col gap-7">
 				<div className="mb-5 self-center">
 					<Image
@@ -157,82 +165,195 @@ const EditPodcaster = () => {
 					</h1>
 				</div>
 
-				<div className="flex flex-col sm:flex-row gap-10">
-					<div className="w-full sm:w-1/2 flex flex-col gap-5">
-						<div>
-							<div className="w-11/12">
-								<h2 className="text-primary text-2xl font-bold text-left">
-									Podcast Name
-								</h2>
-								<hr className="h-0.5 w-full rounded-lg bg-grey-300" />
-							</div>
+				<div className="flex flex-col gap-7 items-center overflow-hidden w-full lg:w-3/5">
+					<div className="w-full mt-5">
+						<h2 className="text-primary text-2xl font-bold text-left">
+							Podcast details
+						</h2>
+						<hr className="h-0.5 w-full rounded-lg bg-grey-300" />
 
-							<div className="w-full mt-3">
-								<Input
-									placeholder={"podcast name"}
-									onChangeValue={(e) => {
-										setName(e.target.value);
+						<div className="flex flex-col gap-2 mt-3">
+							<Input
+								onChangeValue={(e) => {
+									dispatch(setName(e.target.value));
+								}}
+								value={name}
+								type="text"
+								placeholder={"Podcast Name"}
+							/>
+						</div>
+					</div>
+
+					<div className="w-full mt-5">
+						<h2 className="text-primary text-2xl font-bold text-left">
+							Profile headline
+						</h2>
+						<p className="text-primary text-sm font-light text-left">
+							This is your quick elevator pitch, a chance to stand out.
+						</p>
+						<hr className="h-0.5 w-full rounded-lg bg-grey-300" />
+
+						<div className="flex flex-col gap-2 mt-3">
+							<div className="relative w-full">
+								<textarea
+									cols="30"
+									rows="5"
+									maxLength={120}
+									value={headline}
+									onChange={(e) => {
+										dispatch(setHeadline(e.target.value));
 									}}
-									value={name}
-									type="text"
-								/>
+									className="w-full rounded-md peer bg-white border flex items-end border-grey-100 px-6 pt-4 
+												text-sm outline outline-0 transition-all focus:border-2 focus:border-blue-500 focus:outline-0"
+								></textarea>
+								<p className="text-sm font-medium text-right">
+									{headline?.length}/120
+								</p>
+								<span className="peer-focus:text-blue-500 text-grey-100 text-xs font-light absolute left-5 top-1">
+									Personal headline
+								</span>
 							</div>
 						</div>
+					</div>
 
-						<div>
-							<div className="w-11/12">
-								<h2 className="text-primary text-2xl font-bold text-left">
-									Link to Podcast Channel
-								</h2>
-								<hr className="h-0.5 w-full rounded-lg bg-grey-300" />
-							</div>
+					<div className="w-full mt-5">
+						<h2 className="text-primary text-2xl font-bold text-left">
+							About me
+						</h2>
+						<p className="text-primary text-sm font-light text-left">
+							Tell others about your podcast and yourself.
+						</p>
+						<hr className="h-0.5 w-full rounded-lg bg-grey-300" />
 
-							<div className="w-full mt-3">
-								<Input
-									placeholder={"podcast link"}
-									onChangeValue={(e) => {
-										setLink(e.target.value);
-									}}
-									value={link}
-									type="url"
-								/>
-							</div>
-						</div>
-
-						<div>
-							<div className="w-11/12">
-								<h2 className="text-primary text-2xl font-bold text-left">
-									Short Bio about yourself
-								</h2>
-								<hr className="h-0.5 w-full rounded-lg bg-grey-300" />
-							</div>
-
-							<div className="relative w-full mt-3">
+						<div className="flex flex-col gap-2 mt-3">
+							<div className="relative w-full">
 								<textarea
 									cols="30"
 									rows="10"
 									maxLength={2000}
 									value={bio}
 									onChange={(e) => {
-										setBio(e.target.value);
+										dispatch(setBio(e.target.value));
 									}}
 									className="w-full rounded-md peer bg-white border flex items-end border-grey-100 px-6 pt-4 
 												text-sm outline outline-0	transition-all focus:border-2 focus:border-blue-500 focus:outline-0"
 								></textarea>
-								<p className="text-sm font-medium text-right text-primary">
-									{bio.length}/2000
+								<p className="text-sm font-medium text-right">
+									{bio?.length}/2000
 								</p>
 								<span className="peer-focus:text-blue-500 text-grey-100 text-xs font-light absolute left-5 top-1">
-									short bio
+									About me
 								</span>
 							</div>
 						</div>
+					</div>
 
-						<div className="w-full flex flex-col items-start">
-							<div className="w-11/12">
+					<div className="w-full mt-5">
+						<h2 className="text-primary text-2xl font-bold text-left">
+							Your URL
+						</h2>
+						<p className="text-primary text-sm font-light text-left">
+							Your personal URL where podcasters can reach out to you
+						</p>
+						<hr className="h-0.5 w-full rounded-lg bg-grey-300" />
+
+						<div className="flex flex-col gap-2 mt-3">
+							<Input
+								onChangeValue={(e) => {
+									dispatch(setWebsite(e.target.value));
+								}}
+								value={website}
+								type="url"
+								placeholder={"Podcast Name"}
+							/>
+						</div>
+					</div>
+
+					<div className="w-full mt-5">
+						<h2 className="text-primary text-2xl font-bold text-left">
+							Links to key episodes
+						</h2>
+						<p className="text-primary text-sm font-light text-left">
+							Your link tour key episodes
+						</p>
+						<hr className="h-0.5 w-full rounded-lg bg-grey-300" />
+
+						<div className="overflow-hidden w-full flex flex-col gap-2 mt-3">
+							{interviews.map((link, index) => (
+								<div
+									key={index}
+									className="flex flex-row items-center justify-between overflow-hidden h-12 p-2 rounded-md max-w-full bg-white border px-3 border-grey-100"
+								>
+									<p className="text-base font-medium truncate break-words">
+										{link}
+									</p>
+
+									<button
+										type="button"
+										className="bg-lightgreen p-1.5 z-10 rounded-md self-end"
+										onClick={() => {
+											const tempArr = [...interviews];
+											tempArr.splice(index, 1);
+											dispatch(setInterviews(tempArr));
+										}}
+									>
+										<Image
+											src={"/svgs/cancel.svg"}
+											width={15}
+											height={15}
+											alt="Search icon"
+										/>
+									</button>
+								</div>
+							))}
+							<input
+								type="url"
+								name=""
+								id=""
+								value={newlink}
+								onChange={(e) => {
+									setNewlink(e.target.value);
+								}}
+								placeholder="Enter link"
+								className="h-12 w-full mt-5 rounded-md peer bg-white border flex items-end border-grey-100 px-6 text-sm outline
+											outline-0 transition-all focus:border-2 focus:border-blue-500 focus:outline-0"
+							/>
+						</div>
+						<button
+							type="button"
+							onClick={() => {
+								dispatch(setInterviews([...interviews, newlink]));
+								setNewlink("");
+							}}
+							disabled={newlink === ""}
+							className="w-full h-12 mt-5 flex flex-row items-center justify-center gap-2 bg-success disabled:bg-grey-300 rounded-md text-primary disabled:text-grey-100 text-base font-semibold"
+						>
+							<svg
+								width="15"
+								height="15"
+								viewBox="0 0 12 12"
+								fill="none"
+								xmlns="http://www.w3.org/2000/svg"
+							>
+								<path
+									d="M6.75 1C6.75 0.585786 6.41421 0.25 6 0.25C5.58579 0.25 5.25 0.585786 5.25 1V5.25H1C0.585787 5.25 0.25 5.58579 0.25 6C0.25 6.41421 0.585787 6.75 1 6.75H5.25V11C5.25 11.4142 5.58579 11.75 6 11.75C6.41421 11.75 6.75 11.4142 6.75 11V6.75H11C11.4142 6.75 11.75 6.41421 11.75 6C11.75 5.58579 11.4142 5.25 11 5.25H6.75V1Z"
+									fill={newlink === "" ? "#868686" : "#232E60"}
+								/>
+							</svg>
+							Add Link
+						</button>
+					</div>
+
+					<div className="flex flex-col gap-7 items-center w-full">
+						<div className="w-full mt-5 flex flex-col items-end">
+							<div className="w-full">
 								<h2 className="text-primary text-2xl font-bold text-left">
 									Social media
 								</h2>
+								<p className="text-primary text-sm font-light text-left">
+									Add up your social media links and allow potential
+									collaborators to discover more.
+								</p>
 								<hr className="h-0.5 w-full rounded-lg bg-grey-300" />
 							</div>
 
@@ -247,7 +368,9 @@ const EditPodcaster = () => {
 									/>
 									<div className="w-11/12">
 										<Input
-											onChangeValue={changeTwitter}
+											onChangeValue={(e) => {
+												dispatch(setTwitter(e.target.value));
+											}}
 											value={twitter}
 											type="url"
 											inputholder={"twitter.com/"}
@@ -264,7 +387,9 @@ const EditPodcaster = () => {
 									/>
 									<div className="w-11/12">
 										<Input
-											onChangeValue={changeFacebook}
+											onChangeValue={(e) => {
+												dispatch(setFacebook(e.target.value));
+											}}
 											value={facebook}
 											type="url"
 											inputholder={"facbook.com/"}
@@ -276,12 +401,14 @@ const EditPodcaster = () => {
 										src={"/svgs/youtube.svg"}
 										width={40}
 										height={40}
-										alt="Youtube icon"
+										alt="Facebook icon"
 										className=""
 									/>
 									<div className="w-11/12">
 										<Input
-											onChangeValue={changeYoutube}
+											onChangeValue={(e) => {
+												dispatch(setYoutube(e.target.value));
+											}}
 											value={youtube}
 											type="url"
 											inputholder={"youtube.com/"}
@@ -298,7 +425,9 @@ const EditPodcaster = () => {
 									/>
 									<div className="w-11/12">
 										<Input
-											onChangeValue={changeInstagram}
+											onChangeValue={(e) => {
+												dispatch(setInstagram(e.target.value));
+											}}
 											value={instagram}
 											type="url"
 											inputholder={"instagram.com/"}
@@ -315,7 +444,9 @@ const EditPodcaster = () => {
 									/>
 									<div className="w-11/12">
 										<Input
-											onChangeValue={changeLinkedin}
+											onChange={(e) => {
+												dispatch(setLinkedin(e.target.value));
+											}}
 											value={linkedin}
 											type="url"
 											inputholder={"linkedin.com/in/"}
@@ -324,156 +455,181 @@ const EditPodcaster = () => {
 								</div>
 							</div>
 						</div>
-					</div>
 
-					<div className="w-full sm:w-1/2 flex flex-col gap-8">
-						<div className="w-full flex flex-col items-start mt-5">
-							<div className="w-11/12">
+						{/* <div className="w-full flex flex-col items-end mt-5">
+							<div className="w-full">
 								<h2 className="text-primary text-2xl font-bold text-left">
-									Are guests expected to post on social media?
+									Previous interviews/press
+								</h2>
+								<p className="text-primary text-sm font-light text-left">
+									Add links to your profile of podcast episodes you've been
+									featured in and let hosts see what you're made of.
+								</p>
+								<h2 className="text-primary text-lg font-bold text-left">
+									Add up to 5 to your profile.
 								</h2>
 								<hr className="h-0.5 w-full rounded-lg bg-grey-300" />
-							</div>
 
-							<div className="flex flex-col w-full gap-2 mt-3">
-								<div className="flex flex-row items-center gap-3">
+								<div className="flex flex-col w-full gap-2 mt-3">
+                  {recPrefers.map((recPrefer, index) => (
+										<div
+											key={index}
+											className="flex flex-row items-center justify-between overflow-hidden h-12 p-2 rounded-md max-w-full bg-white border px-3 border-grey-100"
+										>
+											<p className="text-base font-medium truncate break-words">
+												{recPrefer}
+											</p>
+											<button
+												type="button"
+												className="bg-lightgreen p-1.5 z-10 rounded-md self-end"
+												onClick={() => {
+													const tempArr = [...recPrefers];
+													tempArr.splice(index, 1);
+													setRecPrefers(tempArr);
+												}}
+											>
+												<Image
+													src={"/svgs/cancel.svg"}
+													width={15}
+													height={15}
+													alt="Search icon"
+												/>
+											</button>
+										</div>
+									))}
 									<input
-										type="radio"
-										value={true}
+										type="text"
+										value={newRecPrefer}
 										onChange={(e) => {
-											setPromo(true);
+											setNewRecPrefer(e.target.value);
 										}}
-										checked={promo === true}
+										placeholder="Unique Preferences"
+										className="h-12 w-full mt-5 rounded-md peer bg-white border flex items-end border-grey-100 px-6 text-sm outline
+											outline-0 transition-all focus:border-2 focus:border-blue-500 focus:outline-0"
 									/>
-									<span className="text-primary text-base font-semibold">
-										Yes, I do
-									</span>
-								</div>
-								<div className="flex flex-row items-center gap-3">
-									<input
-										type="radio"
-										value={false}
-										onChange={(e) => {
-											setPromo(false);
+									<button
+										type="button"
+										onClick={() => {
+											setRecPrefers([...recPrefers, newRecPrefer]);
+											setNewRecPrefer("");
 										}}
-										checked={promo === false}
-									/>
-									<span className="text-primary text-base font-semibold">
-										No, I don't
-									</span>
-								</div>
-							</div>
-						</div>
-
-						<div className="w-full flex flex-col items-start mt-5">
-							<div className="w-11/12">
-								<h2 className="text-primary text-2xl font-bold text-left">
-									Do you need guests?
-								</h2>
-								<hr className="h-0.5 w-full rounded-lg bg-grey-300" />
-							</div>
-
-							<div className="flex flex-col w-full gap-2 mt-3">
-								<div className="flex flex-row items-center gap-3">
-									<input
-										type="radio"
-										value={true}
-										onChange={(e) => {
-											setGuestVal(true);
-										}}
-										checked={guestVal == true}
-									/>
-									<span className="text-primary text-base font-semibold">
-										Yes, I do
-									</span>
-								</div>
-								<div className="flex flex-row items-center gap-3">
-									<input
-										type="radio"
-										value={false}
-										onChange={(e) => {
-											setGuestVal(false);
-										}}
-										checked={guestVal == false}
-									/>
-									<span className="text-primary text-base font-semibold">
-										No, I don't
-									</span>
-								</div>
-							</div>
-						</div>
-
-						{/* <div>
-							<div className="w-11/12">
-								<h2 className="text-primary text-2xl font-bold text-left">
-									Transmission Date and time
-								</h2>
-								<hr className="h-0.5 w-full rounded-lg bg-grey-300" />
-							</div>
-
-							<div className="w-full mt-3">
-								<DateTimePicker
-									value={date}
-									onChange={(e) => {
-										console.log(e.target.value);
-									}}
-								/>
+										disabled={newRecPrefer === ""}
+										className="w-full h-12 mt-5 flex flex-row items-center justify-center gap-2 bg-success disabled:bg-grey-300 rounded-md text-primary disabled:text-grey-100 text-base font-semibold"
+									>
+										<svg
+											width="15"
+											height="15"
+											viewBox="0 0 12 12"
+											fill="none"
+											xmlns="http://www.w3.org/2000/svg"
+										>
+											<path
+												d="M6.75 1C6.75 0.585786 6.41421 0.25 6 0.25C5.58579 0.25 5.25 0.585786 5.25 1V5.25H1C0.585787 5.25 0.25 5.58579 0.25 6C0.25 6.41421 0.585787 6.75 1 6.75H5.25V11C5.25 11.4142 5.58579 11.75 6 11.75C6.41421 11.75 6.75 11.4142 6.75 11V6.75H11C11.4142 6.75 11.75 6.41421 11.75 6C11.75 5.58579 11.4142 5.25 11 5.25H6.75V1Z"
+												fill={newRecPrefer === "" ? "#868686" : "#232E60"}
+											/>
+										</svg>
+										Add Preference
+									</button>
+									</div>
 							</div>
 						</div> */}
 
-						<div>
-							<div className="w-11/12">
+						<div className="w-full flex flex-col items-end mt-5">
+							<div className="w-full">
 								<h2 className="text-primary text-2xl font-bold text-left">
-									Link to important episodes
+									Recording preferences
 								</h2>
 								<hr className="h-0.5 w-full rounded-lg bg-grey-300" />
 							</div>
 
-							<div className="w-full mt-3 flex flex-col gap-1">
-								{episodes.map((episode, index) => (
+							<div className="flex flex-col w-full gap-2 mt-3">
+								<div className="flex flex-row items-center gap-3">
+									<input
+										type="checkbox"
+										onChange={(e) => {
+											if (prefers.includes("Only online")) {
+												const tempArr = [...prefers];
+												const index = tempArr.indexOf("Only online");
+												tempArr.splice(index, 1);
+												dispatch(setPrefers(tempArr));
+											} else {
+												dispatch(setPrefers([...prefers, "Only online"]));
+											}
+										}}
+										value={"Only online"}
+										checked={prefers.includes("Only online")}
+										className="border-primary h-5 w-5"
+									/>
+									<span className="text-primary text-base font-semibold">
+										Only online
+									</span>
+								</div>
+								<div className="flex flex-row items-center gap-3">
+									<input
+										type="checkbox"
+										onChange={(e) => {
+											if (prefers.includes("In Person")) {
+												const tempArr = [...prefers];
+												const index = tempArr.indexOf("In Person");
+												tempArr.splice(index, 1);
+												dispatch(setPrefers(tempArr));
+											} else {
+												dispatch(setPrefers([...prefers, "In Person"]));
+											}
+										}}
+										value={"In Person"}
+										checked={prefers.includes("In Person")}
+										className="border-primary h-5 w-5"
+									/>
+									<span className="text-primary text-base font-semibold">
+										In Person
+									</span>
+								</div>
+
+								{prefers.map((prefer, index) => (
 									<div
 										key={index}
 										className="flex flex-row items-center justify-between overflow-hidden h-12 p-2 rounded-md max-w-full bg-white border px-3 border-grey-100"
 									>
-										<p className="text-base font-medium z-0 truncate break-words">
-											{episode}
+										<p className="text-base font-medium truncate break-words">
+											{prefer}
 										</p>
 										<button
 											type="button"
 											className="bg-lightgreen p-1.5 z-10 rounded-md self-end"
 											onClick={() => {
-												const tempArr = [...episodes];
+												const tempArr = [...prefers];
 												tempArr.splice(index, 1);
-												setEpisodes(tempArr);
+												dispatch(setPrefers(tempArr));
 											}}
 										>
 											<Image
 												src={"/svgs/cancel.svg"}
 												width={15}
 												height={15}
-												alt="cancel icon"
+												alt="Search icon"
 											/>
 										</button>
 									</div>
 								))}
 								<input
-									type="text"
-									value={newEpisode}
+									type="url"
+									value={newPrefer}
 									onChange={(e) => {
-										setNewEpisode(e.target.value);
+										setNewPrefer(e.target.value);
 									}}
-									placeholder="Unique Preferences"
+									placeholder="Your link of guests appearance"
 									className="h-12 w-full mt-5 rounded-md peer bg-white border flex items-end border-grey-100 px-6 text-sm outline
-								outline-0 transition-all focus:border-2 focus:border-blue-500 focus:outline-0"
+											outline-0 transition-all focus:border-2 focus:border-blue-500 focus:outline-0"
 								/>
 								<button
 									type="button"
 									onClick={() => {
-										setEpisodes([...episodes, newEpisode]);
-										setNewEpisode("");
+										dispatch(setPrefers([...prefers, newPrefer]));
+										setNewPrefer("");
 									}}
-									disabled={newEpisode === ""}
-									className="w-full h-12 mt-3 flex flex-row items-center justify-center gap-2 bg-primary disabled:bg-grey-300 rounded-md text-success disabled:text-grey-100 text-base font-semibold"
+									disabled={newPrefer === ""}
+									className="w-full h-12 mt-5 flex flex-row items-center justify-center gap-2 bg-success disabled:bg-grey-300 rounded-md text-primary disabled:text-grey-100 text-base font-semibold"
 								>
 									<svg
 										width="15"
@@ -484,96 +640,143 @@ const EditPodcaster = () => {
 									>
 										<path
 											d="M6.75 1C6.75 0.585786 6.41421 0.25 6 0.25C5.58579 0.25 5.25 0.585786 5.25 1V5.25H1C0.585787 5.25 0.25 5.58579 0.25 6C0.25 6.41421 0.585787 6.75 1 6.75H5.25V11C5.25 11.4142 5.58579 11.75 6 11.75C6.41421 11.75 6.75 11.4142 6.75 11V6.75H11C11.4142 6.75 11.75 6.41421 11.75 6C11.75 5.58579 11.4142 5.25 11 5.25H6.75V1Z"
-											fill={newEpisode === "" ? "#868686" : "#00CCBB"}
-										/>
-									</svg>
-									Add Episode Link
-								</button>
-							</div>
-						</div>
-
-						<div>
-							<div className="w-11/12">
-								<h2 className="text-primary text-2xl font-bold text-left">
-									Your recording preferences
-								</h2>
-								<hr className="h-0.5 w-full rounded-lg bg-grey-300" />
-							</div>
-							<div className="w-full mt-3 flex flex-col gap-1">
-								{recPrefers.map((recPrefer, index) => (
-									<div
-										key={index}
-										className="flex flex-row items-center justify-between overflow-hidden h-12 p-2 rounded-md max-w-full bg-white border px-3 border-grey-100"
-									>
-										<p className="text-base font-medium z-0 truncate break-words">
-											{recPrefer}
-										</p>
-										<button
-											type="button"
-											className="bg-lightgreen p-1.5 z-10 rounded-md self-end"
-											onClick={() => {
-												const tempArr = [...recPrefers];
-												tempArr.splice(index, 1);
-												setRecPrefers(tempArr);
-											}}
-										>
-											<Image
-												src={"/svgs/cancel.svg"}
-												width={15}
-												height={15}
-												alt="cancel icon"
-											/>
-										</button>
-									</div>
-								))}
-								<input
-									type="text"
-									value={newRecPrefer}
-									onChange={(e) => {
-										setNewRecPrefer(e.target.value);
-									}}
-									placeholder="Unique Preferences"
-									className="h-12 w-full mt-5 rounded-md peer bg-white border flex items-end border-grey-100 px-6 text-sm outline
-								outline-0 transition-all focus:border-2 focus:border-blue-500 focus:outline-0"
-								/>
-								<button
-									type="button"
-									onClick={() => {
-										setRecPrefers([...recPrefers, newRecPrefer]);
-										setNewRecPrefer("");
-									}}
-									disabled={newRecPrefer === ""}
-									className="w-full h-12 mt-3 flex flex-row items-center justify-center gap-2 bg-primary disabled:bg-grey-300 rounded-md text-success disabled:text-grey-100 text-base font-semibold"
-								>
-									<svg
-										width="15"
-										height="15"
-										viewBox="0 0 12 12"
-										fill="none"
-										xmlns="http://www.w3.org/2000/svg"
-									>
-										<path
-											d="M6.75 1C6.75 0.585786 6.41421 0.25 6 0.25C5.58579 0.25 5.25 0.585786 5.25 1V5.25H1C0.585787 5.25 0.25 5.58579 0.25 6C0.25 6.41421 0.585787 6.75 1 6.75H5.25V11C5.25 11.4142 5.58579 11.75 6 11.75C6.41421 11.75 6.75 11.4142 6.75 11V6.75H11C11.4142 6.75 11.75 6.41421 11.75 6C11.75 5.58579 11.4142 5.25 11 5.25H6.75V1Z"
-											fill={newRecPrefer === "" ? "#868686" : "#00CCBB"}
+											fill={newPrefer === "" ? "#868686" : "#232E60"}
 										/>
 									</svg>
 									Add Preference
 								</button>
 							</div>
 						</div>
-					</div>
-				</div>
 
-				<div className="w-full flex justify-end">
-					<button
-						type="button"
-						onClick={() => {
-							handleSave();
-						}}
-						className="self-end mt-10 w-32 h-12 bg-primary rounded-md text-success"
-					>
-						Save
-					</button>
+						<div className="w-full flex flex-col items-end mt-5">
+							<div className="w-full">
+								<h2 className="text-primary text-2xl font-bold text-left">
+									Next recording podcast
+								</h2>
+								<p className="text-primary text-sm font-light text-left">
+									Details of your next recording podcast
+								</p>
+								<hr className="h-0.5 w-full rounded-lg bg-grey-300" />
+							</div>
+
+							<div className="flex flex-col w-full gap-2 mt-3">
+								<div className="relative w-full">
+									<textarea
+										cols="30"
+										rows="5"
+										value={detail}
+										maxLength={120}
+										onChange={(e) => {
+											dispatch(setDetails(e.target.value));
+										}}
+										className="w-full rounded-md peer bg-white border flex items-end border-grey-100 px-6 pt-4 
+												text-sm outline outline-0 transition-all focus:border-2 focus:border-blue-500 focus:outline-0"
+									></textarea>
+									<span className="peer-focus:text-blue-500 text-grey-100 text-xs font-light absolute left-5 top-1">
+										Please enter details
+									</span>
+								</div>
+								<Input
+									placeholder={"Day/Month/Year"}
+									type="date"
+									onChangeValue={(e) => {
+										dispatch(setDate(e.target.value));
+									}}
+								/>
+								<Input
+									placeholder={"Time"}
+									type="time"
+									onChangeValue={(e) => {
+										dispatch(setTime(e.target.value));
+									}}
+								/>
+							</div>
+						</div>
+
+						<div className="w-full flex flex-col items-end mt-5">
+							<div className="w-full">
+								<h2 className="text-primary text-2xl font-bold text-left">
+									I'm currently recording
+								</h2>
+								<hr className="h-0.5 w-full rounded-lg bg-grey-300" />
+							</div>
+
+							<div className="flex flex-col w-full gap-2 mt-3">
+								<div className="flex flex-row items-center gap-3">
+									<input
+										type="radio"
+										value={true}
+										onChange={(e) => {
+											dispatch(setRecording(true));
+										}}
+										checked={recording === true}
+									/>
+									<span className="text-primary text-base font-semibold">
+										Yes, I am
+									</span>
+								</div>
+								<div className="flex flex-row items-center gap-3">
+									<input
+										type="radio"
+										value={false}
+										onChange={(e) => {
+											dispatch(setRecording(false));
+										}}
+										checked={recording === false}
+									/>
+									<span className="text-primary text-base font-semibold">
+										No, I'm not
+									</span>
+								</div>
+							</div>
+						</div>
+
+						<div className="w-full flex flex-col items-end mt-5">
+							<div className="w-full">
+								<h2 className="text-primary text-2xl font-bold text-left">
+									Would you like to be contacted by the press?
+								</h2>
+								<hr className="h-0.5 w-full rounded-lg bg-grey-300" />
+							</div>
+
+							<div className="flex flex-col w-full gap-2 mt-3">
+								<div className="flex flex-row items-center gap-3">
+									<input
+										type="radio"
+										value={true}
+										onChange={(e) => {
+											dispatch(setContact(true));
+										}}
+										checked={contact_me === true}
+									/>
+									<span className="text-primary text-base font-semibold">
+										Yes, I would
+									</span>
+								</div>
+								<div className="flex flex-row items-center gap-3">
+									<input
+										type="radio"
+										value={false}
+										onChange={(e) => {
+											dispatch(setContact(false));
+										}}
+										checked={contact_me === false}
+									/>
+									<span className="text-primary text-base font-semibold">
+										No, I wouldn't
+									</span>
+								</div>
+							</div>
+						</div>
+
+						<button
+							type="submit"
+							onClick={handleSave}
+							className="w-full self-end mt-10 h-12 bg-success rounded-md text-primary"
+						>
+							Save
+						</button>
+					</div>
 				</div>
 			</div>
 		</main>

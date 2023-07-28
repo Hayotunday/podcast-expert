@@ -7,12 +7,7 @@ import Link from "next/link";
 import Podcasts from "@components/Podcasts";
 import Dropdown from "@components/Dropdown";
 
-import {
-	category_options,
-	dropdown_options,
-	new_options,
-	podcastList,
-} from "@utils/data";
+import { dropdown_options, new_options, podcastList } from "@utils/data";
 
 const Findpodcast = () => {
 	const [category, setCategory] = useState("");
@@ -46,7 +41,7 @@ const Findpodcast = () => {
 						<div className="flex flex-row items-center gap-3">
 							<div className="w-48">
 								<Dropdown
-									options={category_options}
+									options={dropdown_options}
 									value={category}
 									onChangeValue={(e) => {
 										setCategory(e);

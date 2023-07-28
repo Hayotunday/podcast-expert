@@ -152,8 +152,7 @@ const Signup = () => {
 						your <span className={`text-${color} font-bold`}>Life.</span>{" "}
 					</p>
 					<p className="text-white text-xs font-light text-left">
-						Listen to your favorite podcast for free, anywhere and offline with
-						podlist.
+						Never look for great guests again.
 					</p>
 				</div>
 			</section>

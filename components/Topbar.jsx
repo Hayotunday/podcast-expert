@@ -60,7 +60,7 @@ const Topbar = ({ handleClick, componentRef, refreshRef }) => {
 					type="button"
 					onClick={handleClick}
 					ref={componentRef}
-					className="flex md:hidden"
+					className="flex lg:hidden"
 				>
 					<FiMenu size={30} />
 				</button>

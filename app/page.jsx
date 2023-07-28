@@ -6,6 +6,8 @@ import Image from "next/image";
 import { useDispatch, useSelector } from "react-redux";
 
 import Featured from "@components/Featured";
+import { podcastList } from "@utils/data";
+import Podcasts from "@components/Podcasts";
 
 export default function Home() {
 	const { searched } = useSelector((state) => state.search);
@@ -28,12 +30,12 @@ export default function Home() {
 			});
 
 			const prof = [...users, ...categories];
-			console.log("profiles: ", prof);
+			setSearch(prof);
 			// setProfiles(prof);
 		};
 
 		getSearched();
-	}, [search]);
+	}, [searched]);
 
 	useEffect(() => {
 		setId(localStorage.getItem("podcastId"));
@@ -115,14 +117,10 @@ export default function Home() {
 		setFavorite(data);
 	};
 
-	useEffect(() => {
-		console.log(favorite);
-	}, [favorite]);
-
 	return (
 		<>
 			<div className="bg-grey w-full h-full p-5 flex flex-col gap-7">
-				{profiles.length > 0 ? (
+				{/* {profiles.length > 0 ? (
 					<div className="grid min-[380px]:grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 2xl:grid-cols-6 gap-5">
 						{searched ? (
 							search.length !== 0 ? (
@@ -206,7 +204,18 @@ export default function Home() {
 							No data found
 						</p>
 					</div>
-				)}
+				)} */}
+				<div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-5 relative">
+					{podcastList.map((list, index) => (
+						<div key={index} className="">
+							<Podcasts
+								image={list.image}
+								podcaster={list.podcaster}
+								title={list.title}
+							/>
+						</div>
+					))}
+				</div>
 			</div>
 		</>
 	);

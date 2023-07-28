@@ -30,8 +30,8 @@ const MobileNav = ({ handleClick, navRef }) => {
 	return (
 		<section
 			ref={navRef}
-			onBlur={() => {}}
-			className="w-1/2 sm:w-2/6 fixed top-0 min-h-screen md:hidden flex-grow bg-primary z-30"
+			onClick={() => {}}
+			className="w-1/2 sm:w-2/6 fixed top-0 min-h-screen lg:hidden flex-grow bg-primary z-30"
 		>
 			{/* <section className="w-1/6 h-full bg-primary"> */}
 			<nav className="w-full sticky top-0 flex flex-col pt-5 px-3 items-center">
@@ -76,10 +76,6 @@ const MobileNav = ({ handleClick, navRef }) => {
 						/>
 						<p className="text-white text-center">Home</p>
 					</Link>
-					<hr className="mt-2" />
-				</div>
-
-				<div className="w-full mt-5">
 					<Link
 						href={"/profile"}
 						className={
@@ -94,7 +90,7 @@ const MobileNav = ({ handleClick, navRef }) => {
 					<hr className="mt-2" />
 				</div>
 
-				{/* <div className="w-full mt-12">
+				<div className="w-full mt-12">
 					<p className="text-white text-left uppercase text-sm font-normal">
 						MENU
 					</p>
@@ -131,12 +127,28 @@ const MobileNav = ({ handleClick, navRef }) => {
 						<p className="text-white text-center">Find guests</p>
 					</Link>
 					<hr className="mt-2" />
-				</div> */}
+				</div>
 
 				<div className="w-full mt-12">
 					<p className="text-white text-left uppercase text-sm font-normal">
 						LIBRARY
 					</p>
+					<Link
+						href={"/favorites"}
+						className={
+							pathname !== "/favorites"
+								? "flex flex-row p-2 gap-5 items-center justify-start rounded hover:bg-white hover:text-white hover:bg-opacity-10"
+								: "flex flex-row p-2 gap-5 items-center justify-start rounded bg-white text-white bg-opacity-10"
+						}
+					>
+						<Image
+							src={"/svgs/favorite.svg"}
+							width={15}
+							height={15}
+							alt="favorite icon"
+						/>
+						<p className="text-white text-center">Favorites</p>
+					</Link>
 					{/* <Link
 						href={"/saved-list"}
 						className={

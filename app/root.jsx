@@ -22,23 +22,6 @@ export default function Root({ children }) {
 	const [isLoaded, setIsLoaded] = useState(true);
 	const [isOpen, setIsOpen] = useState(false);
 
-	const handleClickOutsideComponent = (event) => {
-		if (
-			isOpen &&
-			!navbarRef.current?.contains(event.target) &&
-			!menuRef.current?.contains(event.target)
-		) {
-			setIsOpen(false);
-		}
-	};
-
-	if (typeof window !== "undefined") {
-		// browser code
-		window.addEventListener("click", handleClickOutsideComponent);
-	}
-
-	// console.log(navbarRef.current);
-
 	useEffect(() => {
 		const token =
 			localStorage.getItem("podcastToken") === undefined ||
@@ -72,7 +55,7 @@ export default function Root({ children }) {
 				.get(`${process.env.NEXT_PUBLIC_BASE_URL}/user/profile`, config)
 				.then((res) => {
 					if (
-						res.data.user.email_verified === false &&
+						res.data.user.email_verified !== true &&
 						pathname !== "/login" &&
 						pathname !== "/signup" &&
 						pathname !== "/verify-email" &&
@@ -84,7 +67,22 @@ export default function Root({ children }) {
 						pathname !== "/password/reset"
 					) {
 						router.push(`/verify-email`);
-					} else if (res.data.user.createProfile === false) {
+					} else if (
+						res.data.user.createdProfile !== true &&
+						pathname !== "/login" &&
+						pathname !== "/signup" &&
+						pathname !== "/verify-email" &&
+						pathname !== "/verified" &&
+						pathname !== "/create-profile" &&
+						pathname !== "/password/completed" &&
+						pathname !== "/password/create" &&
+						pathname !== "/password/forgot" &&
+						pathname !== "/password/reset" &&
+						pathname !== "/create-guest" &&
+						pathname !== "/create-guest/step-two" &&
+						pathname !== "/create-podcaster" &&
+						pathname !== "/create-podcaster/step-two"
+					) {
 						router.push(`/create-profile`);
 					}
 				})
@@ -96,6 +94,21 @@ export default function Root({ children }) {
 
 		checks();
 	}, []);
+
+	const handleClickOutsideComponent = (event) => {
+		if (
+			isOpen &&
+			!navbarRef.current?.contains(event.target) &&
+			!menuRef.current?.contains(event.target)
+		) {
+			setIsOpen(false);
+		}
+	};
+
+	if (typeof window !== "undefined") {
+		// browser code
+		window.addEventListener("click", handleClickOutsideComponent);
+	}
 
 	if (isLoaded) {
 		return (
@@ -118,8 +131,10 @@ export default function Root({ children }) {
 			pathname !== "/password/reset" &&
 			pathname !== "/create-guest" &&
 			pathname !== "/create-guest/edit" &&
+			pathname !== "/create-guest/step-two" &&
 			pathname !== "/create-podcaster" &&
 			pathname !== "/create-podcaster/edit" &&
+			pathname !== "/create-podcaster/step-two" &&
 			pathname !== "/create-press" &&
 			pathname !== "/create-press/edit" ? (
 				<main className="bg-grey h-screen w-screen">
