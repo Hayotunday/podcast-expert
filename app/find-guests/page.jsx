@@ -34,7 +34,7 @@ const Findpodcast = () => {
 
 				<div className="h-full">
 					<p className="text-primary text-4xl font-black">
-						Find <span className="text-success">Podcasts</span>
+						Find <span className="text-success">Guests</span>
 					</p>
 
 					<div className="flex flex-row items-center justify-between my-3">
