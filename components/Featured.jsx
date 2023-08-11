@@ -125,7 +125,7 @@ const Featured = ({
 				</div>
 			</Link>
 
-			<button
+			{/* <button
 				type="button"
 				onClick={() => {
 					fav ? handleUnFavorite() : handleFavorite();
@@ -137,7 +137,7 @@ const Featured = ({
 				) : (
 					<AiOutlineHeart size={25} color="red" className="" />
 				)}
-			</button>
+			</button> */}
 		</div>
 	);
 };
