@@ -6,11 +6,16 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useDispatch, useSelector } from "react-redux";
 import {
+	setAge,
 	setBio,
 	setCategory,
+	setCity,
+	setCountry,
+	setGender,
 	setHeadline,
 	setImage,
 	setInterviews,
+	setLanguage,
 	setName,
 	setWebsite,
 } from "@app/redux/features/podcaster/podcasterSlice";
@@ -21,11 +26,23 @@ import { AiOutlineLeft } from "react-icons/ai";
 import Input from "@components/Input";
 import Dropdown from "@components/Dropdown";
 
-import { category_options } from "@utils/data";
+import {
+	category_options,
+	gender_options,
+	language_options,
+} from "@utils/data";
 
 const CreatePodcaster = () => {
-	const { name, headline, bio, image, categories, website, interviews } =
-		useSelector((state) => state.podcaster);
+	const {
+		name,
+		headline,
+		bio,
+		image,
+		info: { age, gender, country, city, language },
+		categories,
+		website,
+		interviews,
+	} = useSelector((state) => state.podcaster);
 
 	const inputFile = useRef(null);
 
@@ -160,6 +177,72 @@ const CreatePodcaster = () => {
 							</div>
 
 							<div className="flex flex-col gap-7 items-center overflow-hidden w-full">
+								<div className="w-full mt-5">
+									<h2 className="text-primary text-2xl font-bold text-left">
+										Personal details
+									</h2>
+									<hr className="h-0.5 w-full rounded-lg bg-grey-300" />
+
+									<div className="flex flex-col gap-2 mt-3">
+										<Dropdown
+											onChangeValue={(e) => {
+												dispatch(setGender(e));
+											}}
+											value={gender}
+											placeholder={"Gender"}
+											options={gender_options}
+										/>
+										<Input
+											onChangeValue={(e) => {
+												dispatch(setAge(e.target.value));
+											}}
+											value={age}
+											type="number"
+											placeholder={"Age"}
+										/>
+										<Input
+											onChangeValue={(e) => {
+												dispatch(setCountry(e.target.value));
+											}}
+											value={country}
+											type="text"
+											placeholder={"Country"}
+										/>
+										<Input
+											onChangeValue={(e) => {
+												dispatch(setCity(e.target.value));
+											}}
+											value={city}
+											type="text"
+											placeholder={"City"}
+										/>
+										{/* <Dropdown
+											onChangeValue={(e) => {
+												dispatch(setCountry(e));
+											}}
+											value={country}
+											placeholder={"Country"}
+											options={dropdown_options}
+										/>
+										<Dropdown
+											onChangeValue={(e) => {
+												dispatch(setCity(e));
+											}}
+											value={city}
+											placeholder={"City"}
+											options={dropdown_options}
+										/> */}
+										<Dropdown
+											onChangeValue={(e) => {
+												dispatch(setLanguage(e));
+											}}
+											value={language}
+											placeholder={"Language"}
+											options={language_options}
+										/>
+									</div>
+								</div>
+
 								<div className="w-full mt-5">
 									<h2 className="text-primary text-2xl font-bold text-left">
 										Podcast details

@@ -52,14 +52,11 @@ const Guest = () => {
 				.then((res) => {
 					// console.log(res.data);
 					setData(res.data);
-					// console.log(
-					// 	`${process.env.NEXT_PUBLIC_BASE_URL}/Images/${res.data.user.image}`
-					// );
 				})
+				.catch((err) => console.log(err))
 				.finally(() => {
 					setIsLoaded(false);
-				})
-				.catch((err) => console.log(err));
+				});
 		};
 
 		getUserDetails();
@@ -252,7 +249,7 @@ const Guest = () => {
 									<button
 										type="button"
 										onClick={() => {
-											setShowAddCate(true);
+											setShowAddCate((prev) => !prev);
 										}}
 										className="bg-success rounded-2xl py-2 px-3 flex flex-row gap-3 items-center justify-center"
 									>
@@ -268,7 +265,7 @@ const Guest = () => {
 										</p>
 									</button>
 									{showAddCat && (
-										<div className="absolute top-10 rounded-lg shadow shadow-slate-800 w-60 p-3 bg-white">
+										<div className="absolute top-10 right-0.5 sm:right-0 rounded-lg shadow shadow-slate-800 w-60 p-3 bg-white">
 											<h1 className="text-primary font-semibold text-lg text-center">
 												Add new category
 											</h1>
@@ -312,8 +309,8 @@ const Guest = () => {
 
 							<div className="w-full flex justify-center md:justify-start">
 								<Location
-									city={data?.user?.info.city}
-									country={data?.user?.info.country}
+									city={data?.user?.info?.city}
+									country={data?.user?.info?.country}
 								/>
 							</div>
 
@@ -716,7 +713,10 @@ const Guest = () => {
 							)}
 
 							<div className="w-full flex justify-center md:justify-start">
-								<Location city={"Las Vegas"} country={"United States"} />
+								<Location
+									city={data?.user?.info?.city}
+									country={data?.user?.info?.country}
+								/>
 							</div>
 
 							<div className="grid grid-cols-3 sm:flex sm:flex-row gap-3 items-center justify-center md:justify-start relative mb-5 sm:mb-0">
@@ -748,7 +748,7 @@ const Guest = () => {
 										</p>
 									</button>
 									{showAddCat && (
-										<div className="absolute top-10 rounded-lg shadow shadow-slate-800 w-60 p-3 bg-white">
+										<div className="absolute top-10 right-0.5 sm:right-0 rounded-lg shadow shadow-slate-800 w-60 p-3 bg-white">
 											<h1 className="text-primary font-semibold text-lg text-center">
 												Add new category
 											</h1>
@@ -794,7 +794,7 @@ const Guest = () => {
 								<button
 									type="button"
 									onClick={() => {
-										navigator.clipboard.writeText(location.href);
+										navigator.clipboard.writeText(location.href + `${id}`);
 										setCopied(true);
 										setTimeout(() => {
 											setCopied(false);

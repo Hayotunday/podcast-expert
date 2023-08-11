@@ -1,12 +1,12 @@
 "use client";
 
 import { usePathname, useRouter } from "next/navigation";
+import { useEffect, useReducer, useRef, useState } from "react";
+import axios from "axios";
 
 import Nav from "@components/Nav";
 import Footer from "@components/Footer";
 import Topbar from "@components/Topbar";
-import { useEffect, useReducer, useRef, useState } from "react";
-import axios from "axios";
 import Loader from "@components/Loader";
 import MobileNav from "@components/MobileNav";
 
@@ -110,13 +110,13 @@ export default function Root({ children }) {
 		window.addEventListener("click", handleClickOutsideComponent);
 	}
 
-	if (isLoaded) {
-		return (
-			<div className="w-screen h-screen">
-				<Loader />;
-			</div>
-		);
-	}
+	// if (isLoaded) {
+	// 	return (
+	// 		<div className="w-screen h-screen">
+	// 			<Loader />;
+	// 		</div>
+	// 	);
+	// }
 
 	return (
 		<>
@@ -136,7 +136,11 @@ export default function Root({ children }) {
 			pathname !== "/create-podcaster/edit" &&
 			pathname !== "/create-podcaster/step-two" &&
 			pathname !== "/create-press" &&
-			pathname !== "/create-press/edit" ? (
+			pathname !== "/create-press/edit" &&
+			pathname !== "/admin" &&
+			pathname !== "/admin/settings" &&
+			pathname !== "/admin/login" &&
+			pathname !== "/admin/details" ? (
 				<main className="bg-grey h-screen w-screen">
 					<section className="flex flex-row w-full h-full">
 						<Nav />

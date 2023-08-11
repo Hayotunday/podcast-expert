@@ -1,4 +1,4 @@
-// import "@styles/dropdown.css";
+import "@styles/dropdown.css";
 
 import { useState, useEffect } from "react";
 import Image from "next/image";
@@ -53,7 +53,7 @@ const Dropdown = ({ value, placeholder, options, onChangeValue }) => {
 						setIsOpen(false);
 					}}
 					id="dropdown"
-					className="peer absolute top-[3rem] flex flex-col flex-grow z-10 mt-2 max-h-60 whitespace-nowrap min-w-full overflow-y-scroll scroll-smooth overflow-x-visible rounded-lg bg-white sm:text-sm border-2 border-blue-500"
+					className="peer absolute top-[3rem] flex flex-col flex-grow z-10 mt-2 max-h-60 whitespace-nowrap min-w-full overflow-y-auto scroll-smooth overflow-x-visible rounded-lg bg-white sm:text-sm border-2 border-blue-500"
 				>
 					{options.map(({ option }, index) => (
 						<div

@@ -5,17 +5,20 @@
 
 /* Track */
 ::-webkit-scrollbar-track {
-	background: #888;
-	border-radius: 5px;
+	@apply bg-white rounded-full
+	/* background: #888; */
+	/* border-radius: 5px; */;
 }
 
 /* Handle */
 ::-webkit-scrollbar-thumb {
-	background: #000;
-	border-radius: 5px;
+	@apply bg-gray-400 rounded-full
+	/* background: #000; */
+	/* border-radius: 5px; */;
 }
 
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
-	background: #555;
+	@apply bg-slate-400
+	/* background: #555; */;
 }

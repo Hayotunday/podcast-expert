@@ -30,6 +30,7 @@ const Steptwo = () => {
 		bio,
 		categories,
 		website,
+		info,
 		interviews,
 		social,
 		social: { facebook, instagram, linkedin, twitter, youtube },
@@ -60,6 +61,7 @@ const Steptwo = () => {
 				{
 					profile_type: "Podcaster",
 					user: id,
+					info: info,
 					podcast_name: name,
 					topic_categories: [categories],
 					url: website,
@@ -104,10 +106,6 @@ const Steptwo = () => {
 
 		getUserDetails();
 	}, []);
-
-	useEffect(() => {
-		console.log(linkedin);
-	}, [linkedin]);
 
 	return (
 		<>
@@ -479,7 +477,7 @@ const Steptwo = () => {
 										<textarea
 											cols="30"
 											rows="5"
-											value={recording}
+											value={detail}
 											maxLength={120}
 											onChange={(e) => {
 												dispatch(setDetails(e.target.value));

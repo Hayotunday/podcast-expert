@@ -6,8 +6,6 @@ import Image from "next/image";
 import { useDispatch, useSelector } from "react-redux";
 
 import Featured from "@components/Featured";
-import { podcastList } from "@utils/data";
-import Podcasts from "@components/Podcasts";
 
 export default function Home() {
 	const { searched } = useSelector((state) => state.search);
@@ -17,6 +15,28 @@ export default function Home() {
 	const [recent, setRecent] = useState([]);
 	const [favorite, setFavorite] = useState([]);
 	const [search, setSearch] = useState([]);
+
+	useEffect(() => {
+		setId(localStorage.getItem("podcastId"));
+		const getUserDetails = async () => {
+			await axios
+				.get(
+					`${process.env.NEXT_PUBLIC_BASE_URL}/user/profiles?category=all&location=""`
+				)
+				.then((res) => {
+					const prof = res?.data?.filter((i) => {
+						return localStorage.getItem("podcastId") !== i.user._id;
+					});
+					// console.log("profiles: ", res);
+					setProfiles(prof);
+					setRecent(res.data.user.recent);
+					setFavorite(res.data.user.saved_list);
+				})
+				.catch((err) => console.log(err));
+		};
+
+		getUserDetails();
+	}, []);
 
 	useEffect(() => {
 		const getSearched = async () => {
@@ -36,50 +56,6 @@ export default function Home() {
 
 		getSearched();
 	}, [searched]);
-
-	useEffect(() => {
-		setId(localStorage.getItem("podcastId"));
-		const getUserDetails = async () => {
-			await axios
-				.get(`${process.env.NEXT_PUBLIC_BASE_URL}/user/profiles`)
-				.then((res) => {
-					const prof = res?.data?.filter((i) => {
-						return localStorage.getItem("podcastId") !== i.user._id;
-					});
-					// console.log("profiles: ", res);
-					setProfiles(prof);
-				})
-				.catch((err) => console.log(err));
-		};
-
-		getUserDetails();
-	}, []);
-
-	useEffect(() => {
-		const token =
-			localStorage.getItem("podcastToken") === undefined ||
-			localStorage.getItem("podcastToken") === null
-				? ""
-				: localStorage.getItem("podcastToken");
-
-		const config = {
-			headers: {
-				Authorization: `Bearer ${token}`,
-			},
-		};
-		const getUserDetails = async () => {
-			await axios
-				.get(`${process.env.NEXT_PUBLIC_BASE_URL}/user/profile`, config)
-				.then((res) => {
-					// console.log("profile: ", res);
-					setRecent(res.data.user.recent);
-					setFavorite(res.data.user.saved_list);
-				})
-				.catch((err) => console.log(err));
-		};
-
-		getUserDetails();
-	}, []);
 
 	const handleAddRecent = async (id) => {
 		const token =
@@ -120,7 +96,7 @@ export default function Home() {
 	return (
 		<>
 			<div className="bg-grey w-full h-full p-5 flex flex-col gap-7">
-				{/* {profiles.length > 0 ? (
+				{profiles.length > 0 ? (
 					<div className="grid min-[380px]:grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 2xl:grid-cols-6 gap-5">
 						{searched ? (
 							search.length !== 0 ? (
@@ -204,8 +180,8 @@ export default function Home() {
 							No data found
 						</p>
 					</div>
-				)} */}
-				<div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-5 relative">
+				)}
+				{/* <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-5 relative">
 					{podcastList.map((list, index) => (
 						<div key={index} className="">
 							<Podcasts
@@ -215,7 +191,7 @@ export default function Home() {
 							/>
 						</div>
 					))}
-				</div>
+				</div> */}
 			</div>
 		</>
 	);

@@ -19,12 +19,12 @@ const Input = ({
 	};
 
 	return (
-		<label htmlFor="" className="relative w-full">
+		<label htmlFor="" className="relative w-full group">
 			<input
 				autoComplete={show ? "password" : type}
 				type={show ? "password" : type}
 				className="h-12 w-full rounded-md peer bg-white border flex items-end border-grey-100 px-6 text-sm outline outline-0 
-									transition-all focus:border-2 focus:border-blue-500 focus:outline-0"
+									transition-all focus:border-2 group-focus:border-2 focus:border-blue-500 group-focus:border-blue-500 focus:outline-0"
 				style={{ paddingTop: !placeholder ? 0 : 8 }}
 				placeholder={inputholder && inputholder}
 				onChange={onChangeValue}
@@ -32,7 +32,7 @@ const Input = ({
 				required={required}
 			/>
 			{placeholder && (
-				<span className="peer-focus:text-blue-500 text-grey-100 text-xs font-normal absolute left-5 top-1">
+				<span className="peer-focus:text-blue-500 group-focus:text-blue-500 text-grey-100 text-xs font-normal absolute left-5 top-1">
 					{placeholder}
 				</span>
 			)}
@@ -47,7 +47,7 @@ const Input = ({
 						width={25}
 						height={25}
 						alt={!show ? "Hide password" : "Show password"}
-						className="self-center"
+						className="self-center grou"
 					/>
 				</button>
 			)}

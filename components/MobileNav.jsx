@@ -90,7 +90,7 @@ const MobileNav = ({ handleClick, navRef }) => {
 					<hr className="mt-2" />
 				</div>
 
-				<div className="w-full mt-12">
+				<div className="w-full mt-5">
 					<p className="text-white text-left uppercase text-sm font-normal">
 						MENU
 					</p>
@@ -129,7 +129,7 @@ const MobileNav = ({ handleClick, navRef }) => {
 					<hr className="mt-2" />
 				</div>
 
-				<div className="w-full mt-12">
+				<div className="w-full mt-5">
 					<p className="text-white text-left uppercase text-sm font-normal">
 						LIBRARY
 					</p>
@@ -149,22 +149,6 @@ const MobileNav = ({ handleClick, navRef }) => {
 						/>
 						<p className="text-white text-center">Favorites</p>
 					</Link>
-					{/* <Link
-						href={"/saved-list"}
-						className={
-							pathname !== "/saved-list"
-								? "flex flex-row p-2 gap-5 items-center justify-start rounded hover:bg-white hover:text-white hover:bg-opacity-10"
-								: "flex flex-row p-2 gap-5 items-center justify-start rounded bg-white text-white bg-opacity-10"
-						}
-					>
-						<Image
-							src={"/svgs/saved.svg"}
-							width={15}
-							height={15}
-							alt="Saved icon"
-						/>
-						<p className="text-white text-center">Saved lists</p>
-					</Link> */}
 					<Link
 						href={"/recent"}
 						className={
@@ -184,7 +168,7 @@ const MobileNav = ({ handleClick, navRef }) => {
 					<hr className="mt-2" />
 				</div>
 
-				<div className="w-full mt-12">
+				<div className="w-full mt-5">
 					<button
 						onClick={() => {
 							// setToggleDropdown(false);

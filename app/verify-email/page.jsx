@@ -66,7 +66,7 @@ const Verifyemail = () => {
 						/>
 						<h1 className="text-2xl font-bold">Verify your email</h1>
 						<p className="">
-							We've sent you an email to verify your email address and finish
+							We've sent you an mail to verify your email address and finish
 							creating your account.
 						</p>
 						<h1 className="text-lg font-bold mt-14">Email not recieved</h1>

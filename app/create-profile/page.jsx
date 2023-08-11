@@ -100,7 +100,7 @@ const Createprofile = () => {
 						}}
 						className=""
 					>
-						<div className="border-4 rounded-xl border-primary bg-white w-60 sm:w-80 h-72 sm:h-90 text-center flex flex-col items-center justify-around">
+						<div className="border-4 rounded-xl border-primary bg-white w-80 h-90 text-center flex flex-col items-center justify-around">
 							<h1 className="text-2xl font-bold text-primary">
 								I'm looking for note worthy
 								<br />

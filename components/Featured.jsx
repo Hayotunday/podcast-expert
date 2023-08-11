@@ -1,3 +1,4 @@
+import axios from "axios";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 
@@ -9,132 +10,135 @@ const Featured = ({
 	categories,
 	type,
 	id,
+	isAdmin,
 	handleClick,
 	isFavorite,
-	favorite,
-	setFavorite,
 }) => {
 	const [fav, setFav] = useState(isFavorite);
+	// console.log(fav);
 
-	const handleUpdateFavorite = async (id) => {
+	const handleUnFavorite = async () => {
 		const token =
 			localStorage.getItem("podcastToken") === undefined ||
 			localStorage.getItem("podcastToken") === null
 				? ""
 				: localStorage.getItem("podcastToken");
-
 		const config = {
 			headers: {
 				Authorization: `Bearer ${token}`,
 			},
 		};
 
-		if (!favorite.includes(id)) {
-			await axios
-				.patch(
-					`${process.env.NEXT_PUBLIC_BASE_URL}/user/profile-type/favorites`,
-					{
-						id: id,
-						data: favorite,
-					},
-					config
-				)
-				.then((res) => {
-					return;
-				})
-				.catch((err) => {
-					console.log(err);
-				});
-		} else {
-			await axios
-				.patch(
-					`${process.env.NEXT_PUBLIC_BASE_URL}/user/profile-type/favorites`,
-					{
-						id: id,
-						data: favorite,
-					},
-					config
-				)
-				.then((res) => {
-					return;
-				})
-				.catch((err) => {
-					console.log(err);
-				});
-		}
+		await axios
+			.patch(
+				`${process.env.NEXT_PUBLIC_BASE_URL}/user/profile-type/unfavorites`,
+				{ data: id },
+				config
+			)
+			.then(() => {
+				setFav(false);
+				router.refresh();
+				console.log("Done");
+			})
+			.catch((err) => console.log(err));
+	};
+
+	const handleFavorite = async () => {
+		const token =
+			localStorage.getItem("podcastToken") === undefined ||
+			localStorage.getItem("podcastToken") === null
+				? ""
+				: localStorage.getItem("podcastToken");
+		const config = {
+			headers: {
+				Authorization: `Bearer ${token}`,
+			},
+		};
+
+		await axios
+			.patch(
+				`${process.env.NEXT_PUBLIC_BASE_URL}/user/profile-type/favorites`,
+				{ data: id },
+				config
+			)
+			.then(() => {
+				setFav(true);
+				router.refresh();
+				console.log("Done");
+			})
+			.catch((err) => console.log(err));
 	};
 
 	return (
-		<Link href={`/profile/${id}`} className="">
-			<div
-				onClick={() => {
-					handleClick && handleClick(id);
-				}}
-				className="w-full h-full hover:shadow hover:shadow-primary p-1 rounded-lg relative z-0"
+		<div className="relative z-0">
+			<Link
+				href={isAdmin ? `/admin/details?user=${id}` : `/profile/${id}`}
+				className=""
 			>
-				<div className="rounded-xl h-40 w-full">
-					{image ? (
-						<img
-							src={`${process.env.NEXT_PUBLIC_BASE_URL}/images/${image}`}
-							id="img"
-							alt="image"
-							className="rounded-xl h-full w-full flex items-center justify-center"
-						/>
-					) : (
-						<div className="rounded-xl bg-green-500 text-primary uppercase h-full w-full text-9xl font-bold flex items-center justify-center">
-							{name.charAt(0)}
-						</div>
-					)}
-				</div>
-
-				<div className="truncate">
-					<abbr
-						title={name}
-						className="text-primary text-left text-lg font-bold no-underline"
-					>
-						{name}
-					</abbr>
-					<div className="">
-						{categories && (
-							<p className="text-primary text-left text-sm font-normal">
-								{categories.length > 0 && categories[0]}
-							</p>
+				<div
+					onClick={() => {
+						handleClick && handleClick(id);
+					}}
+					className="w-full h-full hover:shadow p-0.5 rounded-lg group"
+				>
+					<div className="rounded-xl h-40 w-full overflow-hidden">
+						{image || image === undefined ? (
+							<img
+								src={`data:image/jpeg;base64,${image}`}
+								id="img"
+								alt="image"
+								className="rounded-xl h-full w-full flex items-center justify-center group-hover:scale-110 transition-transform ease-in duration-1000"
+							/>
+						) : (
+							<div className="rounded-xl bg-green-500 text-primary uppercase h-full w-full text-9xl font-bold flex items-center justify-center">
+								{name.charAt(0)}
+							</div>
 						)}
-						<p className="text-primary text-left text-sm font-normal">{type}</p>
 					</div>
-				</div>
 
-				{/* <button
+					<div className="truncate">
+						<abbr
+							title={name}
+							className="text-primary text-left text-lg font-bold no-underline"
+						>
+							{name}
+						</abbr>
+						<div className="">
+							{categories && (
+								<p className="text-primary text-left text-sm font-normal">
+									{categories.length > 0 && categories[0]}
+								</p>
+							)}
+							<p className="text-primary text-left text-sm font-normal">
+								{type}
+							</p>
+						</div>
+					</div>
+
+					{/* <button
+						type="button"
+						onClick={() => {}}
+						className="absolute bottom-3 right-3 hover:rounded-full hover:bg-slate-300 hover:bg-opacity-30 p-2"
+					>
+						<HiOutlineDotsVertical size={20} color="red" />
+					</button> */}
+				</div>
+			</Link>
+
+			<button
 				type="button"
 				onClick={() => {
-					if (!fav) {
-						const newFav = favorite.filter((i) => {
-							return id !== i;
-						});
-						setFavorite(newFav);
-					} else {
-						const newFav = [...favorite, id];
-						setFavorite(newFav);
-					}
+					fav ? handleUnFavorite() : handleFavorite();
 				}}
 				className="absolute top-3 left-3"
-				>
+			>
 				{fav ? (
+					<AiFillHeart size={25} color="red" className="" />
+				) : (
 					<AiOutlineHeart size={25} color="red" className="" />
-					) : (
-						<AiFillHeart size={25} color="red" className="" />
-						)}
-					</button> */}
-
-				{/* <button
-					type="button"
-					onClick={() => {}}
-					className="absolute bottom-3 right-3 hover:rounded-full hover:bg-slate-300 hover:bg-opacity-30 p-2"
-				>
-					<HiOutlineDotsVertical size={20} color="red" />
-				</button> */}
-			</div>
-		</Link>
+				)}
+			</button>
+		</div>
 	);
 };
 

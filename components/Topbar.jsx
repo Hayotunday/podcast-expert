@@ -76,7 +76,7 @@ const Topbar = ({ handleClick, componentRef, refreshRef }) => {
 						placeholder="search"
 						className="bg-grey w-full outline-0 focus:outline-0"
 					/>
-					<button
+					{/* <button
 						type="button"
 						className="bg-lightgreen p-1.5 rounded-md"
 						onClick={() => {}}
@@ -87,7 +87,7 @@ const Topbar = ({ handleClick, componentRef, refreshRef }) => {
 							height={15}
 							alt="Search icon"
 						/>
-					</button>
+					</button> */}
 				</label>
 			</div>
 

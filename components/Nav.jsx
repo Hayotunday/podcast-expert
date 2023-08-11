@@ -177,7 +177,7 @@ const Nav = ({ handleClick, navRef }) => {
 						className="w-full flex flex-row p-2 gap-5 items-center justify-start rounded text-white hover:bg-white hover:bg-opacity-10"
 					>
 						<BiLogOut size={20} color="#00CCBB" />
-						<p className="text-white text-center">Sign Out</p>
+						<p className="text-white text-center">log Out</p>
 					</button>
 				</div>
 

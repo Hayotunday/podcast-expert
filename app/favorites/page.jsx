@@ -1,14 +1,41 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 
-import Saved from "@components/Saved";
-
-import { podcastList, savedList } from "@utils/data";
+import Featured from "@components/Featured";
+import axios from "axios";
 import Podcasts from "@components/Podcasts";
 
 const Favorites = () => {
+	const [id, setId] = useState();
+	const [data, setData] = useState([]);
+
+	useEffect(() => {
+		setId(localStorage.getItem("podcastId"));
+		const getUserDetails = async () => {
+			setId(localStorage.getItem("podcastId"));
+			const token = localStorage.getItem("podcastToken");
+			const config = {
+				headers: {
+					Authorization: `Bearer ${token}`,
+				},
+			};
+			await axios
+				.get(
+					`${process.env.NEXT_PUBLIC_BASE_URL}/user/profile/favorites`,
+					config
+				)
+				.then((res) => {
+					setData(res.data);
+				})
+				.catch((err) => console.log(err));
+		};
+
+		getUserDetails();
+	}, []);
+
 	return (
 		<>
 			<div className="bg-grey w-full h-full p-5 flex flex-col gap-7">
@@ -29,18 +56,34 @@ const Favorites = () => {
 
 				<div className="h-full">
 					<p className="text-primary text-5xl font-black">Favorites</p>
-					{/* <div className="">{}</div> */}
-					<div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-5 relative">
-						{podcastList.map((list, index) => (
-							<div key={index} className="">
-								<Podcasts
-									image={list.image}
-									podcaster={list.podcaster}
-									title={list.title}
-								/>
-							</div>
-						))}
-					</div>
+					{data.length > 0 ? (
+						<div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-5 relative">
+							{data.map(({ image, name, email, _id, profile_type }, index) => (
+								<div key={index} className="h-60 w-full">
+									<Podcasts
+										id={_id}
+										image={image}
+										name={name}
+										email={email}
+										type={profile_type}
+									/>
+								</div>
+							))}
+						</div>
+					) : (
+						<div className="flex flex-col items-center justify-center w-full h-full gap-4 ">
+							<Image
+								src={"/images/cloud.png"}
+								width={225}
+								height={225}
+								className=""
+								alt="No data image"
+							/>
+							<p className="text-center text-primary font-semibold text-lg">
+								No data found
+							</p>
+						</div>
+					)}
 				</div>
 			</div>
 		</>

@@ -30,6 +30,7 @@ module.exports = {
         'grey-100': '#868686',
         'grey-200': '#E0DEDE',
         'grey-300': '#D9D9D9',
+        "white-smoke": "#FAFAFA",
       },
       fontFamily: {
         publicSans: '"Public Sans", sans-serif'

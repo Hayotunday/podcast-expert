@@ -1,18 +1,99 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 
-import Podcasts from "@components/Podcasts";
 import Dropdown from "@components/Dropdown";
 
-import { dropdown_options, new_options, podcastList } from "@utils/data";
+import { dropdown_options, new_options } from "@utils/data";
+import { useSelector } from "react-redux";
+import axios from "axios";
+import Featured from "@components/Featured";
 
 const Findpodcast = () => {
+	const { searched } = useSelector((state) => state.search);
+
 	const [category, setCategory] = useState("");
 	const [location, setLocation] = useState("");
 	const [value, setValue] = useState("");
+	const [profiles, setProfiles] = useState([]);
+	const [id, setId] = useState("");
+	const [recent, setRecent] = useState([]);
+	const [favorite, setFavorite] = useState([]);
+	const [search, setSearch] = useState([]);
+
+	useEffect(() => {
+		setId(localStorage.getItem("podcastId"));
+		const getUserDetails = async () => {
+			await axios
+				.get(
+					`${process.env.NEXT_PUBLIC_BASE_URL}/user/profiles?category=guest&location=${location}`
+				)
+				.then((res) => {
+					const prof = res?.data?.filter((i) => {
+						return localStorage.getItem("podcastId") !== i.user._id;
+					});
+					// console.log("profiles: ", res);
+					setProfiles(prof);
+					setRecent(res.data.user.recent);
+				})
+				.catch((err) => console.log(err));
+		};
+
+		getUserDetails();
+	}, []);
+
+	useEffect(() => {
+		const getSearched = async () => {
+			const categories = profiles?.filter((i) => {
+				for (let index = 0; index < i.topic_categories.length; index++) {
+					return searched === i?.topic_categories[index];
+				}
+			});
+			const users = profiles?.filter((i) => {
+				return i.user.name.includes(searched);
+			});
+
+			const prof = [...users, ...categories];
+			setSearch(prof);
+			// setProfiles(prof);
+		};
+
+		getSearched();
+	}, [searched, profiles]);
+
+	const handleAddRecent = async (id) => {
+		const token =
+			localStorage.getItem("podcastToken") === undefined ||
+			localStorage.getItem("podcastToken") === null
+				? ""
+				: localStorage.getItem("podcastToken");
+
+		const config = {
+			headers: {
+				Authorization: `Bearer ${token}`,
+			},
+		};
+
+		if (!recent?.includes(id)) {
+			await axios
+				.patch(
+					`${process.env.NEXT_PUBLIC_BASE_URL}/user/profile-type/recents`,
+					{
+						id: id,
+						data: [...recent, id],
+					},
+					config
+				)
+				.then((res) => {
+					return;
+				})
+				.catch((err) => {
+					console.log(err);
+				});
+		}
+	};
 
 	return (
 		<>
@@ -77,21 +158,89 @@ const Findpodcast = () => {
 
 					<div className="">
 						<p className="text-pinky text-lg font-bold">
-							Featured <span className="text-primary">podcasts</span>
+							Featured <span className="text-primary">guests</span>
 						</p>
 					</div>
 
-					<div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-5 relative">
-						{podcastList.map((list, index) => (
-							<div key={index} className="">
-								<Podcasts
-									image={list.image}
-									podcaster={list.podcaster}
-									title={list.title}
-								/>
-							</div>
-						))}
-					</div>
+					{profiles.length > 0 ? (
+						<div className="grid min-[380px]:grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 2xl:grid-cols-6 gap-5">
+							{searched ? (
+								search.length !== 0 ? (
+									search.map(
+										(
+											{
+												user: { image, name, _id, profile_type },
+												topic_categories,
+											},
+											index
+										) => (
+											<div key={index} className="h-60 w-full">
+												<Featured
+													key={index}
+													image={image}
+													name={name}
+													type={profile_type}
+													id={_id}
+													handleClick={handleAddRecent}
+													categories={topic_categories}
+													isFavorite={!favorite?.includes(_id)}
+												/>
+											</div>
+										)
+									)
+								) : (
+									<div className="flex flex-col items-center justify-center w-full h-full gap-4 ">
+										<Image
+											src={"/images/cloud.png"}
+											width={225}
+											height={225}
+											className=""
+											alt="No data image"
+										/>
+										<p className="text-center text-primary font-semibold text-lg">
+											No data found
+										</p>
+									</div>
+								)
+							) : (
+								profiles.map(
+									(
+										{
+											user: { image, name, _id, profile_type },
+											topic_categories,
+										},
+										index
+									) => (
+										<div key={index} className="h-60 w-full">
+											<Featured
+												key={index}
+												image={image}
+												name={name}
+												type={profile_type}
+												id={_id}
+												handleClick={handleAddRecent}
+												categories={topic_categories}
+												isFavorite={!favorite?.includes(_id)}
+											/>
+										</div>
+									)
+								)
+							)}
+						</div>
+					) : (
+						<div className="flex flex-col items-center justify-center w-full h-full gap-4 ">
+							<Image
+								src={"/images/cloud.png"}
+								width={225}
+								height={225}
+								className=""
+								alt="No data image"
+							/>
+							<p className="text-center text-primary font-semibold text-lg">
+								No data found
+							</p>
+						</div>
+					)}
 
 					{/* <div className="w-40">
 						<Dropdown

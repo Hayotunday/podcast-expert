@@ -144,17 +144,20 @@ const Guest = () => {
 								</p>
 							)}
 
-							<div className="flex flex-row flex-wrap gap-3 items-center justify-center lg:justify-start relative mb-5 sm:mb-0 w-full self-center">
+							<div className="flex flex-row flex-wrap gap-3 items-center justify-center md:justify-start relative mb-5 sm:mb-0 w-full self-center">
 								{data?.topic_categories.map((cate, index) => (
 									<Tag key={index} text={cate} />
 								))}
 							</div>
 
 							<div className="w-full flex justify-center md:justify-start">
-								<Location city={"Las Vegas"} country={"United States"} />
+								<Location
+									city={data?.user?.info?.city}
+									country={data?.user?.info?.city}
+								/>
 							</div>
 
-							<div className="flex flex-row gap-5 w-full justify-center lg:justify-start">
+							<div className="flex flex-row gap-5 w-full justify-center md:justify-start">
 								<button
 									type="button"
 									onClick={() => {
@@ -197,7 +200,7 @@ const Guest = () => {
 										About Me
 									</p>
 								</button>
-								<button
+								{/* <button
 									type="button"
 									className={
 										tab === 4
@@ -207,7 +210,7 @@ const Guest = () => {
 									onClick={() => setTab(4)}
 								>
 									<p className="font-semibold capitalize">Availability</p>
-								</button>
+								</button> */}
 								<button
 									type="button"
 									className={
@@ -474,17 +477,20 @@ const Guest = () => {
 								</p>
 							)}
 
-							<div className="grid grid-cols-3 sm:flex sm:flex-row gap-3 items-center justify-center sm:justify-start relative mb-5 sm:mb-0">
+							<div className="flex flex-row flex-wrap gap-3 items-center justify-center md:justify-start relative mb-5 sm:mb-0 w-full self-center">
 								{data?.topic_categories.map((cate, index) => (
 									<Tag key={index} text={cate} />
 								))}
 							</div>
 
 							<div className="w-full flex justify-center md:justify-start">
-								<Location city={"Las Vegas"} country={"United States"} />
+								<Location
+									city={data?.user?.info?.city}
+									country={data?.user?.info?.country}
+								/>
 							</div>
 
-							<div className="flex flex-row gap-5">
+							<div className="flex flex-row gap-5 ">
 								<button
 									type="button"
 									onClick={() => {
@@ -526,7 +532,7 @@ const Guest = () => {
 									About Me
 								</p>
 							</button>
-							<button
+							{/* <button
 								type="button"
 								className={
 									tab === 4
@@ -536,7 +542,7 @@ const Guest = () => {
 								onClick={() => setTab(4)}
 							>
 								<p className="font-semibold capitalize">Availability</p>
-							</button>
+							</button> */}
 							<button
 								type="button"
 								className={
@@ -776,7 +782,11 @@ const Guest = () => {
 										type="submit"
 										className="w-full rounded-md bg-success text-primary p-2"
 									>
-										{submit === "" ? (submitting ? "sending" : "send") : submit}
+										{submit === ""
+											? submitting
+												? "sending..."
+												: "send"
+											: submit}
 									</button>
 								</form>
 							</div>
