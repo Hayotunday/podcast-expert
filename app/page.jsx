@@ -16,6 +16,38 @@ export default function Home() {
 	const [favorite, setFavorite] = useState([]);
 	const [search, setSearch] = useState([]);
 
+	const handleDeleteDatabase = async (id) => {
+		const token =
+			localStorage.getItem("podcastToken") === undefined ||
+			localStorage.getItem("podcastToken") === null
+				? ""
+				: localStorage.getItem("podcastToken");
+
+		const config = {
+			headers: {
+				Authorization: `Bearer ${token}`,
+			},
+		};
+
+		if (!recent.includes(id)) {
+			await axios
+				.patch(
+					`${process.env.NEXT_PUBLIC_BASE_URL}/user/profile-type/recents`,
+					{
+						id: id,
+						data: [...recent, id],
+					},
+					config
+				)
+				.then((res) => {
+					return;
+				})
+				.catch((err) => {
+					console.log(err);
+				});
+		}
+	};
+
 	useEffect(() => {
 		setId(localStorage.getItem("podcastId"));
 		const getUserDetails = async () => {

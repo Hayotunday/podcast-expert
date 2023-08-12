@@ -139,7 +139,7 @@ export default function Root({ children }) {
 			pathname !== "/create-press/edit" &&
 			pathname !== "/admin" &&
 			pathname !== "/admin/settings" &&
-			pathname !== "/admin/login" &&
+			pathname !== "/admin/create" &&
 			pathname !== "/admin/details" ? (
 				<main className="bg-grey h-screen w-screen">
 					<section className="flex flex-row w-full h-full">
