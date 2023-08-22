@@ -8,7 +8,7 @@ import axios from "axios";
 
 import Dropdown from "@components/Dropdown";
 
-import { category_options, dropdown_options, new_options } from "@utils/data";
+import { category_options, new_options } from "@utils/data";
 import Featured from "@components/Featured";
 import Loader from "@components/Loader";
 
@@ -17,10 +17,12 @@ const Findpodcast = () => {
 
 	const [category, setCategory] = useState("");
 	const [location, setLocation] = useState("");
+	const [locations, setLocations] = useState("");
 	const [value, setValue] = useState("");
 	const [profiles, setProfiles] = useState([]);
 	const [id, setId] = useState("");
 	const [recent, setRecent] = useState([]);
+	const [favorite, setFavorite] = useState([]);
 	const [search, setSearch] = useState([]);
 	const [isLoaded, setIsLoaded] = useState(true);
 
@@ -29,7 +31,7 @@ const Findpodcast = () => {
 		const getUserDetails = async () => {
 			await axios
 				.get(
-					`${process.env.NEXT_PUBLIC_BASE_URL}/user/profiles?category=podcaster&location=${location}`
+					`${process.env.NEXT_PUBLIC_BASE_URL}/user/profiles?category=podcaster&location=${location}&topic=${category}`,{id}
 				)
 				.then((res) => {
 					const prof = res?.data?.filter((i) => {
@@ -37,7 +39,6 @@ const Findpodcast = () => {
 					});
 					// console.log("profiles: ", res);
 					setProfiles(prof);
-					setRecent(res.data.user.recent);
 				})
 				.catch((err) => console.log(err))
 				.finally(() => {
@@ -46,6 +47,55 @@ const Findpodcast = () => {
 		};
 
 		getUserDetails();
+	}, [location, category]);
+
+	useEffect(() => {
+		setId(localStorage.getItem("podcastId"));
+		const token =
+			localStorage.getItem("podcastToken") === undefined ||
+			localStorage.getItem("podcastToken") === null
+				? ""
+				: localStorage.getItem("podcastToken");
+
+		const config = {
+			headers: {
+				Authorization: `Bearer ${token}`,
+			},
+		};
+
+		const getUserDetails = async () => {
+			await axios
+				.get(
+					`${process.env.NEXT_PUBLIC_BASE_URL}/user/profile`, config
+				)
+				.then((res) => {
+					// console.log("user: ", res.data);
+					setFavorite(res.data.user.saved_list);
+					setRecent(res.data.user.recent);
+				})
+				.catch((err) => console.log(err));
+		};
+
+		getUserDetails();
+	}, []);
+	
+
+	useEffect(() => {
+		const getLocations = async () => {
+			await axios
+				.get(
+					`${process.env.NEXT_PUBLIC_BASE_URL}/user/location`
+				)
+				.then((res) => {
+					setLocations(res.data.locations)
+				})
+				.catch((err) => console.log(err))
+				.finally(() => {
+					setIsLoaded(false);
+				});
+		};
+
+		getLocations();
 	}, []);
 
 	useEffect(() => {
@@ -140,7 +190,7 @@ const Findpodcast = () => {
 							</div>
 							<div className="w-48">
 								<Dropdown
-									options={dropdown_options}
+									options={locations}
 									value={location}
 									onChangeValue={(e) => {
 										setLocation(e);
@@ -189,12 +239,9 @@ const Findpodcast = () => {
 													name={name}
 													type={profile_type}
 													id={_id}
-													handleClick={handleAddRecent}
+													handleClick={handleAddRecent(_id)}
 													categories={topic_categories}
-													// handleFavorite={handleUpdateFavorite}
-													// isFavorite={!favorite?.includes(_id)}
-													// favorite={favorite}
-													// setFavorite={updateFavorite}
+													isFavorite={favorite?.includes(_id)}
 												/>
 											</div>
 										)

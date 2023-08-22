@@ -64,7 +64,7 @@ const Topbar = ({ handleClick, componentRef, refreshRef }) => {
 				>
 					<FiMenu size={30} />
 				</button>
-				<label className="bg-grey p-1.5 px-2 rounded-md flex flex-row items-center  lg:w-[563px] outline-0 focus:outline-0">
+				<label className="bg-grey p-1.5 px-2 rounded-md flex flex-row items-center w-full lg:w-[563px] outline-0 focus:outline-0">
 					<input
 						type="text"
 						name="search"
@@ -91,12 +91,12 @@ const Topbar = ({ handleClick, componentRef, refreshRef }) => {
 				</label>
 			</div>
 
-			<div className="flex flex-row gap-5 items-center w-full justify-end mr-5">
+			<div className="flex flex-row gap-5 items-center w-2/5 sm:w-full justify-end mr-5">
 				<p className="text-primary font-bold capitalize hidden sm:block">
 					<span className="text-black">Hello!</span> {user?.name}
 				</p>
 				{/* <Link href={"/profile"}> */}
-				<div className="relative cursor-pointer">
+				<div className="relative cursor-default">
 					<div
 						className="rounded-full h-10 w-10"
 						onClick={() => setToggleDropdown((prev) => !prev)}

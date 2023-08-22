@@ -28,7 +28,7 @@ const AdminNav = ({ handleClick, navRef }) => {
 	};
 
 	return (
-		<section className="w-1/5 bg-primary">
+		<section className="w-1/5 hidden lg:block bg-primary">
 			<nav className=" w-full p-5">
 				<Link href={"#"} className="flex items-center justify-center">
 					<div className="">

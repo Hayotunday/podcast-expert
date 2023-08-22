@@ -60,12 +60,14 @@ const Favorites = () => {
 						<div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-5 relative">
 							{data.map(({ image, name, email, _id, profile_type }, index) => (
 								<div key={index} className="h-60 w-full">
-									<Podcasts
-										id={_id}
+									<Featured
+										key={index}
 										image={image}
 										name={name}
-										email={email}
 										type={profile_type}
+										id={_id}
+										handleClick={()=>{}}
+										isFavorite={true}
 									/>
 								</div>
 							))}

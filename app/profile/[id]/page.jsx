@@ -126,7 +126,7 @@ const Guest = () => {
 						</div>
 
 						<div className="flex-col flex justify-between gap-5 h-full">
-							<div className="flex flex-col text-center md:text-left">
+							<div className="flex flex-col items-center md:items-start text-center md:text-left">
 								<div className="w-full">
 									<h1 className="text-primary text-5xl font-black text-center md:text-left capitalize flex flex-col md:flex-row items-center justify-end md:items-end md:justify-start md:gap-2 ">
 										{data?.user?.name} <Indicator mode={"online"} />
@@ -459,14 +459,14 @@ const Guest = () => {
 						</div>
 
 						<div className="flex-col flex justify-between w-full gap-5 h-full">
-							<div className="flex flex-col items-center text-center md:text-left w-full">
+							<div className="flex flex-col items-center md:items-start text-center md:text-left w-full">
 								<div className="w-full">
 									<h1 className="text-primary text-5xl font-black text-center md:text-left capitalize flex flex-col md:flex-row items-center justify-end md:items-end md:justify-start md:gap-2 ">
 										{data?.user?.name} <Indicator mode={"online"} />
 									</h1>
 								</div>
 
-								<p className="text-grey-100 text-sm font-semibold">
+								<p className="text-grey-100 text-center md:text-left text-sm font-semibold">
 									{data?.user?.email}
 								</p>
 							</div>
@@ -572,7 +572,7 @@ const Guest = () => {
 							<button
 								type="button"
 								className={
-									tab === 3
+									tab === 4
 										? "bg-success text-primary duration-300 flex flex-row items-center justify-center gap-3 rounded-lg py-3 w-40"
 										: "bg-grey-300 text-grey-100 duration-300 flex flex-row items-center justify-center gap-3 rounded-lg py-3 w-40"
 								}
@@ -616,25 +616,6 @@ const Guest = () => {
 										{data?.need_guest ? "Yes" : "No"}
 									</p>
 								</div>
-								<h1 className="text-primary text-xl font-bold">
-									Booking Details
-								</h1>
-								{data?.booking_details.lenght > 0 ? (
-									<ul className="text-primary text-sm font-medium text-left">
-										{data?.booking_details.map((pref, index) => (
-											<li
-												key={index}
-												className="flex flex-row items-center gap-2"
-											>
-												<span className="text-sm">{index + 1}.</span> {pref}
-											</li>
-										))}
-									</ul>
-								) : (
-									<p className="text-primary text-base font-medium text-left">
-										Not available
-									</p>
-								)}
 								<h1 className="font-bold text-lg text-primary">
 									Guest Expectation
 								</h1>
@@ -747,7 +728,7 @@ const Guest = () => {
 									Previous Episodes
 								</h1>
 								<ul className="text-primary text-base font-medium text-left">
-									{data?.episode_links.map((interview, index) => (
+									{data?.interviews.map((interview, index) => (
 										<li
 											key={index}
 											className="flex flex-row items-center gap-2"

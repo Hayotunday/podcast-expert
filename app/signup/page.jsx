@@ -12,6 +12,7 @@ import { updateEmail } from "@app/redux/features/auth/authSlice";
 import Input from "@components/Input";
 import Transition from "@components/Transition";
 import axios from "axios";
+import Social from "@components/Social";
 
 const Signup = () => {
 	const {} = useSelector((state) => state.auth);
@@ -146,10 +147,12 @@ const Signup = () => {
 				</div>
 
 				<div className="mt-5">
-					<p className="text-white font-light text-left text-2xl capitalize">
-						Enjoy Your{" "}
-						<span className={`text-${color} font-bold`}>podcast,</span> Enjoy
-						your <span className={`text-${color} font-bold`}>Life.</span>{" "}
+				<p className="text-white font-light text-left text-xl">
+						The exclusive{" "}
+						<span className={`text-${color} font-bold`}>
+							podcast guest matching service
+						</span>{" "}
+						you've been waiting for.
 					</p>
 					<p className="text-white text-xs font-light text-left">
 						Never look for great guests again.
@@ -177,6 +180,12 @@ const Signup = () => {
 					</p>
 				</div>
 				<div className="flex flex-col items-center gap-3 mt-5 sm:mt-3">
+					<Social/>
+					<div className="flex flex-row items-center justify-center gap-3">
+						<hr className="w-44 bg-grey h-0.5" />
+						<p className="text-center text-sm font-light text-primary">Or</p>
+						<hr className="w-44 bg-grey h-0.5" />
+					</div>
 					<form onSubmit={(e) => handleSubmit(e)} className="w-full mt-2">
 						<div className="flex flex-col gap-3 sm:w-125 w-full">
 							<Input
@@ -236,7 +245,7 @@ const Signup = () => {
 								Don't have an account?{" "}
 								<span className="text-success">
 									<Link href={"/login"} className="">
-										login
+										sign up
 									</Link>
 								</span>
 							</p>

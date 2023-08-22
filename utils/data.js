@@ -150,11 +150,12 @@ export const podcastList = [
 
 export const dropdown_options = [{ option: 'Location 1' }, { option: 'Location 2' }, { option: 'Location 3' }, { option: 'Location 4' }]
 
-export const gender_options = [{ option: 'Male' }, { option: 'Female' }, { option: 'Prefer not to say' }]
+export const gender_options = [{ option: '' }, { option: 'Male' }, { option: 'Female' }, { option: 'Prefer not to say' }]
 
-export const new_options = [{ option: 'New' }, { option: 'Featured' }]
+export const new_options = [{ option: '' }, { option: 'New' }, { option: 'Featured' }]
 
 export const category_options = [
+  { option: '' },
   { option: 'Arts' },
   { option: 'Business' },
   { option: 'Comedy' },
@@ -178,6 +179,7 @@ export const category_options = [
 
 
 export const language_options = [
+  { option: '' },
   { option: 'Afrikaans' },
   { option: 'Albanian' },
   { option: 'Amharic' },

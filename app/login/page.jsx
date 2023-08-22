@@ -9,6 +9,7 @@ import { signIn } from "next-auth/react";
 import Input from "@components/Input";
 import Transition from "@components/Transition";
 import axios from "axios";
+import Social from "@components/Social";
 
 const Login = ({ searchParams }) => {
 	const [position, setPosition] = useState(1);
@@ -141,6 +142,12 @@ const Login = ({ searchParams }) => {
 					</p>
 				</div>
 				<div className="flex flex-col items-center gap-3 mt-5 sm:mt-3 w-full">
+				<Social/>
+					<div className="flex flex-row items-center justify-center gap-3">
+						<hr className="w-44 bg-grey h-0.5" />
+						<p className="text-center text-sm font-light text-primary">Or</p>
+						<hr className="w-44 bg-grey h-0.5" />
+					</div>
 					<form
 						onSubmit={(e) => handleSubmit(e)}
 						className="w-full mt-10 flex flex-col items-center"

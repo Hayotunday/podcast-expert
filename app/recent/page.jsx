@@ -6,8 +6,10 @@ import Image from "next/image";
 
 import Featured from "@components/Featured";
 
-export default function Home() {
+export default function Recent() {
+	const [id, setId] = useState([]);
 	const [recent, setRecent] = useState([]);
+	const [favorite, setFavorite] = useState([]);
 
 	useEffect(() => {
 		const getRecents = async () => {
@@ -29,6 +31,31 @@ export default function Home() {
 		getRecents();
 	}, []);
 
+	useEffect(() => {
+		setId(localStorage.getItem("podcastId"));
+		const getUserDetails = async () => {
+			setId(localStorage.getItem("podcastId"));
+			const token = localStorage.getItem("podcastToken");
+			const config = {
+				headers: {
+					Authorization: `Bearer ${token}`,
+				},
+			};
+			await axios
+				.get(
+					`${process.env.NEXT_PUBLIC_BASE_URL}/user/profile`,
+					config
+				)
+				.then((res) => {
+					console.log(res.data.user.saved_list);
+					setFavorite(res.data.user.saved_list);
+				})
+				.catch((err) => console.log(err));
+		};
+
+		getUserDetails();
+	}, []);
+
 	return (
 		<>
 			<div className="bg-grey w-full h-full p-5 flex flex-col gap-7">
@@ -42,6 +69,7 @@ export default function Home() {
 									name={name}
 									type={profile_type}
 									id={_id}
+									isFavorite={favorite?.includes(_id)}
 								/>
 							</div>
 						))}

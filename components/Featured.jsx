@@ -1,3 +1,4 @@
+import { handleFavorite, handleUnFavorite } from "@utils/functions";
 import axios from "axios";
 import Link from "next/link";
 import { useEffect, useState } from "react";
@@ -13,61 +14,12 @@ const Featured = ({
 	isAdmin,
 	handleClick,
 	isFavorite,
+	favorite,
+	unfavorite
 }) => {
 	const [fav, setFav] = useState(isFavorite);
-	// console.log(fav);
+	console.log(fav);
 
-	const handleUnFavorite = async () => {
-		const token =
-			localStorage.getItem("podcastToken") === undefined ||
-			localStorage.getItem("podcastToken") === null
-				? ""
-				: localStorage.getItem("podcastToken");
-		const config = {
-			headers: {
-				Authorization: `Bearer ${token}`,
-			},
-		};
-
-		await axios
-			.patch(
-				`${process.env.NEXT_PUBLIC_BASE_URL}/user/profile-type/unfavorites`,
-				{ data: id },
-				config
-			)
-			.then(() => {
-				setFav(false);
-				router.refresh();
-				console.log("Done");
-			})
-			.catch((err) => console.log(err));
-	};
-
-	const handleFavorite = async () => {
-		const token =
-			localStorage.getItem("podcastToken") === undefined ||
-			localStorage.getItem("podcastToken") === null
-				? ""
-				: localStorage.getItem("podcastToken");
-		const config = {
-			headers: {
-				Authorization: `Bearer ${token}`,
-			},
-		};
-
-		await axios
-			.patch(
-				`${process.env.NEXT_PUBLIC_BASE_URL}/user/profile-type/favorites`,
-				{ data: id },
-				config
-			)
-			.then(() => {
-				setFav(true);
-				router.refresh();
-				console.log("Done");
-			})
-			.catch((err) => console.log(err));
-	};
 
 	return (
 		<div className="relative z-0">
@@ -77,7 +29,7 @@ const Featured = ({
 			>
 				<div
 					onClick={() => {
-						handleClick && handleClick(id);
+						handleClick && handleClick();
 					}}
 					className="w-full h-full hover:shadow p-0.5 rounded-lg group"
 				>
@@ -125,10 +77,19 @@ const Featured = ({
 				</div>
 			</Link>
 
-			{/* <button
+			{!isAdmin &&
+			<button
 				type="button"
 				onClick={() => {
-					fav ? handleUnFavorite() : handleFavorite();
+					if (fav) {
+						setFav(false);
+						// unfavorite
+						handleUnFavorite(id,`${process.env.NEXT_PUBLIC_BASE_URL}/user/profile-type/unfavorites`)
+					} else {
+						setFav(true);
+						// favorite
+						handleFavorite(id,`${process.env.NEXT_PUBLIC_BASE_URL}/user/profile-type/favorites`)
+					};
 				}}
 				className="absolute top-3 left-3"
 			>
@@ -137,7 +98,7 @@ const Featured = ({
 				) : (
 					<AiOutlineHeart size={25} color="red" className="" />
 				)}
-			</button> */}
+			</button>}
 		</div>
 	);
 };

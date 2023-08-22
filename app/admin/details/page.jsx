@@ -58,7 +58,7 @@ const ChangePassword = ({
 		<div className="h-screen w-screen bg-transparent flex items-center justify-center absolute">
 			<div className="h-fit w-fit p-5 bg-white-smoke rounded-lg shadow-2xl shadow-black flex flex-col gap-5">
 				<p className="text-xs text-right font-normal ">
-					Confirm Admin Password to change user password
+					Enter new user password and confirm Admin Password to change user password
 				</p>
 				<Input
 					inputholder={"enter new password"}
@@ -212,7 +212,8 @@ const Details = () => {
 					<p className="text-primary text-base font-normal">Back</p>
 				</div>
 
-				<div className="mt-7 flex flex-row gap-5">
+				<div className="mt-7 flex flex-col md:flex-row items-center md:items-start gap-5">
+					<div className="">
 					{data?.user?.image ? (
 						<Image
 							alt="profile picture"
@@ -226,7 +227,9 @@ const Details = () => {
 							{data?.user?.name.charAt(0)}
 						</div>
 					)}
-					<div className="flex flex-col text-center md:text-left">
+					</div>
+					
+					<div className="flex flex-col items-center md:items-start text-center md:text-left">
 						<h1 className="text-primary text-4xl font-black text-center md:text-left capitalize flex flex-col md:flex-row items-center justify-end md:items-end md:justify-start md:gap-2 w-full">
 							{data?.user?.name}
 						</h1>

@@ -6,7 +6,7 @@ import Link from "next/link";
 
 import Dropdown from "@components/Dropdown";
 
-import { dropdown_options, new_options } from "@utils/data";
+import { category_options,  new_options } from "@utils/data";
 import { useSelector } from "react-redux";
 import axios from "axios";
 import Featured from "@components/Featured";
@@ -16,6 +16,7 @@ const Findpodcast = () => {
 
 	const [category, setCategory] = useState("");
 	const [location, setLocation] = useState("");
+	const [locations, setLocations] = useState("");
 	const [value, setValue] = useState("");
 	const [profiles, setProfiles] = useState([]);
 	const [id, setId] = useState("");
@@ -28,7 +29,7 @@ const Findpodcast = () => {
 		const getUserDetails = async () => {
 			await axios
 				.get(
-					`${process.env.NEXT_PUBLIC_BASE_URL}/user/profiles?category=guest&location=${location}`
+					`${process.env.NEXT_PUBLIC_BASE_URL}/user/profiles?category=guest&location=${location}&topic=${category}`,{id}
 				)
 				.then((res) => {
 					const prof = res?.data?.filter((i) => {
@@ -36,12 +37,56 @@ const Findpodcast = () => {
 					});
 					// console.log("profiles: ", res);
 					setProfiles(prof);
+				})
+				.catch((err) => console.log(err));
+		};
+
+		getUserDetails();
+	}, [location,category]);
+
+	useEffect(() => {
+		setId(localStorage.getItem("podcastId"));
+		const token =
+			localStorage.getItem("podcastToken") === undefined ||
+			localStorage.getItem("podcastToken") === null
+				? ""
+				: localStorage.getItem("podcastToken");
+
+		const config = {
+			headers: {
+				Authorization: `Bearer ${token}`,
+			},
+		};
+
+		const getUserDetails = async () => {
+			await axios
+				.get(
+					`${process.env.NEXT_PUBLIC_BASE_URL}/user/profile`, config
+				)
+				.then((res) => {
+					// console.log("user: ", res.data);
+					setRecent(res.data.user.saved_list);
 					setRecent(res.data.user.recent);
 				})
 				.catch((err) => console.log(err));
 		};
 
 		getUserDetails();
+	}, []);
+
+	useEffect(() => {
+		const getLocations = async () => {
+			await axios
+				.get(
+					`${process.env.NEXT_PUBLIC_BASE_URL}/user/location`
+				)
+				.then((res) => {
+					setLocations(res.data.locations)
+				})
+				.catch((err) => console.log(err))
+		};
+
+		getLocations();
 	}, []);
 
 	useEffect(() => {
@@ -122,7 +167,7 @@ const Findpodcast = () => {
 						<div className="flex flex-row items-center gap-3">
 							<div className="w-48">
 								<Dropdown
-									options={dropdown_options}
+									options={category_options}
 									value={category}
 									onChangeValue={(e) => {
 										setCategory(e);
@@ -131,8 +176,8 @@ const Findpodcast = () => {
 								/>
 							</div>
 							<div className="w-48">
-								<Dropdown
-									options={dropdown_options}
+							<Dropdown
+									options={locations}
 									value={location}
 									onChangeValue={(e) => {
 										setLocation(e);
@@ -183,7 +228,7 @@ const Findpodcast = () => {
 													id={_id}
 													handleClick={handleAddRecent}
 													categories={topic_categories}
-													isFavorite={!favorite?.includes(_id)}
+													isFavorite={favorite?.includes(_id)}
 												/>
 											</div>
 										)

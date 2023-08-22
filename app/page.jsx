@@ -50,19 +50,47 @@ export default function Home() {
 
 	useEffect(() => {
 		setId(localStorage.getItem("podcastId"));
+		const token =
+			localStorage.getItem("podcastToken") === undefined ||
+			localStorage.getItem("podcastToken") === null
+				? ""
+				: localStorage.getItem("podcastToken");
+
+		const config = {
+			headers: {
+				Authorization: `Bearer ${token}`,
+			},
+		};
+
 		const getUserDetails = async () => {
 			await axios
 				.get(
-					`${process.env.NEXT_PUBLIC_BASE_URL}/user/profiles?category=all&location=""`
+					`${process.env.NEXT_PUBLIC_BASE_URL}/user/profile`, config
+				)
+				.then((res) => {
+					// console.log("user: ", res.data);
+					setRecent(res.data.user.recent);
+					setFavorite(res.data.user.saved_list);
+				})
+				.catch((err) => console.log(err));
+		};
+
+		getUserDetails();
+	}, []);
+
+	useEffect(() => {
+		setId(localStorage.getItem("podcastId"));
+		const getUserDetails = async () => {
+			await axios
+				.get(
+					`${process.env.NEXT_PUBLIC_BASE_URL}/user/profiles?category=all&location=&topic=`,{id}
 				)
 				.then((res) => {
 					const prof = res?.data?.filter((i) => {
 						return localStorage.getItem("podcastId") !== i.user._id;
 					});
-					// console.log("profiles: ", res);
+					console.log("profiles: ", res.data);
 					setProfiles(prof);
-					setRecent(res.data.user.recent);
-					setFavorite(res.data.user.saved_list);
 				})
 				.catch((err) => console.log(err));
 		};
@@ -74,11 +102,13 @@ export default function Home() {
 		const getSearched = async () => {
 			const categories = profiles?.filter((i) => {
 				for (let index = 0; index < i.topic_categories.length; index++) {
-					return searched === i?.topic_categories[index];
+					let str =i?.topic_categories[index].toLowerCase()
+					return searched === str;
 				}
 			});
 			const users = profiles?.filter((i) => {
-				return i.user.name.includes(searched);
+				let str = i.user.name.toLowerCase()
+				return str.includes(searched.toLowerCase());
 			});
 
 			const prof = [...users, ...categories];
@@ -147,12 +177,9 @@ export default function Home() {
 												name={name}
 												type={profile_type}
 												id={_id}
-												handleClick={handleAddRecent}
-												// handleFavorite={handleUpdateFavorite}
+												handleClick={()=>{handleAddRecent(_id)}}
 												categories={topic_categories}
 												isFavorite={!favorite?.includes(_id)}
-												favorite={favorite}
-												setFavorite={updateFavorite}
 											/>
 										</div>
 									)
