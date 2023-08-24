@@ -242,10 +242,10 @@ const Signup = () => {
 							</button>
 
 							<p className="text-grey-100 text-base text-center">
-								Don't have an account?{" "}
+								Already have an account?{" "}
 								<span className="text-success">
 									<Link href={"/login"} className="">
-										sign up
+										sign in
 									</Link>
 								</span>
 							</p>
