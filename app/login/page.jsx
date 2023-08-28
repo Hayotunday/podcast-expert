@@ -73,6 +73,7 @@ const Login = ({ searchParams }) => {
 				.then((res) => {
 					localStorage.setItem("podcastToken", res.data.accessToken);
 					localStorage.setItem("podcastId", res.data.id);
+					localStorage.setItem("podcastMail", loginInfo.email);
 					if (searchParams.return) {
 						router.push(`${searchParams.return}`);
 					} else if (res.status === 200) {
