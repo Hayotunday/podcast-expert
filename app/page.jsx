@@ -89,7 +89,7 @@ export default function Home() {
 					const prof = res?.data?.filter((i) => {
 						return localStorage.getItem("podcastId") !== i.user._id;
 					});
-					console.log("profiles: ", res.data);
+					// console.log("profiles: ", res.data);
 					setProfiles(prof);
 				})
 				.catch((err) => console.log(err));
@@ -179,7 +179,7 @@ export default function Home() {
 												id={_id}
 												handleClick={()=>{handleAddRecent(_id)}}
 												categories={topic_categories}
-												isFavorite={!favorite?.includes(_id)}
+												isFavorite={()=>{return favorite?.includes(_id)}}
 											/>
 										</div>
 									)

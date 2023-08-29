@@ -59,7 +59,7 @@ const Nav = ({ handleClick, navRef }) => {
 					Create list
 				</button> */}
 
-				<div className="w-full mt-8">
+				<div className="w-full mt-6">
 					<Link
 						href={"/"}
 						className={
@@ -90,7 +90,7 @@ const Nav = ({ handleClick, navRef }) => {
 					<hr className="mt-2" />
 				</div>
 
-				<div className="w-full mt-8">
+				<div className="w-full mt-4">
 					<p className="text-white text-left uppercase text-sm font-normal">
 						MENU
 					</p>
@@ -129,7 +129,7 @@ const Nav = ({ handleClick, navRef }) => {
 					<hr className="mt-2" />
 				</div>
 
-				<div className="w-full mt-8">
+				<div className="w-full mt-4">
 					<p className="text-white text-left uppercase text-sm font-normal">
 						LIBRARY
 					</p>
@@ -168,7 +168,7 @@ const Nav = ({ handleClick, navRef }) => {
 					<hr className="mt-2" />
 				</div>
 
-				<div className="w-full mt-12">
+				<div className="w-full mt-4">
 					<button
 						onClick={() => {
 							// setToggleDropdown(false);
@@ -181,7 +181,7 @@ const Nav = ({ handleClick, navRef }) => {
 					</button>
 				</div>
 
-				{/* <div className="w-full mt-10">
+				<div className="w-full mt-6">
 					<div className="w-full rounded-lg flex flex-row bg-pinky p-3">
 						<div className="flex flex-col">
 							<p className="text-primary text-left">
@@ -198,7 +198,7 @@ const Nav = ({ handleClick, navRef }) => {
 							<h1 className="text-primary font-extrabold text-7xl">f</h1>
 						</div>
 					</div>
-				</div> */}
+				</div>
 			</nav>
 		</section>
 	);

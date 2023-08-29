@@ -178,11 +178,13 @@ const Guest = () => {
 						<div className="flex flex-col items-center">
 							<div className="rounded-lg h-40 sm:h-60 w-40 sm:w-60">
 								{data?.user?.image ? (
-									<img
+									<Image
 										src={`data:image/jpeg;base64,${data?.user?.image}`}
 										id="img"
 										alt="image"
-										className="rounded-lg h-full w-full flex items-center justify-center"
+										fill
+										priority
+										className="rounded-lg h-full w-full flex items-center justify-center object-contain"
 									/>
 								) : (
 									<div className="rounded-lg bg-green-500 text-primary uppercase h-40 sm:h-60 w-40 sm:w-60 text-7xl sm:text-9xl font-bold flex items-center justify-center">
@@ -654,11 +656,13 @@ const Guest = () => {
 						<div className="flex flex-col items-center">
 							<div className="rounded-full h-40 sm:h-60 w-40 sm:w-60">
 								{data?.user?.image ? (
-									<img
+									<Image
 										src={`data:image/jpeg;base64,${data?.user?.image}`}
 										id="img"
 										alt="image"
-										className="rounded-lg h-full w-full flex items-center justify-center"
+										fill
+										priority
+										className="object-contain rounded-lg h-full w-full flex items-center justify-center"
 									/>
 								) : (
 									<div className="rounded-full bg-green-500 text-primary uppercase h-40 sm:h-60 w-40 sm:w-60 text-7xl sm:text-9xl font-bold flex items-center justify-center">

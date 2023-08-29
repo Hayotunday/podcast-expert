@@ -39,7 +39,7 @@ const Featured = ({
 								src={`data:image/jpeg;base64,${image}`}
 								id="img"
 								alt="image"
-								className="rounded-xl h-full w-full flex items-center justify-center group-hover:scale-110 transition-transform ease-in duration-1000"
+								className="object-contain rounded-xl h-full w-full flex items-center justify-center group-hover:scale-110 transition-transform ease-in duration-1000"
 							/>
 						) : (
 							<div className="rounded-xl bg-green-500 text-primary uppercase h-full w-full text-9xl font-bold flex items-center justify-center">
@@ -82,21 +82,21 @@ const Featured = ({
 				type="button"
 				onClick={() => {
 					if (fav) {
-						setFav(false);
-						// unfavorite
-						handleUnFavorite(id,`${process.env.NEXT_PUBLIC_BASE_URL}/user/profile-type/unfavorites`)
-					} else {
 						setFav(true);
-						// favorite
+						// unfavorite
 						handleFavorite(id,`${process.env.NEXT_PUBLIC_BASE_URL}/user/profile-type/favorites`)
+					} else {
+						setFav(false);
+						// favorite
+						handleUnFavorite(id,`${process.env.NEXT_PUBLIC_BASE_URL}/user/profile-type/unfavorites`)
 					};
 				}}
 				className="absolute top-3 left-3"
 			>
 				{fav ? (
-					<AiFillHeart size={25} color="red" className="" />
-				) : (
 					<AiOutlineHeart size={25} color="red" className="" />
+					) : (
+					<AiFillHeart size={25} color="red" className="" />
 				)}
 			</button>}
 		</div>
