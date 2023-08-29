@@ -111,11 +111,11 @@ const Guest = () => {
 						<div className="flex flex-col items-center">
 							<div className="rounded-lg h-40 sm:h-60 w-52 sm:w-60">
 								{data?.user?.image ? (
-									<Image
+									<img
 										src={`data:image/jpeg;base64,${data?.user?.image}`}
 										id="img"
 										alt="image"
-										fill
+										fil
 										className="object-contain rounded-lg h-full w-full flex items-center justify-center"
 									/>
 								) : (
@@ -446,11 +446,10 @@ const Guest = () => {
 					<div className="flex flex-col sm:flex-row gap-5 items-center">
 						<div className="rounded-lg h-40 sm:h-60 w-52 sm:w-60">
 							{data?.user?.image ? (
-								<Image
+								<img
 									src={`data:image/jpeg;base64,${data?.user?.image}`}
 									id="img"
 									alt="image"
-									fill
 									className="object-contain rounded-lg h-full w-full flex items-center justify-center"
 								/>
 							) : (

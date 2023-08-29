@@ -176,14 +176,12 @@ const Guest = () => {
 
 					<div className="flex flex-col md:flex-row gap-5">
 						<div className="flex flex-col items-center">
-							<div className="rounded-lg h-40 sm:h-60 w-40 sm:w-60">
+							<div className="rounded-lg h-40 sm:h-60 w-52 sm:w-60">
 								{data?.user?.image ? (
-									<Image
+									<img
 										src={`data:image/jpeg;base64,${data?.user?.image}`}
 										id="img"
 										alt="image"
-										fill
-										priority
 										className="rounded-lg h-full w-full flex items-center justify-center object-contain"
 									/>
 								) : (
@@ -654,14 +652,12 @@ const Guest = () => {
 
 					<div className="flex flex-col md:flex-row gap-5">
 						<div className="flex flex-col items-center">
-							<div className="rounded-full h-40 sm:h-60 w-40 sm:w-60">
+							<div className="rounded-full h-40 sm:h-60 w-52 sm:w-60">
 								{data?.user?.image ? (
-									<Image
+									<img
 										src={`data:image/jpeg;base64,${data?.user?.image}`}
 										id="img"
 										alt="image"
-										fill
-										priority
 										className="object-contain rounded-lg h-full w-full flex items-center justify-center"
 									/>
 								) : (
