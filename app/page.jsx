@@ -160,6 +160,7 @@ export default function Home() {
 			<div className="bg-grey w-full h-full p-5 flex flex-col gap-7">
 				{profiles.length > 0 ? (
 					<div className="grid min-[380px]:grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 2xl:grid-cols-6 gap-5">
+						<p className="text-primary text-2xl font-semibold">Featured <span className="text-pinky">Podcasts</span></p>
 						{searched ? (
 							search.length !== 0 ? (
 								search.map(
