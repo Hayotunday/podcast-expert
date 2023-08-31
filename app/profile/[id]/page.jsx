@@ -50,7 +50,7 @@ const Guest = () => {
 		const email = localStorage.getItem("podcastMail");
 		const token =
 			localStorage.getItem("podcastToken") === undefined ||
-			localStorage.getItem("podcastToken") === null
+				localStorage.getItem("podcastToken") === null
 				? ""
 				: localStorage.getItem("podcastToken");
 
@@ -116,7 +116,7 @@ const Guest = () => {
 										id="img"
 										alt="image"
 										fil
-										className="object-contain rounded-lg h-full w-full flex items-center justify-center"
+										className="rounded-lg h-full w-full flex items-center justify-center"
 									/>
 								) : (
 									<div className="rounded-lg bg-green-500 text-primary uppercase h-40 sm:h-60 w-40 sm:w-60 text-7xl sm:text-9xl font-bold flex items-center justify-center">
@@ -450,7 +450,7 @@ const Guest = () => {
 									src={`data:image/jpeg;base64,${data?.user?.image}`}
 									id="img"
 									alt="image"
-									className="object-contain rounded-lg h-full w-full flex items-center justify-center"
+									className="rounded-lg h-full w-full flex items-center justify-center"
 								/>
 							) : (
 								<div className="rounded-lg bg-green-500 text-primary uppercase h-40 sm:h-60 w-40 sm:w-60 text-7xl sm:text-9xl font-bold flex items-center justify-center">

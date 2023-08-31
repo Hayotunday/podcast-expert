@@ -182,7 +182,7 @@ const Guest = () => {
 										src={`data:image/jpeg;base64,${data?.user?.image}`}
 										id="img"
 										alt="image"
-										className="rounded-lg h-full w-full flex items-center justify-center object-contain"
+										className="rounded-lg h-full w-full flex items-center justify-center"
 									/>
 								) : (
 									<div className="rounded-lg bg-green-500 text-primary uppercase h-40 sm:h-60 w-40 sm:w-60 text-7xl sm:text-9xl font-bold flex items-center justify-center">
@@ -618,7 +618,7 @@ const Guest = () => {
 								<span>
 									<CgDanger size={20} />
 								</span>
-								Danger!. Delete Account
+								Danger. Delete Account
 							</p>
 							<button
 								type="button"
@@ -1075,7 +1075,7 @@ const Guest = () => {
 								<span>
 									<CgDanger size={20} />
 								</span>
-								Danger!. Delete Account
+								Danger. Delete Account
 							</p>
 							<button
 								type="button"

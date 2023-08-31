@@ -6,10 +6,11 @@ import Link from "next/link";
 
 import Dropdown from "@components/Dropdown";
 
-import { category_options,  new_options } from "@utils/data";
+import { category_options, new_options } from "@utils/data";
 import { useSelector } from "react-redux";
 import axios from "axios";
 import Featured from "@components/Featured";
+import Loader from "@components/Loader";
 
 const Findpodcast = () => {
 	const { searched } = useSelector((state) => state.search);
@@ -23,13 +24,14 @@ const Findpodcast = () => {
 	const [recent, setRecent] = useState([]);
 	const [favorite, setFavorite] = useState([]);
 	const [search, setSearch] = useState([]);
+	const [isLoaded, setIsLoaded] = useState(true);
 
 	useEffect(() => {
 		setId(localStorage.getItem("podcastId"));
 		const getUserDetails = async () => {
 			await axios
 				.get(
-					`${process.env.NEXT_PUBLIC_BASE_URL}/user/profiles?category=guest&location=${location}&topic=${category}`,{id}
+					`${process.env.NEXT_PUBLIC_BASE_URL}/user/profiles?category=guest&location=${location}&topic=${category}`, { id }
 				)
 				.then((res) => {
 					const prof = res?.data?.filter((i) => {
@@ -38,17 +40,20 @@ const Findpodcast = () => {
 					// console.log("profiles: ", res);
 					setProfiles(prof);
 				})
-				.catch((err) => console.log(err));
+				.catch((err) => console.log(err))
+				.finally(() => {
+					setIsLoaded(false);
+				});
 		};
 
 		getUserDetails();
-	}, [location,category]);
+	}, [location, category]);
 
 	useEffect(() => {
 		setId(localStorage.getItem("podcastId"));
 		const token =
 			localStorage.getItem("podcastToken") === undefined ||
-			localStorage.getItem("podcastToken") === null
+				localStorage.getItem("podcastToken") === null
 				? ""
 				: localStorage.getItem("podcastToken");
 
@@ -111,7 +116,7 @@ const Findpodcast = () => {
 	const handleAddRecent = async (id) => {
 		const token =
 			localStorage.getItem("podcastToken") === undefined ||
-			localStorage.getItem("podcastToken") === null
+				localStorage.getItem("podcastToken") === null
 				? ""
 				: localStorage.getItem("podcastToken");
 
@@ -139,6 +144,10 @@ const Findpodcast = () => {
 				});
 		}
 	};
+
+	if (isLoaded) {
+		return <Loader template={true} numOfTemplate={20} />
+	}
 
 	return (
 		<>
@@ -176,7 +185,7 @@ const Findpodcast = () => {
 								/>
 							</div>
 							<div className="w-48">
-							<Dropdown
+								<Dropdown
 									options={locations}
 									value={location}
 									onChangeValue={(e) => {

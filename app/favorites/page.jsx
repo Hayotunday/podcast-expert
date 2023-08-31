@@ -7,10 +7,12 @@ import Link from "next/link";
 import Featured from "@components/Featured";
 import axios from "axios";
 import Podcasts from "@components/Podcasts";
+import Loader from "@components/Loader";
 
 const Favorites = () => {
 	const [id, setId] = useState();
 	const [data, setData] = useState([]);
+	const [isLoaded, setIsLoaded] = useState(true);
 
 	useEffect(() => {
 		setId(localStorage.getItem("podcastId"));
@@ -30,11 +32,18 @@ const Favorites = () => {
 				.then((res) => {
 					setData(res.data);
 				})
-				.catch((err) => console.log(err));
+				.catch((err) => console.log(err))
+				.finally(() => {
+					setIsLoaded(false);
+				});
 		};
 
 		getUserDetails();
 	}, []);
+
+	if (isLoaded) {
+		return <Loader template={true} numOfTemplate={20} />
+	}
 
 	return (
 		<>
@@ -66,7 +75,7 @@ const Favorites = () => {
 										name={name}
 										type={profile_type}
 										id={_id}
-										handleClick={()=>{}}
+										handleClick={() => { }}
 										isFavorite={true}
 									/>
 								</div>

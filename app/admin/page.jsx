@@ -43,7 +43,7 @@ const AdminHome = () => {
 
 					await axios
 						.get(
-							`${process.env.NEXT_PUBLIC_BASE_URL}/user/profiles?category=all&location=&topic=`, {id}
+							`${process.env.NEXT_PUBLIC_BASE_URL}/user/profiles?category=all&location=&topic=`, { id }
 						)
 						.then((res) => {
 							const prof = res?.data?.filter((i) => {
@@ -69,7 +69,7 @@ const AdminHome = () => {
 		const getSearched = async () => {
 			const categories = profiles?.filter((i) => {
 				for (let index = 0; index < i.topic_categories.length; index++) {
-					let str =i?.topic_categories[index].toLowerCase()
+					let str = i?.topic_categories[index].toLowerCase()
 					return searched === str;
 				}
 			});
@@ -78,7 +78,7 @@ const AdminHome = () => {
 				return str.includes(searched.toLowerCase());
 			});
 
-			const prof = [...users,...categories];
+			const prof = [...users, ...categories];
 			setSearch(prof);
 			// setProfiles(prof);
 		};
@@ -101,13 +101,9 @@ const AdminHome = () => {
 			});
 	};
 
-	// if (isLoaded) {
-	// 	return (
-	// 		<div className="w-screen h-screen">
-	// 			<Loader />;
-	// 		</div>
-	// 	);
-	// }
+	if (isLoaded) {
+		return <Loader template={true} numOfTemplate={20} />
+	}
 
 	return (
 		<main className="flex flex-row w-full h-screen">
@@ -118,19 +114,19 @@ const AdminHome = () => {
 						<Link href={'/admin'} title="Home" className="md:hidden">
 							<HiOutlineHome color="#00CCBB" size={25} />
 						</Link>
-					<label className="bg-grey p-1.5 px-2 rounded-md flex flex-row items-center w-full lg:w-[563px] outline-0 focus:outline-0">
-						<input
-							type="text"
-							name="search"
-							id="search"
-							value={searched}
-							onChange={(e) => {
-								dispatch(updateSearch(e.target.value.trim()));
-							}}
-							placeholder="search user name or category"
-							className="bg-grey w-full text-sm outline-0 focus:outline-0"
-						/>
-						{/* <button
+						<label className="bg-grey p-1.5 px-2 rounded-md flex flex-row items-center w-full lg:w-[563px] outline-0 focus:outline-0">
+							<input
+								type="text"
+								name="search"
+								id="search"
+								value={searched}
+								onChange={(e) => {
+									dispatch(updateSearch(e.target.value.trim()));
+								}}
+								placeholder="search user name or category"
+								className="bg-grey w-full text-sm outline-0 focus:outline-0"
+							/>
+							{/* <button
 							type="button"
 							className="bg-lightgreen p-1.5 rounded-md"
 							onClick={() => 	{}}
@@ -142,8 +138,8 @@ const AdminHome = () => {
 								alt="Search icon"
 							/>
 						</button> */}
-					</label>
-					<button
+						</label>
+						<button
 							onClick={() => {
 								// setToggleDropdown(false);
 								logOut();
@@ -153,7 +149,7 @@ const AdminHome = () => {
 						>
 							<pre className="text-xs text-center text-primary font-publicSans">
 								Sign Out
-								</pre>
+							</pre>
 						</button>
 					</div>
 				</div>

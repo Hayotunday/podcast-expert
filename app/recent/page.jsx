@@ -5,11 +5,13 @@ import axios from "axios";
 import Image from "next/image";
 
 import Featured from "@components/Featured";
+import Loader from "@components/Loader";
 
 export default function Recent() {
 	const [id, setId] = useState([]);
 	const [recent, setRecent] = useState([]);
 	const [favorite, setFavorite] = useState([]);
+	const [isLoaded, setIsLoaded] = useState(true);
 
 	useEffect(() => {
 		const getRecents = async () => {
@@ -50,11 +52,16 @@ export default function Recent() {
 					console.log(res.data.user.saved_list);
 					setFavorite(res.data.user.saved_list);
 				})
-				.catch((err) => console.log(err));
+				.catch((err) => console.log(err))
+				.finally(() => { setIsLoaded(false); });
 		};
 
 		getUserDetails();
 	}, []);
+
+	if (isLoaded) {
+		return <Loader template={true} numOfTemplate={20} />
+	}
 
 	return (
 		<>

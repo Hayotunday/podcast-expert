@@ -6,6 +6,7 @@ import Image from "next/image";
 import { useDispatch, useSelector } from "react-redux";
 
 import Featured from "@components/Featured";
+import Loader from "@components/Loader";
 
 export default function Home() {
 	const { searched } = useSelector((state) => state.search);
@@ -15,44 +16,45 @@ export default function Home() {
 	const [recent, setRecent] = useState([]);
 	const [favorite, setFavorite] = useState([]);
 	const [search, setSearch] = useState([]);
+	const [isLoaded, setIsLoaded] = useState(true);
 
-	const handleDeleteDatabase = async (id) => {
-		const token =
-			localStorage.getItem("podcastToken") === undefined ||
-			localStorage.getItem("podcastToken") === null
-				? ""
-				: localStorage.getItem("podcastToken");
+	// const handleDeleteDatabase = async (id) => {
+	// 	const token =
+	// 		localStorage.getItem("podcastToken") === undefined ||
+	// 			localStorage.getItem("podcastToken") === null
+	// 			? ""
+	// 			: localStorage.getItem("podcastToken");
 
-		const config = {
-			headers: {
-				Authorization: `Bearer ${token}`,
-			},
-		};
+	// 	const config = {
+	// 		headers: {
+	// 			Authorization: `Bearer ${token}`,
+	// 		},
+	// 	};
 
-		if (!recent.includes(id)) {
-			await axios
-				.patch(
-					`${process.env.NEXT_PUBLIC_BASE_URL}/user/profile-type/recents`,
-					{
-						id: id,
-						data: [...recent, id],
-					},
-					config
-				)
-				.then((res) => {
-					return;
-				})
-				.catch((err) => {
-					console.log(err);
-				});
-		}
-	};
+	// 	if (!recent.includes(id)) {
+	// 		await axios
+	// 			.patch(
+	// 				`${process.env.NEXT_PUBLIC_BASE_URL}/user/profile-type/recents`,
+	// 				{
+	// 					id: id,
+	// 					data: [...recent, id],
+	// 				},
+	// 				config
+	// 			)
+	// 			.then((res) => {
+	// 				return;
+	// 			})
+	// 			.catch((err) => {
+	// 				console.log(err);
+	// 			});
+	// 	}
+	// };
 
 	useEffect(() => {
 		setId(localStorage.getItem("podcastId"));
 		const token =
 			localStorage.getItem("podcastToken") === undefined ||
-			localStorage.getItem("podcastToken") === null
+				localStorage.getItem("podcastToken") === null
 				? ""
 				: localStorage.getItem("podcastToken");
 
@@ -80,10 +82,10 @@ export default function Home() {
 
 	useEffect(() => {
 		setId(localStorage.getItem("podcastId"));
-		const getUserDetails = async () => {
+		const getProfiles = async () => {
 			await axios
 				.get(
-					`${process.env.NEXT_PUBLIC_BASE_URL}/user/profiles?category=all&location=&topic=`,{id}
+					`${process.env.NEXT_PUBLIC_BASE_URL}/user/profiles?category=all&location=&topic=`, { id }
 				)
 				.then((res) => {
 					const prof = res?.data?.filter((i) => {
@@ -92,17 +94,18 @@ export default function Home() {
 					// console.log("profiles: ", res.data);
 					setProfiles(prof);
 				})
-				.catch((err) => console.log(err));
+				.catch((err) => console.log(err))
+				.finally(() => { setIsLoaded(false) })
 		};
 
-		getUserDetails();
+		getProfiles();
 	}, []);
 
 	useEffect(() => {
 		const getSearched = async () => {
 			const categories = profiles?.filter((i) => {
 				for (let index = 0; index < i.topic_categories.length; index++) {
-					let str =i?.topic_categories[index].toLowerCase()
+					let str = i?.topic_categories[index].toLowerCase()
 					return searched === str;
 				}
 			});
@@ -122,7 +125,7 @@ export default function Home() {
 	const handleAddRecent = async (id) => {
 		const token =
 			localStorage.getItem("podcastToken") === undefined ||
-			localStorage.getItem("podcastToken") === null
+				localStorage.getItem("podcastToken") === null
 				? ""
 				: localStorage.getItem("podcastToken");
 
@@ -155,15 +158,59 @@ export default function Home() {
 		setFavorite(data);
 	};
 
+	if (isLoaded) {
+		return <Loader template={true} numOfTemplate={20} />
+	}
+
 	return (
 		<>
 			<div className="bg-grey w-full h-full p-5 flex flex-col gap-7">
 				{profiles.length > 0 ? (
-					<div className="grid min-[380px]:grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 2xl:grid-cols-6 gap-5">
-						<p className="text-primary text-2xl font-semibold">Featured <span className="text-pinky">Podcasts</span></p>
-						{searched ? (
-							search.length !== 0 ? (
-								search.map(
+					<>
+						<p className="text-primary text-2xl font-bold">
+							Featured <span className="text-pinky">Podcasts</span>
+						</p>
+						<div className="grid min-[380px]:grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 2xl:grid-cols-6 gap-5">
+							{searched ? (
+								search.length !== 0 ? (
+									search.map(
+										(
+											{
+												user: { image, name, _id, profile_type },
+												topic_categories,
+											},
+											index
+										) => (
+											<div key={index} className="h-60 w-full">
+												<Featured
+													key={index}
+													image={image}
+													name={name}
+													type={profile_type}
+													id={_id}
+													handleClick={() => { handleAddRecent(_id) }}
+													categories={topic_categories}
+													isFavorite={() => { return favorite?.includes(_id) }}
+												/>
+											</div>
+										)
+									)
+								) : (
+									<div className="flex flex-col items-center justify-center w-full h-full gap-4 ">
+										<Image
+											src={"/images/cloud.png"}
+											width={225}
+											height={225}
+											className=""
+											alt="No data image"
+										/>
+										<p className="text-center text-primary font-semibold text-lg">
+											No data found
+										</p>
+									</div>
+								)
+							) : (
+								profiles.map(
 									(
 										{
 											user: { image, name, _id, profile_type },
@@ -178,55 +225,19 @@ export default function Home() {
 												name={name}
 												type={profile_type}
 												id={_id}
-												handleClick={()=>{handleAddRecent(_id)}}
+												handleClick={handleAddRecent}
+												// handleFavorite={handleUpdateFavorite}
 												categories={topic_categories}
-												isFavorite={()=>{return favorite?.includes(_id)}}
+												isFavorite={!favorite?.includes(_id)}
+												favorite={favorite}
+												setFavorite={updateFavorite}
 											/>
 										</div>
 									)
 								)
-							) : (
-								<div className="flex flex-col items-center justify-center w-full h-full gap-4 ">
-									<Image
-										src={"/images/cloud.png"}
-										width={225}
-										height={225}
-										className=""
-										alt="No data image"
-									/>
-									<p className="text-center text-primary font-semibold text-lg">
-										No data found
-									</p>
-								</div>
-							)
-						) : (
-							profiles.map(
-								(
-									{
-										user: { image, name, _id, profile_type },
-										topic_categories,
-									},
-									index
-								) => (
-									<div key={index} className="h-60 w-full">
-										<Featured
-											key={index}
-											image={image}
-											name={name}
-											type={profile_type}
-											id={_id}
-											handleClick={handleAddRecent}
-											// handleFavorite={handleUpdateFavorite}
-											categories={topic_categories}
-											isFavorite={!favorite?.includes(_id)}
-											favorite={favorite}
-											setFavorite={updateFavorite}
-										/>
-									</div>
-								)
-							)
-						)}
-					</div>
+							)}
+						</div>
+					</>
 				) : (
 					<div className="flex flex-col items-center justify-center w-full h-full gap-4 ">
 						<Image

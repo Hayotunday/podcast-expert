@@ -31,7 +31,7 @@ const Findpodcast = () => {
 		const getUserDetails = async () => {
 			await axios
 				.get(
-					`${process.env.NEXT_PUBLIC_BASE_URL}/user/profiles?category=podcaster&location=${location}&topic=${category}`,{id}
+					`${process.env.NEXT_PUBLIC_BASE_URL}/user/profiles?category=podcaster&location=${location}&topic=${category}`, { id }
 				)
 				.then((res) => {
 					const prof = res?.data?.filter((i) => {
@@ -53,7 +53,7 @@ const Findpodcast = () => {
 		setId(localStorage.getItem("podcastId"));
 		const token =
 			localStorage.getItem("podcastToken") === undefined ||
-			localStorage.getItem("podcastToken") === null
+				localStorage.getItem("podcastToken") === null
 				? ""
 				: localStorage.getItem("podcastToken");
 
@@ -78,7 +78,7 @@ const Findpodcast = () => {
 
 		getUserDetails();
 	}, []);
-	
+
 
 	useEffect(() => {
 		const getLocations = async () => {
@@ -120,7 +120,7 @@ const Findpodcast = () => {
 	const handleAddRecent = async (id) => {
 		const token =
 			localStorage.getItem("podcastToken") === undefined ||
-			localStorage.getItem("podcastToken") === null
+				localStorage.getItem("podcastToken") === null
 				? ""
 				: localStorage.getItem("podcastToken");
 
@@ -150,7 +150,7 @@ const Findpodcast = () => {
 	};
 
 	if (isLoaded) {
-		return <Loader />;
+		return <Loader template={true} numOfTemplate={20} />
 	}
 
 	return (
@@ -278,10 +278,10 @@ const Findpodcast = () => {
 												id={_id}
 												handleClick={handleAddRecent}
 												categories={topic_categories}
-												// handleFavorite={handleUpdateFavorite}
-												// isFavorite={!favorite?.includes(_id)}
-												// favorite={favorite}
-												// setFavorite={updateFavorite}
+											// handleFavorite={handleUpdateFavorite}
+											// isFavorite={!favorite?.includes(_id)}
+											// favorite={favorite}
+											// setFavorite={updateFavorite}
 											/>
 										</div>
 									)
