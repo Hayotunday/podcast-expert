@@ -844,7 +844,7 @@ const Guest = () => {
 											alt="Edit icon"
 											className=""
 										/>
-										<p className="text-primary font-semibold">Edit picture</p>
+										<p className="text-primary font-semibold">Edit profile</p>
 									</div>
 								</Link>
 							</div>
