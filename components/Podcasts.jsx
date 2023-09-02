@@ -12,7 +12,7 @@ const Podcasts = ({ image, name, email, type, id }) => {
 	const handleUnfavorite = async () => {
 		const token =
 			localStorage.getItem("podcastToken") === undefined ||
-			localStorage.getItem("podcastToken") === null
+				localStorage.getItem("podcastToken") === null
 				? ""
 				: localStorage.getItem("podcastToken");
 		const config = {
@@ -42,7 +42,7 @@ const Podcasts = ({ image, name, email, type, id }) => {
 							{image || image === undefined ? (
 								<Image
 									id="vidimage"
-									src={`data:image/jpeg;base64,${image}`}
+									src={image}
 									width={280}
 									height={200}
 									alt="Podcaster Image"

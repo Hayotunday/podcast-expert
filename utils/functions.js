@@ -1,28 +1,32 @@
 import axios from "axios";
 
-const session = {
-  data: {
-    expires:
-      "2023-07-29T14:34:15.358Z",
-    user: {
-      email: "idowudanielayotunde@gmail.com",
-      id: "649d815dc15c8b7a365d3b0b",
-      image: "https://lh3.googleusercontent.com/a/AAcHTtfEoUfFv5vJoOSS3RNWC4m91kWn0m4dJAibgidtG0z8NmM=s96-c",
-      name: "Daniel Ayotunde Idowu"
-    }
-  },
-  status: "authenticated"
+const isProduction = process.env.NODE_ENV === "production";
+const serverUrl = isProduction
+  ? process.env.NEXT_PUBLIC_SERVER_URL
+  : "http://localhost:3000";
 
-}
+export const uploadImage = async (imagePath) => {
+  try {
+    const response = await fetch(`${serverUrl}/api/upload`, {
+      method: "POST",
+      body: JSON.stringify({ path: imagePath }),
+    });
+
+    return response.json();
+  } catch (error) {
+    throw error;
+  }
+};
+
 export const setToken = (token) => {
   window.localStorage.setItem("PodcastToken", token)
   console.log(token)
 }
 
-export const handleUnFavorite = async (id,url) => {
+export const handleUnFavorite = async (id, url) => {
   const token =
     localStorage.getItem("podcastToken") === undefined ||
-    localStorage.getItem("podcastToken") === null
+      localStorage.getItem("podcastToken") === null
       ? ""
       : localStorage.getItem("podcastToken");
   const config = {
@@ -42,7 +46,7 @@ export const handleUnFavorite = async (id,url) => {
 export const handleFavorite = async (id, url) => {
   const token =
     localStorage.getItem("podcastToken") === undefined ||
-    localStorage.getItem("podcastToken") === null
+      localStorage.getItem("podcastToken") === null
       ? ""
       : localStorage.getItem("podcastToken");
   const config = {

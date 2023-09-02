@@ -109,17 +109,19 @@ const Guest = () => {
 
 					<div className="flex flex-col md:flex-row gap-5">
 						<div className="flex flex-col items-center">
-							<div className="rounded-lg h-40 sm:h-60 w-52 sm:w-60">
+							<div className="rounded-lg relative h-40 sm:h-60 w-52 sm:w-72">
 								{data?.user?.image ? (
-									<img
-										src={`data:image/jpeg;base64,${data?.user?.image}`}
+									<Image
+										src={data?.user?.image}
 										id="img"
-										alt="image"
-										fil
-										className="rounded-lg h-full w-full flex items-center justify-center"
+										alt="profile image"
+										fill
+										priority
+										quality={100}
+										className="rounded-lg object-cover flex items-center justify-center"
 									/>
 								) : (
-									<div className="rounded-lg bg-green-500 text-primary uppercase h-40 sm:h-60 w-40 sm:w-60 text-7xl sm:text-9xl font-bold flex items-center justify-center">
+									<div className="rounded-lg bg-green-500 text-primary uppercase h-full w-full text-7xl sm:text-9xl font-bold flex items-center justify-center">
 										{data?.user?.name.charAt(0)}
 									</div>
 								)}
@@ -444,16 +446,19 @@ const Guest = () => {
 					</div>
 
 					<div className="flex flex-col sm:flex-row gap-5 items-center">
-						<div className="rounded-lg h-40 sm:h-60 w-52 sm:w-60">
+						<div className="rounded-lg relative h-40 sm:h-60 w-52 sm:w-72">
 							{data?.user?.image ? (
-								<img
-									src={`data:image/jpeg;base64,${data?.user?.image}`}
+								<Image
+									src={data?.user?.image}
 									id="img"
-									alt="image"
-									className="rounded-lg h-full w-full flex items-center justify-center"
+									alt="profile image"
+									fill
+									priority
+									quality={100}
+									className="rounded-lg object-cover flex items-center justify-center"
 								/>
 							) : (
-								<div className="rounded-lg bg-green-500 text-primary uppercase h-40 sm:h-60 w-40 sm:w-60 text-7xl sm:text-9xl font-bold flex items-center justify-center">
+								<div className="rounded-lg bg-green-500 text-primary uppercase h-full w-full text-7xl sm:text-9xl font-bold flex items-center justify-center">
 									{data?.user?.name.charAt(0)}
 								</div>
 							)}

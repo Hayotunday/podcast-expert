@@ -13,12 +13,10 @@ const Featured = ({
 	id,
 	isAdmin,
 	handleClick,
-	isFavorite,
 	favorite,
 	unfavorite
 }) => {
-	const [fav, setFav] = useState(isFavorite);
-	console.log(fav);
+	const [fav, setFav] = useState(favorite.includes(id));
 
 
 	return (
@@ -29,14 +27,14 @@ const Featured = ({
 			>
 				<div
 					onClick={() => {
-						handleClick && handleClick();
+						handleClick && handleClick(id);
 					}}
 					className="w-full h-full hover:shadow p-0.5 rounded-lg group"
 				>
 					<div className="rounded-xl h-40 w-full overflow-hidden">
 						{image || image === undefined ? (
 							<img
-								src={`data:image/jpeg;base64,${image}`}
+								src={image}
 								id="img"
 								alt="image"
 								className="rounded-xl h-full w-full flex items-center justify-center group-hover:scale-110 transition-transform ease-in duration-1000"
@@ -82,21 +80,21 @@ const Featured = ({
 					type="button"
 					onClick={() => {
 						if (fav) {
-							setFav(true);
-							// unfavorite
-							handleFavorite(id, `${process.env.NEXT_PUBLIC_BASE_URL}/user/profile-type/favorites`)
-						} else {
 							setFav(false);
-							// favorite
+							// unfavorite
 							handleUnFavorite(id, `${process.env.NEXT_PUBLIC_BASE_URL}/user/profile-type/unfavorites`)
+						} else {
+							setFav(true);
+							// favorite
+							handleFavorite(id, `${process.env.NEXT_PUBLIC_BASE_URL}/user/profile-type/favorites`)
 						};
 					}}
 					className="absolute top-3 left-3"
 				>
 					{fav ? (
-						<AiOutlineHeart size={25} color="red" className="" />
-					) : (
 						<AiFillHeart size={25} color="red" className="" />
+					) : (
+						<AiOutlineHeart size={25} color="red" className="" />
 					)}
 				</button>}
 		</div>

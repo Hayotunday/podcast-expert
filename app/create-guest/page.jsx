@@ -56,19 +56,42 @@ const CreateGuest = () => {
 		const config = {
 			headers: {
 				Authorization: `Bearer ${token}`,
-				"content-type": "multipart/form-data",
 			},
 		};
-		const form = new FormData();
-		form.append("image", data);
+
 		await axios
 			.patch(
 				`${process.env.NEXT_PUBLIC_BASE_URL}/user/profile-type/image`,
-				form,
+				{ image: data },
 				config
 			)
-			.then((res) => {})
+			.then((res) => {
+				location.reload()
+			})
 			.catch((err) => console.log(err));
+	};
+
+	const handleChangeImage = async (e) => {
+		e.preventDefault();
+
+		const file = e.target.files?.[0];
+
+		if (!file) return;
+
+		if (!file.type.includes("image")) {
+			return alert("Please upload an image file");
+		}
+
+		const reader = new FileReader();
+
+		reader.readAsDataURL(file);
+		reader.onload = async () => {
+			const result = reader.result;
+
+			const imageUrl = await uploadImage(result);
+			setImage(imageUrl.url);
+			handleImageChange(imageUrl.url);
+		};
 	};
 
 	return (
@@ -104,12 +127,13 @@ const CreateGuest = () => {
 
 				<div className="flex flex-col lg:flex-row gap-5 lg:gap-28">
 					<div className="w-full lg:w-1/4 flex flex-col items-center justify-start gap-5">
-						<div className="w-44 sm:w-60 h-44 sm:h-60 rounded-xl bg-success items-center justify-center flex">
+						<div className="w-44 sm:w-60 h-44 sm:h-60 rounded-xl relative bg-success items-center justify-center flex">
 							{image ? (
-								<img
-									src={`${image}`}
+								<Image
+									src={image}
 									id="img"
 									alt="image"
+									fill
 									className="rounded-lg h-full w-full flex items-center justify-center"
 								/>
 							) : (
@@ -128,21 +152,7 @@ const CreateGuest = () => {
 							ref={inputFile}
 							accept="image/*"
 							style={{ display: "none" }}
-							onChange={(e) => {
-								e.preventDefault();
-								handleImageChange(e.target.files[0]);
-								const selectedfile = e.target.files;
-								if (selectedfile.length > 0) {
-									const [imageFile] = selectedfile;
-									const fileReader = new FileReader();
-									fileReader.onload = () => {
-										const srcData = fileReader.result;
-										// console.log(srcData);
-										dispatch(setImage(srcData));
-									};
-									fileReader.readAsDataURL(imageFile);
-								}
-							}}
+							onChange={handleChangeImage}
 						/>
 						<button
 							type="button"
@@ -158,6 +168,7 @@ const CreateGuest = () => {
 							/>
 							<p className="text-primary font-semibold">Change Avatar</p>
 						</button>
+						<p className="text-primary text-xs">File must not be above 10MB</p>
 					</div>
 
 					<div className="w-full lg:w-3/4">
@@ -317,7 +328,7 @@ const CreateGuest = () => {
 											<textarea
 												cols="30"
 												rows="10"
-												maxLength={2000}
+												maxLength={1000}
 												value={bio}
 												onChange={(e) => {
 													dispatch(setBio(e.target.value));
@@ -326,7 +337,7 @@ const CreateGuest = () => {
 												text-sm outline outline-0	transition-all focus:border-2 focus:border-blue-500 focus:outline-0"
 											></textarea>
 											<p className="text-sm font-medium text-right">
-												{bio.length}/2000
+												{bio.length}/1000
 											</p>
 											<span className="peer-focus:text-blue-500 text-xs font-light absolute left-5 top-1">
 												About me

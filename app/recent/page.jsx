@@ -6,6 +6,7 @@ import Image from "next/image";
 
 import Featured from "@components/Featured";
 import Loader from "@components/Loader";
+import Link from "next/link";
 
 export default function Recent() {
 	const [id, setId] = useState([]);
@@ -64,8 +65,24 @@ export default function Recent() {
 	}
 
 	return (
-		<>
-			<div className="bg-grey w-full h-full p-5 flex flex-col gap-7">
+		<div className="flex flex-col p-3">
+			<div className="flex flex-row items-center gap-10 justify-start self-start ml-5">
+				<Link href={"/"} className="">
+					<div>
+						<Image
+							src={"/svgs/leftarrow.svg"}
+							width={10}
+							height={10}
+							alt="Left arrow to go back"
+							className=""
+						/>
+					</div>
+				</Link>
+				<p className="text-primary text-base font-normal">Back</p>
+			</div>
+
+			<div className="bg-grey w-full h-full p-3 flex flex-col gap-7">
+				<p className="text-primary text-5xl font-black">Recents</p>
 				{recent.length > 0 ? (
 					<div className="grid min-[380px]:grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 2xl:grid-cols-6 gap-5">
 						{recent.map(({ image, name, _id, profile_type }, index) => (
@@ -76,7 +93,7 @@ export default function Recent() {
 									name={name}
 									type={profile_type}
 									id={_id}
-									isFavorite={favorite?.includes(_id)}
+									favorite={favorite}
 								/>
 							</div>
 						))}
@@ -96,6 +113,6 @@ export default function Recent() {
 					</div>
 				)}
 			</div>
-		</>
+		</div>
 	);
 }

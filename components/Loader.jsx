@@ -20,8 +20,8 @@ const Loader = ({ template, numOfTemplate }) => {
 					</p>
 				</>
 			) : (
-				<>
-					<p className="text-primary text-2xl font-bold pl-5 w-full text-left">
+				<div className="w-full pt-106">
+					<p className="text-primary text-2xl pl-5 font-bold w-full text-left">
 						Featured <span className="text-pinky">Podcasts</span>
 					</p>
 					<div className="grid min-[380px]:grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 2xl:grid-cols-6 gap-5 w-full h-fit p-4">
@@ -37,7 +37,7 @@ const Loader = ({ template, numOfTemplate }) => {
 							</div>
 						))}
 					</div>
-				</>
+				</div>
 			)}
 		</main>
 	);

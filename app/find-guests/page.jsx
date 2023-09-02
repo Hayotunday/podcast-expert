@@ -41,9 +41,6 @@ const Findpodcast = () => {
 					setProfiles(prof);
 				})
 				.catch((err) => console.log(err))
-				.finally(() => {
-					setIsLoaded(false);
-				});
 		};
 
 		getUserDetails();
@@ -70,10 +67,14 @@ const Findpodcast = () => {
 				)
 				.then((res) => {
 					// console.log("user: ", res.data);
-					setRecent(res.data.user.saved_list);
+					setFavorite(res.data.user.saved_list);
+					console.log(res.data.user.saved_list);
 					setRecent(res.data.user.recent);
 				})
-				.catch((err) => console.log(err));
+				.catch((err) => console.log(err))
+				.finally(() => {
+					setIsLoaded(false);
+				});
 		};
 
 		getUserDetails();
@@ -237,7 +238,7 @@ const Findpodcast = () => {
 													id={_id}
 													handleClick={handleAddRecent}
 													categories={topic_categories}
-													isFavorite={favorite?.includes(_id)}
+													favorite={favorite}
 												/>
 											</div>
 										)
@@ -274,7 +275,7 @@ const Findpodcast = () => {
 												id={_id}
 												handleClick={handleAddRecent}
 												categories={topic_categories}
-												isFavorite={!favorite?.includes(_id)}
+												favorite={favorite}
 											/>
 										</div>
 									)

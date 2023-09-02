@@ -106,12 +106,15 @@ const Topbar = ({ handleClick, componentRef, refreshRef }) => {
 								{user.name.charAt(0)}
 							</div>
 						) : (
-							<img
-								src={`data:image/jpeg;base64,${user?.image}`}
-								id="img"
-								alt="image"
-								className="rounded-full h-10 w-10 flex items-center justify-center"
-							/>
+							<div className="relative h-10 w-10 flex items-center justify-center">
+								<Image
+									src={user?.image}
+									id="img"
+									alt="image"
+									fill
+									className="rounded-full h-10 w-10 flex items-center justify-center"
+								/>
+							</div>
 						)}
 					</div>
 					{/* {toggleDropdown && (

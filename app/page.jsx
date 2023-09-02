@@ -18,38 +18,6 @@ export default function Home() {
 	const [search, setSearch] = useState([]);
 	const [isLoaded, setIsLoaded] = useState(true);
 
-	// const handleDeleteDatabase = async (id) => {
-	// 	const token =
-	// 		localStorage.getItem("podcastToken") === undefined ||
-	// 			localStorage.getItem("podcastToken") === null
-	// 			? ""
-	// 			: localStorage.getItem("podcastToken");
-
-	// 	const config = {
-	// 		headers: {
-	// 			Authorization: `Bearer ${token}`,
-	// 		},
-	// 	};
-
-	// 	if (!recent.includes(id)) {
-	// 		await axios
-	// 			.patch(
-	// 				`${process.env.NEXT_PUBLIC_BASE_URL}/user/profile-type/recents`,
-	// 				{
-	// 					id: id,
-	// 					data: [...recent, id],
-	// 				},
-	// 				config
-	// 			)
-	// 			.then((res) => {
-	// 				return;
-	// 			})
-	// 			.catch((err) => {
-	// 				console.log(err);
-	// 			});
-	// 	}
-	// };
-
 	useEffect(() => {
 		setId(localStorage.getItem("podcastId"));
 		const token =
@@ -159,7 +127,7 @@ export default function Home() {
 	};
 
 	if (isLoaded) {
-		return <Loader template={true} numOfTemplate={20} />
+		return <Loader template={true} numOfTemplate={16} />
 	}
 
 	return (
@@ -188,9 +156,9 @@ export default function Home() {
 													name={name}
 													type={profile_type}
 													id={_id}
-													handleClick={() => { handleAddRecent(_id) }}
+													handleClick={handleAddRecent}
 													categories={topic_categories}
-													isFavorite={() => { return favorite?.includes(_id) }}
+													favorite={favorite}
 												/>
 											</div>
 										)

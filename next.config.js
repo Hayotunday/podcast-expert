@@ -5,11 +5,14 @@ const nextConfig = {
     serverComponentsExternalPackages: ["mongoose"]
   },
   images: {
-    domains: ['lh3.googleusercontent.com', 'http://localhost:5000'],
+    domains: ['lh3.googleusercontent.com', 'res.cloudinary.com'],
   },
   webpack(config) {
     config.experiments = { ...config.experiments, topLevelAwait: true }
     return config
+  },
+  experimental: {
+    serverComponentsExternalPackages: ['cloudinary']
   }
 }
 

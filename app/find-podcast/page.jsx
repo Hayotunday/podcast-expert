@@ -241,7 +241,7 @@ const Findpodcast = () => {
 													id={_id}
 													handleClick={handleAddRecent(_id)}
 													categories={topic_categories}
-													isFavorite={favorite?.includes(_id)}
+													favorite={favorite}
 												/>
 											</div>
 										)
@@ -278,10 +278,7 @@ const Findpodcast = () => {
 												id={_id}
 												handleClick={handleAddRecent}
 												categories={topic_categories}
-											// handleFavorite={handleUpdateFavorite}
-											// isFavorite={!favorite?.includes(_id)}
-											// favorite={favorite}
-											// setFavorite={updateFavorite}
+												favorite={favorite}
 											/>
 										</div>
 									)

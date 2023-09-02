@@ -16,6 +16,7 @@ import Tag from "@components/Tag";
 import Dropdown from "@components/Dropdown";
 import Indicator from "@components/Indicator";
 import Location from "@components/Location";
+import { uploadImage } from "@utils/functions";
 
 const Guest = () => {
 	const router = useRouter();
@@ -27,6 +28,7 @@ const Guest = () => {
 	const [id, setId] = useState("");
 	const [data, setData] = useState({});
 	const [category, setCategory] = useState("");
+	const [image, setImage] = useState();
 
 	const inputFile = useRef(null);
 
@@ -67,23 +69,42 @@ const Guest = () => {
 		const config = {
 			headers: {
 				Authorization: `Bearer ${token}`,
-				"content-type": "multipart/form-data",
 			},
 		};
-		const form = new FormData();
-		form.append("image", data);
+
 		await axios
 			.patch(
 				`${process.env.NEXT_PUBLIC_BASE_URL}/user/profile-type/image`,
-				form,
+				{ image: data },
 				config
 			)
 			.then((res) => {
-				if (res.status === 200) {
-					location.reload();
-				}
+				location.reload()
 			})
 			.catch((err) => console.log(err));
+	};
+
+	const handleChangeImage = async (e) => {
+		e.preventDefault();
+
+		const file = e.target.files?.[0];
+
+		if (!file) return;
+
+		if (!file.type.includes("image")) {
+			return alert("Please upload an image file");
+		}
+
+		const reader = new FileReader();
+
+		reader.readAsDataURL(file);
+		reader.onload = async () => {
+			const result = reader.result;
+
+			const imageUrl = await uploadImage(result);
+			setImage(imageUrl.url);
+			await handleImageChange(imageUrl.url);
+		};
 	};
 
 	const handleAddCategory = async () => {
@@ -176,16 +197,19 @@ const Guest = () => {
 
 					<div className="flex flex-col md:flex-row gap-5">
 						<div className="flex flex-col items-center">
-							<div className="rounded-lg h-40 sm:h-60 w-52 sm:w-60">
+							<div className="rounded-lg relative h-40 sm:h-60 w-52 sm:w-60">
 								{data?.user?.image ? (
-									<img
-										src={`data:image/jpeg;base64,${data?.user?.image}`}
+									<Image
+										src={image ? image : data?.user?.image}
 										id="img"
-										alt="image"
-										className="rounded-lg h-full w-full flex items-center justify-center"
+										alt="profile image"
+										fill
+										priority
+										quality={100}
+										className="rounded-lg object-cover flex items-center justify-center"
 									/>
 								) : (
-									<div className="rounded-lg bg-green-500 text-primary uppercase h-40 sm:h-60 w-40 sm:w-60 text-7xl sm:text-9xl font-bold flex items-center justify-center">
+									<div className="rounded-lg bg-green-500 text-primary uppercase h-full w-full text-7xl sm:text-9xl font-bold flex items-center justify-center">
 										{data?.user?.name.charAt(0)}
 									</div>
 								)}
@@ -196,10 +220,7 @@ const Guest = () => {
 								ref={inputFile}
 								accept="image/*"
 								style={{ display: "none" }}
-								onChange={(e) => {
-									e.preventDefault();
-									handleImageChange(e.target.files[0]);
-								}}
+								onChange={handleChangeImage}
 							/>
 							<button
 								type="button"
@@ -215,6 +236,7 @@ const Guest = () => {
 								/>
 								<p className="text-primary font-semibold">Change Avatar</p>
 							</button>
+							<p className="text-primary text-xs">File must not be above 10MB</p>
 						</div>
 
 						<div className="flex-col flex justify-between gap-3 md:gap-1">
@@ -652,16 +674,19 @@ const Guest = () => {
 
 					<div className="flex flex-col md:flex-row gap-5">
 						<div className="flex flex-col items-center">
-							<div className="rounded-full h-40 sm:h-60 w-52 sm:w-60">
+							<div className="rounded-lg relative h-40 sm:h-60 w-52 sm:w-60">
 								{data?.user?.image ? (
-									<img
-										src={`data:image/jpeg;base64,${data?.user?.image}`}
+									<Image
+										src={image ? image : data?.user?.image}
 										id="img"
-										alt="image"
-										className="object-contain rounded-lg h-full w-full flex items-center justify-center"
+										alt="profile image"
+										fill
+										priority
+										quality={100}
+										className="rounded-lg object-cover flex items-center justify-center"
 									/>
 								) : (
-									<div className="rounded-full bg-green-500 text-primary uppercase h-40 sm:h-60 w-40 sm:w-60 text-7xl sm:text-9xl font-bold flex items-center justify-center">
+									<div className="rounded-lg bg-green-500 text-primary uppercase h-full w-full text-7xl sm:text-9xl font-bold flex items-center justify-center">
 										{data?.user?.name.charAt(0)}
 									</div>
 								)}
@@ -672,10 +697,7 @@ const Guest = () => {
 								ref={inputFile}
 								accept="image/*"
 								style={{ display: "none" }}
-								onChange={(e) => {
-									e.preventDefault();
-									handleImageChange(e.target.files[0]);
-								}}
+								onChange={handleChangeImage}
 							/>
 							<button
 								type="button"

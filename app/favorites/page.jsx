@@ -12,7 +12,37 @@ import Loader from "@components/Loader";
 const Favorites = () => {
 	const [id, setId] = useState();
 	const [data, setData] = useState([]);
+	const [favorite, setFavorite] = useState([]);
 	const [isLoaded, setIsLoaded] = useState(true);
+
+
+	useEffect(() => {
+		setId(localStorage.getItem("podcastId"));
+		const token =
+			localStorage.getItem("podcastToken") === undefined ||
+				localStorage.getItem("podcastToken") === null
+				? ""
+				: localStorage.getItem("podcastToken");
+
+		const config = {
+			headers: {
+				Authorization: `Bearer ${token}`,
+			},
+		};
+
+		const getUserDetails = async () => {
+			await axios
+				.get(
+					`${process.env.NEXT_PUBLIC_BASE_URL}/user/profile`, config
+				)
+				.then((res) => {
+					setFavorite(res.data.user.saved_list);
+				})
+				.catch((err) => console.log(err));
+		};
+
+		getUserDetails();
+	}, []);
 
 	useEffect(() => {
 		setId(localStorage.getItem("podcastId"));
@@ -76,7 +106,7 @@ const Favorites = () => {
 										type={profile_type}
 										id={_id}
 										handleClick={() => { }}
-										isFavorite={true}
+										favorite={favorite}
 									/>
 								</div>
 							))}

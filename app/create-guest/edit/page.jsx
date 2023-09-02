@@ -338,7 +338,7 @@ const CreateGuest = () => {
 									<textarea
 										cols="30"
 										rows="10"
-										maxLength={2000}
+										maxLength={1000}
 										value={bio}
 										onChange={(e) => {
 											dispatch(setBio(e.target.value));
@@ -347,7 +347,7 @@ const CreateGuest = () => {
 												text-sm outline outline-0	transition-all focus:border-2 focus:border-blue-500 focus:outline-0"
 									></textarea>
 									<p className="text-sm font-medium text-right">
-										{bio.length}/2000
+										{bio.length}/1000
 									</p>
 									<span className="peer-focus:text-blue-500 text-xs font-light absolute left-5 top-1">
 										About me
