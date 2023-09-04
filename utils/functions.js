@@ -8,6 +8,7 @@ const serverUrl = isProduction
 export const uploadImage = async (imagePath) => {
   console.log("server: ", server)
   console.log("server-url: ", serverUrl)
+  console.log("server-url: ", process.env.NEXT_PUBLIC_SERVER_URL)
 
   try {
     const response = await fetch(`${serverUrl}/api/upload`, {
