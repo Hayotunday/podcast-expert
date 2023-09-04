@@ -94,9 +94,20 @@ export default function Home() {
 
 	useEffect(() => {
 		setId(localStorage.getItem("podcastId"));
+		const token =
+			localStorage.getItem("podcastToken") === undefined ||
+				localStorage.getItem("podcastToken") === null
+				? ""
+				: localStorage.getItem("podcastToken");
+
+		const config = {
+			headers: {
+				Authorization: `Bearer ${token}`,
+			},
+		};
 		const getProfiles = async () => {
 			await axios
-				.get(`${process.env.NEXT_PUBLIC_BASE_URL}/user/recents`)
+				.get(`${process.env.NEXT_PUBLIC_BASE_URL}/user/recents`, config)
 				.then((res) => {
 					setRecents(res.data);
 				})
