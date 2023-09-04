@@ -20,6 +20,7 @@ export default function Home() {
 	const [guest, setGuest] = useState([]);
 	const [id, setId] = useState("");
 	const [recent, setRecent] = useState([]);
+	const [recents, setRecents] = useState([]);
 	const [favorite, setFavorite] = useState([]);
 	const [search, setSearch] = useState([]);
 	const [isLoaded, setIsLoaded] = useState(true);
@@ -74,6 +75,7 @@ export default function Home() {
 
 		getProfiles();
 	}, []);
+
 	useEffect(() => {
 		setId(localStorage.getItem("podcastId"));
 		const getProfiles = async () => {
@@ -89,6 +91,21 @@ export default function Home() {
 
 		getProfiles();
 	}, []);
+
+	useEffect(() => {
+		setId(localStorage.getItem("podcastId"));
+		const getProfiles = async () => {
+			await axios
+				.get(`${process.env.NEXT_PUBLIC_BASE_URL}/user/recents`)
+				.then((res) => {
+					setRecents(res.data);
+				})
+				.catch((err) => console.log(err))
+		};
+
+		getProfiles();
+	}, []);
+
 	useEffect(() => {
 		setId(localStorage.getItem("podcastId"));
 		const getProfiles = async () => {
@@ -234,15 +251,11 @@ export default function Home() {
 					View more
 				</Link>
 			</div>
-			{recent.length > 0 && (
+			{recents.length > 0 && (
 				<>
 					<Carousel responsive={responsive}>
-						{recent.map(
-							(
-								{
-									user: { image, name, _id, profile_type },
-									topic_categories,
-								},
+						{recents.map(
+							({ image, name, _id, profile_type },
 								index
 							) => (
 								<div key={index} className="h-60 w-full">
@@ -254,7 +267,7 @@ export default function Home() {
 										id={_id}
 										handleClick={handleAddRecent}
 										// handleFavorite={handleUpdateFavorite}
-										categories={topic_categories}
+										// categories={topic_categories}
 										isFavorite={!favorite?.includes(_id)}
 										favorite={favorite}
 										setFavorite={updateFavorite}
