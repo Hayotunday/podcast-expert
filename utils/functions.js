@@ -2,8 +2,10 @@ import axios from "axios";
 
 const isProduction = process.env.NODE_ENV === "production";
 const server = process.env.NEXT_PUBLIC_SERVER_URL?.substring(0, process.env.NEXT_PUBLIC_SERVER_URL?.lastIndexOf("/"))
+console.log("server: ", server)
 const serverUrl = isProduction
   ? server : "http://localhost:3000";
+console.log("server-url: ", serverUrl)
 
 export const uploadImage = async (imagePath) => {
 
