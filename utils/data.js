@@ -157,10 +157,11 @@ export const new_options = [{ option: '' }, { option: 'New' }, { option: 'Featur
 export const category_options = [
   { option: '' },
   { option: 'Arts' },
-  { option: 'Business' },
+  { option: 'Business & Finance' },
   { option: 'Comedy' },
   { option: 'Education' },
   { option: 'Fiction' },
+  { option: '' },
   { option: 'Government' },
   { option: 'History' },
   { option: 'Health & Fitness' },
