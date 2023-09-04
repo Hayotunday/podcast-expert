@@ -92,7 +92,7 @@ const Topbar = ({ handleClick, componentRef, refreshRef }) => {
 			</div>
 
 			<div className="flex flex-row gap-5 items-center w-2/5 sm:w-full justify-end mr-5">
-				<p className="text-primary font-bold capitalize hidden sm:block">
+				<p className="text-primary font-bold capitalize hidden sm:block text-right">
 					<span className="text-black">Hello!</span> {user?.name}
 				</p>
 				{/* <Link href={"/profile"}> */}

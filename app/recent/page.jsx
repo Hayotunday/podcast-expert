@@ -65,7 +65,7 @@ export default function Recent() {
 	}
 
 	return (
-		<div className="flex flex-col p-3">
+		<div className="flex flex-col h-full w-full p-3">
 			<div className="flex flex-row items-center gap-10 justify-start self-start ml-5">
 				<Link href={"/"} className="">
 					<div>
@@ -84,7 +84,7 @@ export default function Recent() {
 			<div className="bg-grey w-full h-full p-3 flex flex-col gap-7">
 				<p className="text-primary text-5xl font-black">Recents</p>
 				{recent.length > 0 ? (
-					<div className="grid min-[380px]:grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 2xl:grid-cols-6 gap-5">
+					<div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-5">
 						{recent.map(({ image, name, _id, profile_type }, index) => (
 							<div key={index} className="h-60 w-full">
 								<Featured

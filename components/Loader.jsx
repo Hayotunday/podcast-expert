@@ -20,7 +20,7 @@ const Loader = ({ template, numOfTemplate }) => {
 					</p>
 				</>
 			) : (
-				<div className="w-full pt-106">
+				<div className="w-full pt-106 flex flex-col items-start">
 					<p className="text-primary text-2xl pl-5 font-bold w-full text-left">
 						Featured <span className="text-pinky">Podcasts</span>
 					</p>

@@ -1,11 +1,12 @@
 import axios from "axios";
 
 const isProduction = process.env.NODE_ENV === "production";
+const server = process.env.NEXT_PUBLIC_SERVER_URL?.substring(0, process.env.NEXT_PUBLIC_SERVER_URL?.lastIndexOf("/"))
 const serverUrl = isProduction
-  ? process.env.NEXT_PUBLIC_SERVER_URL
-  : "http://localhost:3000";
+  ? server : "http://localhost:3000";
 
 export const uploadImage = async (imagePath) => {
+
   try {
     const response = await fetch(`${serverUrl}/api/upload`, {
       method: "POST",
