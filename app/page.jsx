@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import Image from "next/image";
+import Link from "next/link";
 import { useDispatch, useSelector } from "react-redux";
 
 import Featured from "@components/Featured";
@@ -10,7 +11,6 @@ import Loader from "@components/Loader";
 
 import Carousel from 'react-multi-carousel';
 import 'react-multi-carousel/lib/styles.css';
-import Link from "next/link";
 
 export default function Home() {
 	const { searched } = useSelector((state) => state.search);
@@ -107,7 +107,7 @@ export default function Home() {
 		};
 		const getProfiles = async () => {
 			await axios
-				.get(`${process.env.NEXT_PUBLIC_BASE_URL}/user/recents`, config)
+				.get(`${process.env.NEXT_PUBLIC_BASE_URL}/user/profile/recents`, config)
 				.then((res) => {
 					setRecents(res.data);
 				})
@@ -190,18 +190,23 @@ export default function Home() {
 	};
 
 	const responsive = {
+		superLargeDesktop: {
+			breakpoint: { max: 1024, min: 768 },
+			items: 4,
+			slidesToSlide: 1.
+		},
 		desktop: {
-			breakpoint: { max: 3000, min: 1024 },
+			breakpoint: { max: 768, min: 640 },
 			items: 3,
-			slidesToSlide: 4.
+			slidesToSlide: 1.
 		},
 		tablet: {
-			breakpoint: { max: 1024, min: 464 },
+			breakpoint: { max: 640, min: 360 },
 			items: 2,
-			slidesToSlide: 3.
+			slidesToSlide: 1.
 		},
 		mobile: {
-			breakpoint: { max: 464, min: 0 },
+			breakpoint: { max: 360, min: 0 },
 			items: 1,
 			slidesToSlide: 1.
 		}
@@ -212,24 +217,20 @@ export default function Home() {
 	}
 
 	return (
-		<div className="bg-grey w-full h-full p-5 flex flex-col gap-7">
-			<div className="flex flex-row justify-between items-center">
-				<p className="text-primary text-2xl font-bold">
+		<div className="bg-grey w-full h-full p-5 flex flex-col gap-7 lg">
+			<div className="flex flex-row justify-between items-center w-full">
+				<p className="text-primary text-sm sm:text-base lg:text-2xl font-bold">
 					Featured <span className="text-pinky">Podcasts</span>
 				</p>
-				<p className="text-success text-sm font-normal">
+				{/* <p className="text-success text-sm font-normal">
 					View more
-				</p>
+				</p> */}
 			</div>
 			{profiles?.length > 0 && (
 				<>
-					<Carousel responsive={responsive}>
+					<Carousel responsive={responsive} transitionDuration={500} containerClass="h-full">
 						{profiles?.map(
-							(
-								{
-									user: { image, name, _id, profile_type },
-									topic_categories,
-								},
+							({ user: { image, name, _id, profile_type }, topic_categories },
 								index
 							) => (
 								<div key={index} className="h-60 w-full">
@@ -240,22 +241,19 @@ export default function Home() {
 										type={profile_type}
 										id={_id}
 										handleClick={handleAddRecent}
-										// handleFavorite={handleUpdateFavorite}
 										categories={topic_categories}
 										isFavorite={!favorite?.includes(_id)}
 										favorite={favorite}
 										setFavorite={updateFavorite}
 									/>
 								</div>
-
-							)
-						)}
+							))}
 					</Carousel>
 				</>
 			)}
 
-			<div className="flex flex-row justify-between items-center">
-				<p className="text-primary text-2xl font-bold">
+			<div div className="flex flex-row justify-between items-center w-full">
+				<p className="text-primary text-sm sm:text-base lg:text-2xl  font-bold">
 					Your recently viewed podcasts
 				</p>
 				<Link href={'/recent'} className="text-success text-sm font-normal">
@@ -264,7 +262,7 @@ export default function Home() {
 			</div>
 			{recents.length > 0 && (
 				<>
-					<Carousel responsive={responsive}>
+					<Carousel responsive={responsive} transitionDuration={500} containerClass="h-full">
 						{recents.map(
 							({ image, name, _id, profile_type },
 								index
@@ -277,22 +275,19 @@ export default function Home() {
 										type={profile_type}
 										id={_id}
 										handleClick={handleAddRecent}
-										// handleFavorite={handleUpdateFavorite}
-										// categories={topic_categories}
 										isFavorite={!favorite?.includes(_id)}
 										favorite={favorite}
 										setFavorite={updateFavorite}
 									/>
 								</div>
 							)
-
 						)}
 					</Carousel>
 				</>
 			)}
 
-			<div className="flex flex-row justify-between items-center">
-				<p className="text-primary text-2xl font-bold">
+			<div className="flex flex-row justify-between items-center w-full">
+				<p className="text-primary text-sm sm:text-base lg:text-2xl  font-bold">
 					Popular Podcasts, Recommended Just For <span className="text-pinky">You</span>
 				</p>
 				<Link href={'/find-podcast'} className="text-success text-sm font-normal">
@@ -301,7 +296,7 @@ export default function Home() {
 			</div>
 			{podcaster.length > 0 && (
 				<>
-					<Carousel responsive={responsive}>
+					<Carousel responsive={responsive} transitionDuration={500} containerClass="h-full">
 						{podcaster.map(
 							(
 								{
@@ -318,7 +313,6 @@ export default function Home() {
 										type={profile_type}
 										id={_id}
 										handleClick={handleAddRecent}
-										// handleFavorite={handleUpdateFavorite}
 										categories={topic_categories}
 										isFavorite={!favorite?.includes(_id)}
 										favorite={favorite}
@@ -332,7 +326,7 @@ export default function Home() {
 			)}
 
 			<div className="flex flex-row justify-between items-center">
-				<p className="text-primary text-2xl font-bold">
+				<p className="text-primary text-sm sm:text-base lg:text-2xl font-bold">
 					Featured <span className="text-success">guests</span>
 				</p>
 				<Link href={'/find-guest'} className="text-success text-sm font-normal">
@@ -341,7 +335,7 @@ export default function Home() {
 			</div>
 			{guest.length > 0 && (
 				<>
-					<Carousel responsive={responsive}>
+					<Carousel responsive={responsive} transitionDuration={500} containerClass="h-full">
 						{guest.map(
 							(
 								{
@@ -358,7 +352,6 @@ export default function Home() {
 										type={profile_type}
 										id={_id}
 										handleClick={handleAddRecent}
-										// handleFavorite={handleUpdateFavorite}
 										categories={topic_categories}
 										isFavorite={!favorite?.includes(_id)}
 										favorite={favorite}
@@ -366,14 +359,10 @@ export default function Home() {
 									/>
 								</div>
 							)
-
 						)}
 					</Carousel>
 				</>
 			)}
-		</div>
+		</div >
 	);
 }
-
-
-

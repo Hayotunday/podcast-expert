@@ -79,7 +79,7 @@ const Guest = () => {
 				config
 			)
 			.then((res) => {
-				// location.reload()
+				location.reload()
 			})
 			.catch((err) => console.log(err));
 	};
@@ -220,7 +220,37 @@ const Guest = () => {
 								ref={inputFile}
 								accept="image/*"
 								style={{ display: "none" }}
-								onChange={handleChangeImage}
+								onChange={(e) => {
+									e.preventDefault();
+
+									const file = e.target.files?.[0];
+
+									if (!file) return;
+									if (!file.type.includes("image")) {
+										return alert("Please upload an image file");
+									}
+
+									const reader = new FileReader();
+
+									reader.readAsDataURL(file);
+									reader.onload = async () => {
+										const result = reader.result;
+
+										try {
+											const response = await fetch(`/api/upload`, {
+												method: "POST",
+												body: JSON.stringify({ path: result }),
+											});
+											const imageUrl = await response.json()
+											setImage(imageUrl.url)
+											console.log(imageUrl.url)
+											await handleImageChange(imageUrl.url);
+										} catch (error) {
+											console.log(error);
+											throw error;
+										}
+									};
+								}}
 							/>
 							<button
 								type="button"
@@ -697,7 +727,37 @@ const Guest = () => {
 								ref={inputFile}
 								accept="image/*"
 								style={{ display: "none" }}
-								onChange={handleChangeImage}
+								onChange={(e) => {
+									e.preventDefault();
+
+									const file = e.target.files?.[0];
+
+									if (!file) return;
+									if (!file.type.includes("image")) {
+										return alert("Please upload an image file");
+									}
+
+									const reader = new FileReader();
+
+									reader.readAsDataURL(file);
+									reader.onload = async () => {
+										const result = reader.result;
+
+										try {
+											const response = await fetch(`/api/upload`, {
+												method: "POST",
+												body: JSON.stringify({ path: result }),
+											});
+											const imageUrl = await response.json()
+											setImage(imageUrl.url)
+											console.log(imageUrl.url)
+											await handleImageChange(imageUrl.url);
+										} catch (error) {
+											console.log(error);
+											throw error;
+										}
+									};
+								}}
 							/>
 							<button
 								type="button"
