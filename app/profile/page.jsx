@@ -273,7 +273,7 @@ const Guest = () => {
 							<div className="flex flex-col w-full">
 								<div className="w-full">
 									<h1 className="text-primary text-5xl font-black text-center md:text-left capitalize flex flex-col md:flex-row items-center justify-end md:items-end md:justify-start md:gap-2 ">
-										{data?.user?.name} <Indicator mode={"online"} />
+										{data?.user?.name} <span><Indicator mode={"online"} /></span>
 									</h1>
 								</div>
 
@@ -287,6 +287,13 @@ const Guest = () => {
 									{data?.short_bio}
 								</p>
 							)}
+
+							<div className="w-full flex justify-center md:justify-start">
+								<Location
+									city={data?.user?.info?.city}
+									country={data?.user?.info?.country}
+								/>
+							</div>
 
 							<div className="flex flex-wrap flex-row gap-3 items-center justify-center md:justify-start relative mb-5 sm:mb-0 w-full">
 								{data?.topic_categories.map((cate, index) => (
@@ -357,13 +364,6 @@ const Guest = () => {
 										</div>
 									)}
 								</div>
-							</div>
-
-							<div className="w-full flex justify-center md:justify-start">
-								<Location
-									city={data?.user?.info?.city}
-									country={data?.user?.info?.country}
-								/>
 							</div>
 
 							<div className="lg:flex flex-row gap-5 justify-center md:justify-start hidden">
@@ -778,8 +778,8 @@ const Guest = () => {
 						<div className="flex-col flex justify-between gap-3 md:gap-1">
 							<div className="flex flex-col text-center md:text-left">
 								<div className="w-full">
-									<h1 className="text-primary text-5xl font-black text-center md:text-left capitalize flex flex-col md:flex-row items-center justify-end md:items-end md:justify-start md:gap-2 ">
-										{data?.user?.name} <Indicator mode={"online"} />
+									<h1 className="text-primary text-5xl font-black text-center md:text-left capitalize flex flex-col md:flex-row items-center justify-end md:items-end md:justify-start md:gap-2">
+										{data?.user?.name} <span><Indicator mode={"online"} /></span>
 									</h1>
 								</div>
 
@@ -801,7 +801,7 @@ const Guest = () => {
 								/>
 							</div>
 
-							<div className="grid grid-cols-3 sm:flex sm:flex-row gap-3 items-center justify-center md:justify-start relative mb-5 sm:mb-0">
+							<div className="flex flex-wrap flex-row gap-3 items-center justify-center md:justify-start relative mb-5 sm:mb-0 w-full">
 								{data?.topic_categories.map((cate, index) => (
 									<Tag
 										key={index}

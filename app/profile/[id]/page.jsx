@@ -128,11 +128,11 @@ const Guest = () => {
 							</div>
 						</div>
 
-						<div className="flex-col flex justify-between gap-5 h-full">
-							<div className="flex flex-col items-center md:items-start text-center md:text-left">
+						<div className="flex-col flex justify-between gap-5 md:gap-1">
+							<div className="flex flex-col text-center md:text-left">
 								<div className="w-full">
-									<h1 className="text-primary text-5xl font-black text-center md:text-left capitalize flex flex-col md:flex-row items-center justify-end md:items-end md:justify-start md:gap-2 ">
-										{data?.user?.name} <Indicator mode={"online"} />
+									<h1 className="text-primary text-5xl font-black text-center md:text-left capitalize flex flex-col md:flex-row items-center justify-end md:items-end md:justify-start md:gap-2">
+										{data?.user?.name} <span><Indicator mode={"online"} /></span>
 									</h1>
 								</div>
 
@@ -147,17 +147,17 @@ const Guest = () => {
 								</p>
 							)}
 
-							<div className="flex flex-row flex-wrap gap-3 items-center justify-center md:justify-start relative mb-5 sm:mb-0 w-full self-center">
-								{data?.topic_categories.map((cate, index) => (
-									<Tag key={index} text={cate} />
-								))}
-							</div>
-
 							<div className="w-full flex justify-center md:justify-start">
 								<Location
 									city={data?.user?.info?.city}
 									country={data?.user?.info?.city}
 								/>
+							</div>
+
+							<div className="flex flex-wrap flex-row gap-3 items-center justify-center md:justify-start relative mb-5 sm:mb-0 w-full">
+								{data?.topic_categories.map((cate, index) => (
+									<Tag key={index} text={cate} />
+								))}
 							</div>
 
 							<div className="flex flex-row gap-5 w-full justify-center md:justify-start">
@@ -465,10 +465,10 @@ const Guest = () => {
 						</div>
 
 						<div className="flex-col flex justify-between w-full gap-5 h-full">
-							<div className="flex flex-col items-center md:items-start text-center md:text-left w-full">
+							<div className="flex flex-col items-center sm:items-start text-center sm:text-left w-full">
 								<div className="w-full">
-									<h1 className="text-primary text-5xl font-black text-center md:text-left capitalize flex flex-col md:flex-row items-center justify-end md:items-end md:justify-start md:gap-2 ">
-										{data?.user?.name} <Indicator mode={"online"} />
+									<h1 className="text-primary text-5xl font-black text-center sm:text-left capitalize flex flex-col md:flex-row items-center justify-end sm:items-end sm:justify-start md:gap-2 ">
+										{data?.user?.name} <span><Indicator mode={"online"} /></span>
 									</h1>
 								</div>
 
@@ -478,22 +478,22 @@ const Guest = () => {
 							</div>
 
 							{data?.bio && (
-								<p className="text-primary text-sm font-medium text-center md:text-left">
+								<p className="text-primary text-sm font-medium text-center sm:text-left">
 									{data?.bio}
 								</p>
 							)}
 
-							<div className="flex flex-row flex-wrap gap-3 items-center justify-center md:justify-start relative mb-5 sm:mb-0 w-full self-center">
-								{data?.topic_categories.map((cate, index) => (
-									<Tag key={index} text={cate} />
-								))}
-							</div>
-
-							<div className="w-full flex justify-center md:justify-start">
+							<div className="w-full flex justify-center sm:justify-start">
 								<Location
 									city={data?.user?.info?.city}
 									country={data?.user?.info?.country}
 								/>
+							</div>
+
+							<div className="flex flex-wrap flex-row gap-3 items-center justify-center sm:justify-start relative mb-5 sm:mb-0 w-full">
+								{data?.topic_categories.map((cate, index) => (
+									<Tag key={index} text={cate} />
+								))}
 							</div>
 
 							<div className="flex flex-row gap-5 ">
