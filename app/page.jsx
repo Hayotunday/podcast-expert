@@ -254,7 +254,7 @@ export default function Home() {
 				)}
 			</div>
 
-			{/* <div div className="flex flex-row justify-between items-center w-full">
+			<div div className="flex flex-row justify-between items-center w-full">
 				<p className="text-primary text-sm sm:text-base lg:text-2xl font-bold">
 					Your recently viewed podcasts
 				</p>
@@ -356,7 +356,7 @@ export default function Home() {
 						)}
 					</Carousel>
 				)}
-			</div> */}
+			</div>
 		</div >
 	);
 }
