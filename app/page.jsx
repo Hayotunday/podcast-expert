@@ -10,7 +10,6 @@ import Featured from "@components/Featured";
 import Loader from "@components/Loader";
 
 import Carousel from 'react-multi-carousel';
-import 'react-multi-carousel/lib/styles.css';
 
 export default function Home() {
 	const { searched } = useSelector((state) => state.search);
@@ -66,7 +65,7 @@ export default function Home() {
 					// console.log("profiles: ", res.data);
 					setProfiles(res.data);
 				})
-				.catch((err) => console.log(err));
+				.catch((err) => console.log(err))
 		};
 
 		getProfiles();
@@ -125,6 +124,7 @@ export default function Home() {
 					setGuest(res.data);
 				})
 				.catch((err) => console.log(err))
+				.finally(() => { setIsLoaded(false) })
 		};
 
 		getProfiles();
@@ -188,14 +188,19 @@ export default function Home() {
 
 	const responsive = {
 		superLargeDesktop: {
-			breakpoint: { max: 1024, min: 768 },
-			items: 4,
+			breakpoint: { max: 2560, min: 1536 },
+			items: 5,
 			slidesToSlide: 2.
 		},
 		desktop: {
+			breakpoint: { max: 1536, min: 768 },
+			items: 4,
+			slidesToSlide: 2.
+		},
+		smallDesktop: {
 			breakpoint: { max: 768, min: 640 },
 			items: 3,
-			slidesToSlide: 2.
+			slidesToSlide: 1.
 		},
 		tablet: {
 			breakpoint: { max: 640, min: 360 },
@@ -209,12 +214,12 @@ export default function Home() {
 		}
 	};
 
-	// if (isLoaded) {
-	// 	return <Loader template={true} numOfTemplate={16} />
-	// }
+	if (isLoaded) {
+		return <Loader template={true} numOfTemplate={16} />
+	}
 
 	return (
-		<div className="bg-grey w-full h-full p-5 flex flex-col gap-7 lg">
+		<div className="bg-grey w-full h-full p-5 flex flex-col gap-7 ">
 			<div className="flex flex-row justify-between items-center w-full">
 				<p className="text-primary text-sm sm:text-base lg:text-2xl font-bold">
 					Featured <span className="text-pinky">Podcasts</span>
@@ -224,34 +229,32 @@ export default function Home() {
 				</p> */}
 			</div>
 			<div className="my-2">
-				{profiles?.length > 0 && (
-					<>
-						<Carousel responsive={responsive} transitionDuration={500} containerClass="h-full">
-							{profiles?.map(
-								({ user: { image, name, _id, profile_type }, topic_categories },
-									index
-								) => (
-									<div key={index} className="h-60 w-full mx-2">
-										<Featured
-											key={index}
-											image={image}
-											name={name}
-											type={profile_type}
-											id={_id}
-											handleClick={handleAddRecent}
-											categories={topic_categories}
-											isFavorite={!favorite?.includes(_id)}
-											favorite={favorite}
-											setFavorite={updateFavorite}
-										/>
-									</div>
-								))}
-						</Carousel>
-					</>
+				{profiles.length > 0 && (
+					<Carousel responsive={responsive} transitionDuration={500} containerClass="carousel-container" rtl={false}>
+						{profiles?.map(
+							({ user: { image, name, _id, profile_type }, topic_categories },
+								index
+							) => (
+								<div key={index} className="h-60 w-full mx-2">
+									<Featured
+										key={index}
+										image={image}
+										name={name}
+										type={profile_type}
+										id={_id}
+										handleClick={handleAddRecent}
+										categories={topic_categories}
+										isFavorite={!favorite?.includes(_id)}
+										favorite={favorite}
+										setFavorite={updateFavorite}
+									/>
+								</div>
+							))}
+					</Carousel>
 				)}
 			</div>
 
-			<div div className="flex flex-row justify-between items-center w-full">
+			{/* <div div className="flex flex-row justify-between items-center w-full">
 				<p className="text-primary text-sm sm:text-base lg:text-2xl font-bold">
 					Your recently viewed podcasts
 				</p>
@@ -261,29 +264,27 @@ export default function Home() {
 			</div>
 			<div className="my-2">
 				{recents.length > 0 && (
-					<>
-						<Carousel responsive={responsive} transitionDuration={500} containerClass="h-full">
-							{recents.map(
-								({ image, name, _id, profile_type },
-									index
-								) => (
-									<div key={index} className="h-60 w-full mx-2">
-										<Featured
-											key={index}
-											image={image}
-											name={name}
-											type={profile_type}
-											id={_id}
-											handleClick={handleAddRecent}
-											isFavorite={!favorite?.includes(_id)}
-											favorite={favorite}
-											setFavorite={updateFavorite}
-										/>
-									</div>
-								)
-							)}
-						</Carousel>
-					</>
+					<Carousel responsive={responsive} transitionDuration={500} containerClass="carousel-container" rtl={false}>
+						{recents?.map(
+							({ image, name, _id, profile_type },
+								index
+							) => (
+								<div key={index} className="h-60 w-full mx-2">
+									<Featured
+										key={index}
+										image={image}
+										name={name}
+										type={profile_type}
+										id={_id}
+										handleClick={handleAddRecent}
+										isFavorite={!favorite?.includes(_id)}
+										favorite={favorite}
+										setFavorite={updateFavorite}
+									/>
+								</div>
+							)
+						)}
+					</Carousel>
 				)}
 			</div>
 
@@ -297,34 +298,28 @@ export default function Home() {
 			</div>
 			<div className="my-2">
 				{podcaster.length > 0 && (
-					<>
-						<Carousel responsive={responsive} transitionDuration={500} containerClass="h-full">
-							{podcaster.map(
-								(
-									{
-										user: { image, name, _id, profile_type },
-										topic_categories,
-									},
-									index
-								) => (
-									<div key={index} className="h-60 w-full mx-2">
-										<Featured
-											key={index}
-											image={image}
-											name={name}
-											type={profile_type}
-											id={_id}
-											handleClick={handleAddRecent}
-											categories={topic_categories}
-											isFavorite={!favorite?.includes(_id)}
-											favorite={favorite}
-											setFavorite={updateFavorite}
-										/>
-									</div>
-								)
-							)}
-						</Carousel>
-					</>
+					<Carousel responsive={responsive} transitionDuration={500} containerClass="carousel-container" rtl={false}>
+						{podcaster?.map(
+							({ user: { image, name, _id, profile_type }, topic_categories },
+								index
+							) => (
+								<div key={index} className="h-60 w-full mx-2">
+									<Featured
+										key={index}
+										image={image}
+										name={name}
+										type={profile_type}
+										id={_id}
+										handleClick={handleAddRecent}
+										categories={topic_categories}
+										isFavorite={!favorite?.includes(_id)}
+										favorite={favorite}
+										setFavorite={updateFavorite}
+									/>
+								</div>
+							)
+						)}
+					</Carousel>
 				)}
 			</div>
 
@@ -332,42 +327,36 @@ export default function Home() {
 				<p className="text-primary text-sm sm:text-base lg:text-2xl font-bold">
 					Featured <span className="text-success">guests</span>
 				</p>
-				<Link href={'/find-guest'} className="text-success text-sm font-normal">
+				<Link href={'/find-guests'} className="text-success text-sm font-normal">
 					View more
 				</Link>
 			</div>
 			<div className="my-2">
 				{guest.length > 0 && (
-					<>
-						<Carousel responsive={responsive} transitionDuration={500} containerClass="h-full">
-							{guest.map(
-								(
-									{
-										user: { image, name, _id, profile_type },
-										topic_categories,
-									},
-									index
-								) => (
-									<div key={index} className="h-60 w-full mx-2">
-										<Featured
-											key={index}
-											image={image}
-											name={name}
-											type={profile_type}
-											id={_id}
-											handleClick={handleAddRecent}
-											categories={topic_categories}
-											isFavorite={!favorite?.includes(_id)}
-											favorite={favorite}
-											setFavorite={updateFavorite}
-										/>
-									</div>
-								)
-							)}
-						</Carousel>
-					</>
+					<Carousel responsive={responsive} transitionDuration={500} containerClass="carousel-container" rtl={false}>
+						{guest?.map(
+							({ user: { image, name, _id, profile_type }, topic_categories },
+								index
+							) => (
+								<div key={index} className="h-60 w-full mx-2">
+									<Featured
+										key={index}
+										image={image}
+										name={name}
+										type={profile_type}
+										id={_id}
+										handleClick={handleAddRecent}
+										categories={topic_categories}
+										isFavorite={!favorite?.includes(_id)}
+										favorite={favorite}
+										setFavorite={updateFavorite}
+									/>
+								</div>
+							)
+						)}
+					</Carousel>
 				)}
-			</div>
+			</div> */}
 		</div >
 	);
 }
