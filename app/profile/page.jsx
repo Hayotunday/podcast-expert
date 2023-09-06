@@ -79,7 +79,7 @@ const Guest = () => {
 				config
 			)
 			.then((res) => {
-				location.reload()
+				// location.reload()
 			})
 			.catch((err) => console.log(err));
 	};
