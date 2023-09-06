@@ -48,7 +48,8 @@ export default function Home() {
 					setRecent(res.data.user.recent);
 					setFavorite(res.data.user.saved_list);
 				})
-				.catch((err) => console.log(err));
+				.catch((err) => console.log(err))
+				.finally(() => { setIsLoaded(false) });
 		};
 
 		getUserDetails();
@@ -124,7 +125,6 @@ export default function Home() {
 					setGuest(res.data);
 				})
 				.catch((err) => console.log(err))
-				.finally(() => { setIsLoaded(false) })
 		};
 
 		getProfiles();
