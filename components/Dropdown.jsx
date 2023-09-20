@@ -32,8 +32,7 @@ const Dropdown = ({ isArray, value, text, placeholder, options, onChangeValue })
 									className="text-sm w-full h-full outline-0 outline-none capitalize"
 									value={typedText}
 									onChange={(e) => {
-										let newText = e.target.value[0].toUpperCase() + e.target.value.substring(1);
-										setTypedText(newText)
+										setTypedText(e.target.value)
 									}}
 								/>
 								<span className="flex items-center">
@@ -207,7 +206,8 @@ const Dropdown = ({ isArray, value, text, placeholder, options, onChangeValue })
 					type="button"
 					className="flex items-center justify-center text-sm bg-success rounded-lg h-full p-2"
 					onClick={() => {
-						selectOption(typedText);
+						let newText = typedText[0].toUpperCase() + typedText.substring(1);
+						selectOption(newText);
 						setTypedText('');
 					}}
 				>
