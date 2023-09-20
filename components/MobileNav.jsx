@@ -7,6 +7,7 @@ import { usePathname, useRouter } from "next/navigation";
 
 import { AiOutlineUser } from "react-icons/ai";
 import { BiLogOut } from "react-icons/bi";
+import { BsMic } from "react-icons/bs";
 
 const MobileNav = ({ handleClick, navRef }) => {
 	const pathname = usePathname();
@@ -30,7 +31,7 @@ const MobileNav = ({ handleClick, navRef }) => {
 	return (
 		<section
 			ref={navRef}
-			onClick={() => {}}
+			onClick={() => { }}
 			className="w-1/2 sm:w-2/6 fixed top-0 min-h-screen lg:hidden flex-grow bg-primary z-30"
 		>
 			{/* <section className="w-1/6 h-full bg-primary"> */}
@@ -80,12 +81,12 @@ const MobileNav = ({ handleClick, navRef }) => {
 						href={"/profile"}
 						className={
 							pathname !== "/profile"
-								? "flex flex-row p-2 gap-5 items-center justify-start rounded hover:bg-white hover:text-white hover:bg-opacity-10"
-								: "flex flex-row p-2 gap-5 items-center justify-start rounded bg-white text-white bg-opacity-10"
+								? "flex flex-row p-2 -ml-1 gap-5 items-center justify-start rounded hover:bg-white hover:text-white hover:bg-opacity-10"
+								: "flex flex-row p-2 -ml-1 gap-5 items-center justify-start rounded bg-white text-white bg-opacity-10"
 						}
 					>
 						<AiOutlineUser size={20} color="#00CCBB" />
-						<p className="text-white text-center">My Profile</p>
+						<p className="text-white text-center">Profile</p>
 					</Link>
 					<hr className="mt-2" />
 				</div>
@@ -98,17 +99,12 @@ const MobileNav = ({ handleClick, navRef }) => {
 						href={"/find-podcast"}
 						className={
 							pathname !== "/find-podcast"
-								? "flex flex-row p-2 gap-5 items-center justify-start rounded hover:bg-white hover:text-white hover:bg-opacity-10"
-								: "flex flex-row p-2 gap-5 items-center justify-start rounded bg-white text-white bg-opacity-10"
+								? "flex flex-row p-2 -ml-0.5 gap-5 items-center justify-start rounded hover:bg-white hover:text-white hover:bg-opacity-10"
+								: "flex flex-row p-2 -ml-0.5 gap-5 items-center justify-start rounded bg-white text-white bg-opacity-10"
 						}
 					>
-						<Image
-							src={"/svgs/podcaster.svg"}
-							width={15}
-							height={15}
-							alt="Podcaster icon"
-						/>
-						<p className="text-white text-center">Find podcaster</p>
+						<BsMic size={25} color="#00CCBB" />
+						<p className="text-white text-center">Find podcast</p>
 					</Link>
 					<Link
 						href={"/find-guests"}
@@ -147,7 +143,7 @@ const MobileNav = ({ handleClick, navRef }) => {
 							height={15}
 							alt="favorite icon"
 						/>
-						<p className="text-white text-center">Favorites</p>
+						<p className="text-white text-center">Favourites</p>
 					</Link>
 					<Link
 						href={"/recent"}
@@ -177,11 +173,11 @@ const MobileNav = ({ handleClick, navRef }) => {
 						className="w-full flex flex-row p-2 gap-5 items-center justify-start rounded text-white hover:bg-white hover:bg-opacity-10"
 					>
 						<BiLogOut size={20} color="#00CCBB" />
-						<p className="text-white text-center">Sign Out</p>
+						<p className="text-white text-center">Log Out</p>
 					</button>
 				</div>
 
-				<div className="w-full mt-6">
+				{/* <div className="w-full mt-6">
 					<div className="w-full rounded-lg flex flex-row bg-pinky p-3">
 						<div className="flex flex-col">
 							<p className="text-primary text-left">
@@ -198,7 +194,7 @@ const MobileNav = ({ handleClick, navRef }) => {
 							<h1 className="text-primary font-extrabold text-7xl">f</h1>
 						</div>
 					</div>
-				</div>
+				</div> */}
 			</nav>
 		</section>
 	);

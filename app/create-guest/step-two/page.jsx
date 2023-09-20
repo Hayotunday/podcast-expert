@@ -30,6 +30,7 @@ import {
 import axios from "axios";
 
 import Input from "@components/Input";
+import { FaXTwitter } from "react-icons/fa6";
 
 const Steptwo = () => {
 	const {
@@ -66,7 +67,7 @@ const Steptwo = () => {
 					profile_type: "Guest",
 					info: info,
 					user: id,
-					topic_categories: [categories],
+					topic_categories: categories,
 					short_bio: bio,
 					mission: mission,
 					headline: headline,
@@ -156,12 +157,27 @@ const Steptwo = () => {
 								<div className="flex flex-col w-full gap-2 mt-3">
 									<div className="w-full flex flex-row gap-5 items-center justify-between">
 										<Image
-											src={"/svgs/twitter.svg"}
+											src={"/svgs/instagram.svg"}
 											width={40}
 											height={40}
-											alt="Facebook icon"
+											alt="Instagram icon"
 											className=""
 										/>
+										<div className="w-11/12">
+											<Input
+												onChangeValue={(e) => {
+													dispatch(setInstagram(e.target.value));
+												}}
+												value={instagram}
+												type="url"
+												inputholder={"instagram.com/"}
+											/>
+										</div>
+									</div>
+									<div className="w-full flex flex-row gap-5 items-center justify-between">
+										<div className="bg-pinky flex justify-center items-center rounded-full h-10 w-10">
+											<FaXTwitter size={20} color="yellow" />
+										</div>
 										<div className="w-11/12">
 											<Input
 												onChangeValue={(e) => {
@@ -213,29 +229,10 @@ const Steptwo = () => {
 									</div>
 									<div className="w-full flex flex-row gap-5 items-center justify-between">
 										<Image
-											src={"/svgs/instagram.svg"}
-											width={40}
-											height={40}
-											alt="Instagram icon"
-											className=""
-										/>
-										<div className="w-11/12">
-											<Input
-												onChangeValue={(e) => {
-													dispatch(setInstagram(e.target.value));
-												}}
-												value={instagram}
-												type="url"
-												inputholder={"instagram.com/"}
-											/>
-										</div>
-									</div>
-									<div className="w-full flex flex-row gap-5 items-center justify-between">
-										<Image
 											src={"/svgs/linkedin.svg"}
 											width={40}
 											height={40}
-											alt="Facebook icon"
+											alt="LinkedIn icon"
 											className=""
 										/>
 										<div className="w-11/12">

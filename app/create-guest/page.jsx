@@ -25,6 +25,7 @@ import Input from "@components/Input";
 import Dropdown from "@components/Dropdown";
 
 import {
+	age_options,
 	category_options,
 	dropdown_options,
 	gender_options,
@@ -174,7 +175,7 @@ const CreateGuest = () => {
 							/>
 							<p className="text-primary font-semibold">Change Avatar</p>
 						</button>
-						<p className="text-primary text-xs">File must not be above 10MB</p>
+						<p className="text-primary text-xs">File must not be above 1MB</p>
 					</div>
 
 					<div className="w-full lg:w-3/4">
@@ -196,21 +197,23 @@ const CreateGuest = () => {
 									<hr className="h-0.5 w-full rounded-lg bg-grey-300" />
 
 									<div className="flex flex-col gap-2 mt-3">
+										<p className="text-primary text-xs">*Type in gender if not in dropdown</p>
 										<Dropdown
 											onChangeValue={(e) => {
 												dispatch(setGender(e));
 											}}
+											text
 											value={gender}
 											placeholder={"Gender"}
 											options={gender_options}
 										/>
-										<Input
+										<Dropdown
 											onChangeValue={(e) => {
-												dispatch(setAge(e.target.value));
+												dispatch(setAge(e));
 											}}
 											value={age}
-											type="number"
 											placeholder={"Age"}
+											options={age_options}
 										/>
 										<Input
 											onChangeValue={(e) => {
@@ -257,10 +260,10 @@ const CreateGuest = () => {
 
 								<div className="w-full mt-5">
 									<h2 className="text-primary text-2xl font-bold text-left">
-										Profile headline
+										Podcast Bio
 									</h2>
 									<p className="text-primary text-sm font-light text-left">
-										This is your quick elevator pitch, a chance to stand out.
+										This is your podcast elevator pitch to get people excited.
 									</p>
 									<hr className="h-0.5 w-full rounded-lg bg-grey-300" />
 
@@ -292,7 +295,7 @@ const CreateGuest = () => {
 										My podcast mission
 									</h2>
 									<p className="text-primary text-sm font-light text-left">
-										Why I want to be a great guest
+										Why I want to be a great guest.
 									</p>
 									<hr className="h-0.5 w-full rounded-lg bg-grey-300" />
 
@@ -362,10 +365,39 @@ const CreateGuest = () => {
 									<hr className="h-0.5 w-full rounded-lg bg-grey-300" />
 
 									<div className="flex flex-col gap-2 mt-3">
+										{categories.map((category, index) => (
+											<div
+												key={index}
+												className="flex flex-row items-center justify-between overflow-hidden h-12 p-2 rounded-md max-w-full bg-white border px-3 border-grey-100"
+											>
+												<p className="text-base font-medium truncate break-words">
+													{category}
+												</p>
+												<button
+													type="button"
+													className="bg-lightgreen p-1.5 z-10 rounded-md self-end"
+													onClick={() => {
+														const tempArr = [...categories];
+														tempArr.splice(index, 1);
+														dispatch(setCategories(tempArr));
+													}}
+												>
+													<Image
+														src={"/svgs/cancel.svg"}
+														width={15}
+														height={15}
+														alt="Search icon"
+													/>
+												</button>
+											</div>
+										))}
 										<Dropdown
 											onChangeValue={(e) => {
-												dispatch(setCategories(e));
+												const newArr = [...categories, e];
+												dispatch(setCategories(newArr));
 											}}
+											isArray
+											text
 											value={categories}
 											placeholder={"Category"}
 											options={category_options}

@@ -28,12 +28,14 @@ import {
 import axios from "axios";
 
 import { AiOutlineLeft } from "react-icons/ai";
+import { FaXTwitter } from "react-icons/fa6";
 
 import Input from "@components/Input";
 import Loader from "@components/Loader";
 import Dropdown from "@components/Dropdown";
 
 import {
+	age_options,
 	dropdown_options,
 	gender_options,
 	language_options,
@@ -178,20 +180,11 @@ const CreateGuest = () => {
 
 				<div className="text-primary self-center mb-5">
 					<h1 className="text-primary text-left text-4xl font-black">
-						Edit <span className="text-pinky">guest</span> profile
+						Edit <span className="text-pinky">profile</span>
 					</h1>
 				</div>
 
-				<div className="w-full lg:w-11/12 px-4">
-					<div className="text-primary hidden lg:block">
-						<h1 className="text-primary text-left text-4xl font-black">
-							Create a <span className="text-pinky">guest</span> profile
-						</h1>
-						<p className="text-primary text-left text-sm font-normal -mt-1">
-							More about you
-						</p>
-					</div>
-
+				<div className="w-full sm:w-3/4 lg:w-1/2 px-4 flex justify-center self-center items-center">
 					<div className="flex flex-col gap-7 items-center w-full">
 						<div className="w-full mt-5">
 							<h2 className="text-primary text-2xl font-bold text-left">
@@ -200,21 +193,23 @@ const CreateGuest = () => {
 							<hr className="h-0.5 w-full rounded-lg bg-grey-300" />
 
 							<div className="flex flex-col gap-2 mt-3">
+								<p className="text-primary text-xs">*Type in gender if not in dropdown</p>
 								<Dropdown
 									onChangeValue={(e) => {
 										dispatch(setGender(e));
 									}}
+									text
 									value={gender}
 									placeholder={"Gender"}
 									options={gender_options}
 								/>
-								<Input
+								<Dropdown
 									onChangeValue={(e) => {
-										dispatch(setAge(e.target.value));
+										dispatch(setAge(e));
 									}}
 									value={age}
-									type="number"
 									placeholder={"Age"}
+									options={age_options}
 								/>
 								<Input
 									onChangeValue={(e) => {
@@ -261,10 +256,10 @@ const CreateGuest = () => {
 
 						<div className="w-full mt-5">
 							<h2 className="text-primary text-2xl font-bold text-left">
-								Profile headline
+								Podcast Bio
 							</h2>
 							<p className="text-primary text-sm font-light text-left">
-								This is your quick elevator pitch, a chance to stand out.
+								This is your podcast elevator pitch to get people excited.
 							</p>
 							<hr className="h-0.5 w-full rounded-lg bg-grey-300" />
 
@@ -296,7 +291,7 @@ const CreateGuest = () => {
 								My podcast mission
 							</h2>
 							<p className="text-primary text-sm font-light text-left">
-								Why I want to be a great guest
+								Why I want to be a great guest.
 							</p>
 							<hr className="h-0.5 w-full rounded-lg bg-grey-300" />
 
@@ -372,12 +367,27 @@ const CreateGuest = () => {
 								<div className="flex flex-col w-full gap-2 mt-3">
 									<div className="w-full flex flex-row gap-5 items-center justify-between">
 										<Image
-											src={"/svgs/twitter.svg"}
+											src={"/svgs/instagram.svg"}
 											width={40}
 											height={40}
-											alt="Facebook icon"
+											alt="Instagram icon"
 											className=""
 										/>
+										<div className="w-11/12">
+											<Input
+												onChangeValue={(e) => {
+													dispatch(setInstagram(e.target.value));
+												}}
+												value={instagram}
+												type="url"
+												inputholder={"instagram.com/"}
+											/>
+										</div>
+									</div>
+									<div className="w-full flex flex-row gap-5 items-center justify-between">
+										<div className="bg-pinky flex justify-center items-center rounded-full h-10 w-10">
+											<FaXTwitter size={18} color="yellow" />
+										</div>
 										<div className="w-11/12">
 											<Input
 												onChangeValue={(e) => {
@@ -429,29 +439,10 @@ const CreateGuest = () => {
 									</div>
 									<div className="w-full flex flex-row gap-5 items-center justify-between">
 										<Image
-											src={"/svgs/instagram.svg"}
-											width={40}
-											height={40}
-											alt="Instagram icon"
-											className=""
-										/>
-										<div className="w-11/12">
-											<Input
-												onChangeValue={(e) => {
-													dispatch(setInstagram(e.target.value));
-												}}
-												value={instagram}
-												type="url"
-												inputholder={"instagram.com/"}
-											/>
-										</div>
-									</div>
-									<div className="w-full flex flex-row gap-5 items-center justify-between">
-										<Image
 											src={"/svgs/linkedin.svg"}
 											width={40}
 											height={40}
-											alt="Facebook icon"
+											alt="LinkedIn icon"
 											className=""
 										/>
 										<div className="w-11/12">

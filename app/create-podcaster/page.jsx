@@ -27,6 +27,7 @@ import Input from "@components/Input";
 import Dropdown from "@components/Dropdown";
 
 import {
+	age_options,
 	category_options,
 	gender_options,
 	language_options,
@@ -100,7 +101,7 @@ const CreatePodcaster = () => {
 
 				<div className="text-primary lg:hidden ml-10">
 					<h1 className="text-primary text-left text-4xl font-black">
-						Create podcaster <span className="text-success">profile</span>
+						Create a podcaster <span className="text-success">profile</span>
 					</h1>
 					<p className="text-primary text-left text-sm font-normal -mt-1">
 						Tell guests a little More about you
@@ -178,17 +179,19 @@ const CreatePodcaster = () => {
 							/>
 							<p className="text-primary font-semibold">Change Avatar</p>
 						</button>
-						<p className="text-primary text-xs">File must not be above 10MB</p>
+						<p className="text-primary text-xs">File must not be above 1MB</p>
 					</div>
 
 					<div className="w-full lg:w-3/4 flex justify-center lg:justify-normal">
 						<div className="w-11/12 overflow-hidden">
 							<div className="text-primary hidden lg:block">
 								<h1 className="text-primary text-left text-4xl font-black">
-									Create podcaster <span className="text-success">profile</span>
+									Create a podcaster <span className="text-success">profile</span>
 								</h1>
-								<p className="text-primary text-left text-sm font-normal -mt-1">
-									Tell guests a little More about you
+								<p className="text-primary text-left text-sm flex-wrap font-normal -mt-1">
+									Please ensure you fill in all sections of your profile and give
+									the best impression. Don’t be shy, this is the time to show off
+									about all the wonderful things you have achieved!
 								</p>
 							</div>
 
@@ -200,21 +203,23 @@ const CreatePodcaster = () => {
 									<hr className="h-0.5 w-full rounded-lg bg-grey-300" />
 
 									<div className="flex flex-col gap-2 mt-3">
+										<p className="text-primary text-xs">*Type in gender if not in dropdown</p>
 										<Dropdown
 											onChangeValue={(e) => {
 												dispatch(setGender(e));
 											}}
+											text
 											value={gender}
 											placeholder={"Gender"}
 											options={gender_options}
 										/>
-										<Input
+										<Dropdown
 											onChangeValue={(e) => {
-												dispatch(setAge(e.target.value));
+												dispatch(setAge(e));
 											}}
 											value={age}
-											type="number"
 											placeholder={"Age"}
+											options={age_options}
 										/>
 										<Input
 											onChangeValue={(e) => {
@@ -272,17 +277,17 @@ const CreatePodcaster = () => {
 											}}
 											value={name}
 											type="text"
-											placeholder={"Podcast Name"}
+											placeholder={"Podcast Title"}
 										/>
 									</div>
 								</div>
 
 								<div className="w-full mt-5">
 									<h2 className="text-primary text-2xl font-bold text-left">
-										Profile headline
+										Podcast Bio
 									</h2>
 									<p className="text-primary text-sm font-light text-left">
-										This is your quick elevator pitch, a chance to stand out.
+										This is your podcast elevator pitch to get people excited.
 									</p>
 									<hr className="h-0.5 w-full rounded-lg bg-grey-300" />
 
@@ -314,7 +319,7 @@ const CreatePodcaster = () => {
 										About me
 									</h2>
 									<p className="text-primary text-sm font-light text-left">
-										Tell others about your podcast and yourself.
+										Tell us all about you and your podcast and what are aims for it are so others can help you get there.
 									</p>
 									<hr className="h-0.5 w-full rounded-lg bg-grey-300" />
 
@@ -351,10 +356,39 @@ const CreatePodcaster = () => {
 									<hr className="h-0.5 w-full rounded-lg bg-grey-300" />
 
 									<div className="flex flex-col gap-2 mt-3">
+										{categories.map((category, index) => (
+											<div
+												key={index}
+												className="flex flex-row items-center justify-between overflow-hidden h-12 p-2 rounded-md max-w-full bg-white border px-3 border-grey-100"
+											>
+												<p className="text-base font-medium truncate break-words">
+													{category}
+												</p>
+												<button
+													type="button"
+													className="bg-lightgreen p-1.5 z-10 rounded-md self-end"
+													onClick={() => {
+														const tempArr = [...categories];
+														tempArr.splice(index, 1);
+														dispatch(setCategory(tempArr));
+													}}
+												>
+													<Image
+														src={"/svgs/cancel.svg"}
+														width={15}
+														height={15}
+														alt="Search icon"
+													/>
+												</button>
+											</div>
+										))}
 										<Dropdown
 											onChangeValue={(e) => {
-												dispatch(setCategory(e));
+												const newArr = [...categories, e];
+												dispatch(setCategory(newArr));
 											}}
+											isArray
+											text
 											value={categories}
 											placeholder={"Category"}
 											options={category_options}
@@ -364,10 +398,10 @@ const CreatePodcaster = () => {
 
 								<div className="w-full mt-5">
 									<h2 className="text-primary text-2xl font-bold text-left">
-										Your URL
+										Your contact details
 									</h2>
 									<p className="text-primary text-sm font-light text-left">
-										Your personal URL where podcasters can reach out to you
+										Your email address where podcast, press and industry can contact you
 									</p>
 									<hr className="h-0.5 w-full rounded-lg bg-grey-300" />
 
@@ -378,17 +412,17 @@ const CreatePodcaster = () => {
 											}}
 											value={website}
 											type="url"
-											placeholder={"Podcast Name"}
+											placeholder={"Podcast Title"}
 										/>
 									</div>
 								</div>
 
 								<div className="w-full mt-5">
 									<h2 className="text-primary text-2xl font-bold text-left">
-										Links to key episodes
+										Include links to key episodes below
 									</h2>
 									<p className="text-primary text-sm font-light text-left">
-										Your link tour key episodes
+										Your link to your key episodes
 									</p>
 									<hr className="h-0.5 w-full rounded-lg bg-grey-300" />
 

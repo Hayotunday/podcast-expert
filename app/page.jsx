@@ -221,16 +221,16 @@ export default function Home() {
 	return (
 		<div className="bg-grey w-full h-full p-5 flex flex-col gap-7 ">
 			<div className="flex flex-row justify-between items-center w-full">
-				<p className="text-primary text-sm sm:text-base lg:text-2xl font-bold">
+				{/* <p className="text-primary text-sm sm:text-base lg:text-2xl font-bold">
 					Featured <span className="text-pinky">Podcasts</span>
-				</p>
+				</p> */}
 				{/* <p className="text-success text-sm font-normal">
 					View more
 				</p> */}
 			</div>
-			<div className="my-2">
+			<div className="my-2 z-0">
 				{profiles.length > 0 && (
-					<Carousel responsive={responsive} transitionDuration={500} containerClass="carousel-container" rtl={false}>
+					<Carousel responsive={responsive} transitionDuration={500} containerClass="carousel-container">
 						{profiles?.map(
 							({ user: { image, name, _id, profile_type }, topic_categories },
 								index
@@ -254,17 +254,17 @@ export default function Home() {
 				)}
 			</div>
 
-			<div div className="flex flex-row justify-between items-center w-full">
+			<div className="flex flex-row justify-between items-center w-full">
 				<p className="text-primary text-sm sm:text-base lg:text-2xl font-bold">
-					Your recently viewed podcasts
+					Your recently viewed
 				</p>
 				<Link href={'/recent'} className="text-success text-sm font-normal">
 					View more
 				</Link>
 			</div>
-			<div className="my-2">
+			<div className="my-2 z-0">
 				{recents.length > 0 && (
-					<Carousel responsive={responsive} transitionDuration={500} containerClass="carousel-container" rtl={false}>
+					<Carousel responsive={responsive} transitionDuration={500} containerClass="carousel-container">
 						{recents?.map(
 							({ image, name, _id, profile_type },
 								index
@@ -296,9 +296,9 @@ export default function Home() {
 					View more
 				</Link>
 			</div>
-			<div className="my-2">
+			<div className="my-2 z-0">
 				{podcaster.length > 0 && (
-					<Carousel responsive={responsive} transitionDuration={500} containerClass="carousel-container" rtl={false}>
+					<Carousel responsive={responsive} transitionDuration={500} containerClass="carousel-container">
 						{podcaster?.map(
 							({ user: { image, name, _id, profile_type }, topic_categories },
 								index
@@ -331,9 +331,9 @@ export default function Home() {
 					View more
 				</Link>
 			</div>
-			<div className="my-2">
+			<div className="my-2 z-0">
 				{guest.length > 0 && (
-					<Carousel responsive={responsive} transitionDuration={500} containerClass="carousel-container" rtl={false}>
+					<Carousel responsive={responsive} transitionDuration={500} containerClass="carousel-container">
 						{guest?.map(
 							({ user: { image, name, _id, profile_type }, topic_categories },
 								index

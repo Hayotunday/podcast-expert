@@ -5,7 +5,7 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
   headline: "",
   bio: "",
-  categories: "",
+  categories: [],
   interviews: [],
   social: {
     facebook: "",

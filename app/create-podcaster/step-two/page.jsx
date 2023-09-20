@@ -22,6 +22,7 @@ import {
 } from "@app/redux/features/podcaster/podcasterSlice";
 
 import Input from "@components/Input";
+import { FaXTwitter } from "react-icons/fa6";
 
 const Steptwo = () => {
 	const {
@@ -63,7 +64,7 @@ const Steptwo = () => {
 					user: id,
 					info: info,
 					podcast_name: name,
-					topic_categories: [categories],
+					topic_categories: categories,
 					url: website,
 					bio: bio,
 					highlights: [],
@@ -144,8 +145,7 @@ const Steptwo = () => {
 										Social media
 									</h2>
 									<p className="text-primary text-sm font-light text-left">
-										Add up your social media links and allow potential
-										collaborators to discover more.
+										Add in your social media links to allow others to discover more about you.
 									</p>
 									<hr className="h-0.5 w-full rounded-lg bg-grey-300" />
 								</div>
@@ -153,12 +153,27 @@ const Steptwo = () => {
 								<div className="flex flex-col w-full gap-2 mt-3">
 									<div className="w-full flex flex-row gap-5 items-center justify-between">
 										<Image
-											src={"/svgs/twitter.svg"}
+											src={"/svgs/instagram.svg"}
 											width={40}
 											height={40}
-											alt="Facebook icon"
+											alt="Instagram icon"
 											className=""
 										/>
+										<div className="w-11/12">
+											<Input
+												onChangeValue={(e) => {
+													dispatch(setInstagram(e.target.value));
+												}}
+												value={instagram}
+												type="url"
+												inputholder={"instagram.com/"}
+											/>
+										</div>
+									</div>
+									<div className="w-full flex flex-row gap-5 items-center justify-between">
+										<div className="bg-pinky flex justify-center items-center rounded-full h-10 w-10">
+											<FaXTwitter size={20} color="yellow" />
+										</div>
 										<div className="w-11/12">
 											<Input
 												onChangeValue={(e) => {
@@ -194,7 +209,7 @@ const Steptwo = () => {
 											src={"/svgs/youtube.svg"}
 											width={40}
 											height={40}
-											alt="Facebook icon"
+											alt="Youtube icon"
 											className=""
 										/>
 										<div className="w-11/12">
@@ -205,25 +220,6 @@ const Steptwo = () => {
 												value={youtube}
 												type="url"
 												inputholder={"youtube.com/"}
-											/>
-										</div>
-									</div>
-									<div className="w-full flex flex-row gap-5 items-center justify-between">
-										<Image
-											src={"/svgs/instagram.svg"}
-											width={40}
-											height={40}
-											alt="Instagram icon"
-											className=""
-										/>
-										<div className="w-11/12">
-											<Input
-												onChangeValue={(e) => {
-													dispatch(setInstagram(e.target.value));
-												}}
-												value={instagram}
-												type="url"
-												inputholder={"instagram.com/"}
 											/>
 										</div>
 									</div>
@@ -332,6 +328,11 @@ const Steptwo = () => {
 									<h2 className="text-primary text-2xl font-bold text-left">
 										Key podcast highlights & stats
 									</h2>
+									<p className="text-primary text-sm font-light text-left">
+										Include here any key highlights and stats for your podcast that
+										you would love people to know about and then box title should say
+										Key highlights and stats.
+									</p>
 									<hr className="h-0.5 w-full rounded-lg bg-grey-300" />
 								</div>
 
@@ -431,7 +432,7 @@ const Steptwo = () => {
 										onChange={(e) => {
 											setNewPrefer(e.target.value);
 										}}
-										placeholder="Your link of guests appearance"
+										placeholder="Your recording preferences"
 										className="h-12 w-full mt-5 rounded-md peer bg-white border flex items-end border-grey-100 px-6 text-sm outline
 											outline-0 transition-all focus:border-2 focus:border-blue-500 focus:outline-0"
 									/>
@@ -464,10 +465,10 @@ const Steptwo = () => {
 							<div className="w-full flex flex-col items-end mt-5">
 								<div className="w-11/12">
 									<h2 className="text-primary text-2xl font-bold text-left">
-										Next recording podcast
+										Your recording schedule
 									</h2>
 									<p className="text-primary text-sm font-light text-left">
-										Details of your next recording podcast
+										Details on when you are next recording
 									</p>
 									<hr className="h-0.5 w-full rounded-lg bg-grey-300" />
 								</div>

@@ -6,7 +6,7 @@ const initialState = {
   name: "",
   headline: "",
   bio: "",
-  categories: "",
+  categories: [],
   website: "",
   interviews: [],
   social: {

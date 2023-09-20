@@ -10,6 +10,7 @@ import Loader from "@components/Loader";
 import Tag from "@components/Tag";
 import Indicator from "@components/Indicator";
 import Location from "@components/Location";
+import { FaXTwitter } from "react-icons/fa6";
 
 const Guest = () => {
 	const params = useParams();
@@ -342,13 +343,9 @@ const Guest = () => {
 										)}
 										{data?.social_media.twitter && (
 											<li className="flex flex-row gap-3 items-center hover:underline">
-												<Image
-													src={"/svgs/twitter.svg"}
-													width={30}
-													height={30}
-													alt="Twitter icon"
-													className=""
-												/>
+												<div className="bg-pinky flex justify-center items-center rounded-full h-7 w-7">
+													<FaXTwitter size={16} color="yellow" />
+												</div>
 												<a
 													href={data?.social_media.twitter}
 													className="text-primary text-left text-base font-normal"
@@ -697,13 +694,9 @@ const Guest = () => {
 									)}
 									{data?.social_media.twitter && (
 										<li className="flex flex-row gap-3 items-center hover:underline">
-											<Image
-												src={"/svgs/twitter.svg"}
-												width={30}
-												height={30}
-												alt="Twitter icon"
-												className=""
-											/>
+											<div className="bg-pinky flex justify-center items-center rounded-full h-7 w-7">
+												<FaXTwitter size={16} color="yellow" />
+											</div>
 											<a
 												href={data?.social_media.twitter}
 												className="text-primary text-left text-base font-normal"

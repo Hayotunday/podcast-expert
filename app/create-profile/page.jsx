@@ -47,8 +47,8 @@ const Createprofile = () => {
 	};
 
 	return (
-		<main className="flex min-h-screen bg-create-profile bg-cover flex-col">
-			<section className="flex flex-col items-center p-10 gap-7">
+		<main className="flex min-h-screen overflow-hidden bg-create-profile bg-full bg-no-repeat">
+			<section className="flex flex-col w-full items-center p-10 gap-7">
 				<div className="mb-2 lg:hidden">
 					<Image
 						src={"/images/pow.png"}
@@ -66,7 +66,7 @@ const Createprofile = () => {
 					Which best describes you?
 				</h1>
 
-				<div className="flex flex-col lg:flex-row gap-10 items-center justify-center">
+				<div className="flex flex-col lg:flex-row gap-10 items-center justify-center lg:h-full lg:self-center">
 					<button
 						type="button"
 						onClick={() => {
@@ -78,10 +78,8 @@ const Createprofile = () => {
 							<h1 className="text-2xl font-bold text-primary">
 								I have a <span className="text-success">podcast</span>
 							</h1>
-							<p className="text-primary text-sm">
-								I'm looking for great guests and may
-								<br />
-								also want to be a guest
+							<p className="text-primary text-sm text-center flex-wrap p-5">
+								I am a podcaster or production company looking for guests and promotional opportunities
 							</p>
 							<Image
 								src={"/images/record.png"}
@@ -102,7 +100,7 @@ const Createprofile = () => {
 					>
 						<div className="border-4 rounded-xl border-primary bg-white w-80 h-90 text-center flex flex-col items-center justify-around">
 							<h1 className="text-2xl font-bold text-primary">
-								I'm looking for note worthy
+								I'm looking for noteworthy
 								<br />
 								<span className="text-success">guests & podcasts</span>
 							</h1>
@@ -161,7 +159,7 @@ const Createprofile = () => {
 			<section className="w-full mb-3 lg:mb-0 lg:fixed lg:bottom-3">
 				<div className="flex flex-col lg:flex-row justify-between items-center px-10 w-full">
 					<p className="text-primary text-center sm:text-left">
-						Copyright©thepodcastexpert.co.uk 2023. All rights reserved.
+						&copy; POW PR LTD. All rights reserved.
 					</p>
 					<div className="flex flex-row items-center justify-center lg:justify-between gap-3 text-primary">
 						<Link href={"#"} className="">

@@ -17,6 +17,7 @@ import Dropdown from "@components/Dropdown";
 import Indicator from "@components/Indicator";
 import Location from "@components/Location";
 import { uploadImage } from "@utils/functions";
+import { FaXTwitter } from "react-icons/fa6";
 
 const Guest = () => {
 	const router = useRouter();
@@ -266,7 +267,7 @@ const Guest = () => {
 								/>
 								<p className="text-primary font-semibold">Change Avatar</p>
 							</button>
-							<p className="text-primary text-xs">File must not be above 10MB</p>
+							<p className="text-primary text-xs">File must not be above 1MB</p>
 						</div>
 
 						<div className="flex-col flex justify-between gap-3 md:gap-1">
@@ -598,13 +599,9 @@ const Guest = () => {
 									)}
 									{data?.social_media.twitter && (
 										<li className="flex flex-row gap-3 items-center hover:underline">
-											<Image
-												src={"/svgs/twitter.svg"}
-												width={30}
-												height={30}
-												alt="Twitter icon"
-												className=""
-											/>
+											<div className="bg-pinky flex justify-center items-center rounded-full h-7 w-7">
+												<FaXTwitter size={16} color="yellow" />
+											</div>
 											<a
 												href={data?.social_media.twitter}
 												className="text-primary text-left text-base font-normal"
@@ -1080,13 +1077,9 @@ const Guest = () => {
 									)}
 									{data?.social_media.twitter && (
 										<li className="flex flex-row gap-3 items-center hover:underline">
-											<Image
-												src={"/svgs/twitter.svg"}
-												width={30}
-												height={30}
-												alt="Twitter icon"
-												className=""
-											/>
+											<div className="bg-pinky flex justify-center items-center rounded-full h-7 w-7">
+												<FaXTwitter size={16} color="yellow" />
+											</div>
 											<a
 												href={data?.social_media.twitter}
 												className="text-primary text-left text-base font-normal"

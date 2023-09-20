@@ -79,25 +79,6 @@ const Findpodcast = () => {
 		getUserDetails();
 	}, []);
 
-
-	useEffect(() => {
-		const getLocations = async () => {
-			await axios
-				.get(
-					`${process.env.NEXT_PUBLIC_BASE_URL}/user/location`
-				)
-				.then((res) => {
-					setLocations(res.data.locations)
-				})
-				.catch((err) => console.log(err))
-				.finally(() => {
-					setIsLoaded(false);
-				});
-		};
-
-		getLocations();
-	}, []);
-
 	useEffect(() => {
 		const getSearched = async () => {
 			const categories = profiles?.filter((i) => {
@@ -188,7 +169,7 @@ const Findpodcast = () => {
 									placeholder={"Categories"}
 								/>
 							</div>
-							<div className="w-48">
+							{/* <div className="w-48">
 								<Dropdown
 									options={locations}
 									value={location}
@@ -197,8 +178,8 @@ const Findpodcast = () => {
 									}}
 									placeholder={"Location"}
 								/>
-							</div>
-							<div className="w-48">
+							</div> */}
+							{/* <div className="w-48">
 								<Dropdown
 									options={new_options}
 									value={value}
@@ -207,7 +188,7 @@ const Findpodcast = () => {
 									}}
 									placeholder={"New"}
 								/>
-							</div>
+							</div> */}
 						</div>
 						{/* <div className="w-48">
 									<Filter />

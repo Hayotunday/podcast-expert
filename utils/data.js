@@ -150,7 +150,7 @@ export const podcastList = [
 
 export const dropdown_options = [{ option: 'Location 1' }, { option: 'Location 2' }, { option: 'Location 3' }, { option: 'Location 4' }]
 
-export const gender_options = [{ option: '' }, { option: 'Male' }, { option: 'Female' }, { option: 'Prefer not to say' }]
+export const gender_options = [{ option: '' }, { option: 'Male' }, { option: 'Female' }, { option: 'Non-Binary' }, { option: 'Prefer not to say' }]
 
 export const new_options = [{ option: '' }, { option: 'New' }, { option: 'Featured' }]
 
@@ -178,9 +178,18 @@ export const category_options = [
   { option: 'TV & Film' }
 ]
 
+export const age_options = [
+  { option: '' },
+  { option: '18-25 years old' },
+  { option: '26-30 years old' },
+  { option: '30-45 years old' },
+  { option: '45 and above years old' }
+]
+
 
 export const language_options = [
   { option: '' },
+  { option: 'English' },
   { option: 'Afrikaans' },
   { option: 'Albanian' },
   { option: 'Amharic' },
@@ -206,7 +215,6 @@ export const language_options = [
   { option: 'Dhivehi' },
   { option: 'Dogri' },
   { option: 'Dutch' },
-  { option: 'English' },
   { option: 'Esperanto' },
   { option: 'Estonian' },
   { option: 'Ewe' },

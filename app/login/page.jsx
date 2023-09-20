@@ -115,9 +115,9 @@ const Login = ({ searchParams }) => {
 					<p className="text-white font-light text-left text-xl">
 						The exclusive{" "}
 						<span className={`text-${color} font-bold`}>
-							podcast guest matching service
+							podcast promotion platform the
 						</span>{" "}
-						you've been waiting for.
+						industry has been waiting for.
 					</p>
 					<p className="text-white font-light text-left">
 						Never look for great guests again.
@@ -142,13 +142,14 @@ const Login = ({ searchParams }) => {
 						Glad to have you back!
 					</p>
 				</div>
-				<div className="flex flex-col items-center gap-3 mt-5 sm:mt-3 w-full">
-				<Social/>
+				<div className="flex flex-col items-center justify-center gap-3 w-full self-center h-full">
+					<Social />
 					<div className="flex flex-row items-center justify-center gap-3">
 						<hr className="w-44 bg-grey h-0.5" />
 						<p className="text-center text-sm font-light text-primary">Or</p>
 						<hr className="w-44 bg-grey h-0.5" />
 					</div>
+
 					<form
 						onSubmit={(e) => handleSubmit(e)}
 						className="w-full mt-10 flex flex-col items-center"
@@ -178,7 +179,7 @@ const Login = ({ searchParams }) => {
 								type="submit"
 								className="w-full h-14 bg-success text-primary text-lg font-extrabold rounded-lg"
 							>
-								login
+								Login
 							</button>
 
 							<p className="text-grey-100 text-base text-center">
@@ -215,14 +216,17 @@ const Login = ({ searchParams }) => {
 					</form>
 				</div>
 
-				<div className="flex flex-row items-center gap-3 text-primary fixed bottom-3">
-					<Link href={"#"} className="">
-						<p className="">Terms and Conditions</p>
-					</Link>
-					<p className="text-2xl font-semibold text-success">|</p>
-					<Link href={"#"} className="">
-						<p className="">Privacy Policy</p>
-					</Link>
+				<div className="text-primary fixed bottom-3 self-center">
+					<div className="flex flex-row items-center gap-3 w-full">
+						<Link href={"#"} className="">
+							<p className="">Terms and Conditions</p>
+						</Link>
+						<p className="text-2xl font-semibold text-success">|</p>
+						<Link href={"#"} className="">
+							<p className="">Privacy Policy</p>
+						</Link>
+					</div>
+					<p className="flex justify-center text-center items-center w-full">&copy; POW PR LTD</p>
 				</div>
 			</section>
 		</main>

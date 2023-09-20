@@ -7,6 +7,7 @@ import { usePathname, useRouter } from "next/navigation";
 
 import { AiOutlineUser } from "react-icons/ai";
 import { BiLogOut } from "react-icons/bi";
+import { BsMic } from "react-icons/bs";
 
 const Nav = ({ handleClick, navRef }) => {
 	const pathname = usePathname();
@@ -30,7 +31,7 @@ const Nav = ({ handleClick, navRef }) => {
 	return (
 		<section
 			ref={navRef}
-			onBlur={() => {}}
+			onBlur={() => { }}
 			className="md:w-2/6 lg:w-1/4 xl:w-1/6 sticky top-0 min-h-full hidden lg:block flex-grow bg-primary"
 		>
 			{/* <section className="w-1/6 h-full bg-primary"> */}
@@ -52,8 +53,8 @@ const Nav = ({ handleClick, navRef }) => {
 				>
 					<Image
 						src={"/svgs/plus.svg"}
-						width={15}
-						height={15}
+						width={20}
+						height={20}
 						alt="Plus icon"
 					/>
 					Create list
@@ -70,8 +71,8 @@ const Nav = ({ handleClick, navRef }) => {
 					>
 						<Image
 							src={"/svgs/podcaster.svg"}
-							width={15}
-							height={15}
+							width={20}
+							height={20}
 							alt="Podcaster icon"
 						/>
 						<p className="text-white text-center">Home</p>
@@ -84,13 +85,13 @@ const Nav = ({ handleClick, navRef }) => {
 								: "flex flex-row p-2 gap-5 items-center justify-start rounded bg-white text-white bg-opacity-10"
 						}
 					>
-						<AiOutlineUser size={20} color="#00CCBB" />
-						<p className="text-white text-center">Profile</p>
+						<AiOutlineUser size={25} color="#00CCBB" />
+						<p className="text-white text-center -ml-1">Profile</p>
 					</Link>
 					<hr className="mt-2" />
 				</div>
 
-				<div className="w-full mt-4">
+				<div className="w-full mt-8">
 					<p className="text-white text-left uppercase text-sm font-normal">
 						MENU
 					</p>
@@ -98,17 +99,12 @@ const Nav = ({ handleClick, navRef }) => {
 						href={"/find-podcast"}
 						className={
 							pathname !== "/find-podcast"
-								? "flex flex-row p-2 gap-5 items-center justify-start rounded hover:bg-white hover:text-white hover:bg-opacity-10"
-								: "flex flex-row p-2 gap-5 items-center justify-start rounded bg-white text-white bg-opacity-10"
+								? "flex flex-row p-2 -ml-0.5 gap-5 items-center justify-start rounded hover:bg-white hover:text-white hover:bg-opacity-10"
+								: "flex flex-row p-2 -ml-0.5 gap-5 items-center justify-start rounded bg-white text-white bg-opacity-10"
 						}
 					>
-						<Image
-							src={"/svgs/podcaster.svg"}
-							width={15}
-							height={15}
-							alt="Podcaster icon"
-						/>
-						<p className="text-white text-center">Find podcaster</p>
+						<BsMic size={25} color="#00CCBB" />
+						<p className="text-white text-center -ml-1">Find podcast</p>
 					</Link>
 					<Link
 						href={"/find-guests"}
@@ -120,8 +116,8 @@ const Nav = ({ handleClick, navRef }) => {
 					>
 						<Image
 							src={"/svgs/person.svg"}
-							width={15}
-							height={15}
+							width={20}
+							height={20}
 							alt="Person icon"
 						/>
 						<p className="text-white text-center">Find guests</p>
@@ -129,7 +125,7 @@ const Nav = ({ handleClick, navRef }) => {
 					<hr className="mt-2" />
 				</div>
 
-				<div className="w-full mt-4">
+				<div className="w-full mt-8">
 					<p className="text-white text-left uppercase text-sm font-normal">
 						LIBRARY
 					</p>
@@ -143,11 +139,11 @@ const Nav = ({ handleClick, navRef }) => {
 					>
 						<Image
 							src={"/svgs/favorite.svg"}
-							width={15}
-							height={15}
+							width={20}
+							height={20}
 							alt="favorite icon"
 						/>
-						<p className="text-white text-center">Favorites</p>
+						<p className="text-white text-center">Favourites</p>
 					</Link>
 					<Link
 						href={"/recent"}
@@ -159,8 +155,8 @@ const Nav = ({ handleClick, navRef }) => {
 					>
 						<Image
 							src={"/svgs/recent.svg"}
-							width={15}
-							height={15}
+							width={20}
+							height={20}
 							alt="Recent icon"
 						/>
 						<p className="text-white text-center">Recents</p>
@@ -168,7 +164,7 @@ const Nav = ({ handleClick, navRef }) => {
 					<hr className="mt-2" />
 				</div>
 
-				<div className="w-full mt-4">
+				<div className="w-full mt-8">
 					<button
 						onClick={() => {
 							// setToggleDropdown(false);
@@ -176,12 +172,12 @@ const Nav = ({ handleClick, navRef }) => {
 						}}
 						className="w-full flex flex-row p-2 gap-5 items-center justify-start rounded text-white hover:bg-white hover:bg-opacity-10"
 					>
-						<BiLogOut size={20} color="#00CCBB" />
-						<p className="text-white text-center">log Out</p>
+						<BiLogOut size={25} color="#00CCBB" />
+						<p className="text-white text-center">Log Out</p>
 					</button>
 				</div>
 
-				<div className="w-full mt-6">
+				{/* <div className="w-full mt-6">
 					<div className="w-full rounded-lg flex flex-row bg-pinky p-3">
 						<div className="flex flex-col">
 							<p className="text-primary text-left">
@@ -198,7 +194,7 @@ const Nav = ({ handleClick, navRef }) => {
 							<h1 className="text-primary font-extrabold text-7xl">f</h1>
 						</div>
 					</div>
-				</div>
+				</div> */}
 			</nav>
 		</section>
 	);
