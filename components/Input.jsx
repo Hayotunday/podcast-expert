@@ -4,6 +4,7 @@ import { useState } from "react";
 import Image from "next/image";
 
 const Input = ({
+	pattern,
 	placeholder,
 	inputholder,
 	onChangeValue,
@@ -21,6 +22,7 @@ const Input = ({
 	return (
 		<label htmlFor="" className="relative w-full group">
 			<input
+                  pattern={pattern}
 				autoComplete={show ? "password" : type}
 				type={show ? "password" : type}
 				className="h-12 w-full rounded-md peer bg-white border flex items-end border-grey-100 px-6 text-sm outline outline-0 

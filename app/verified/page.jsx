@@ -59,7 +59,7 @@ const Verified = ({}) => {
 		<main className="flex min-h-screen bg-verified bg-center bg-contain flex-col justify-around">
 			<section className="w-full flex flex-col items-center justify-center gap-10">
 				<Image
-					src={"/images/pow.png"}
+					src={"/images/tpg.png"}
 					width={213}
 					height={90}
 					className="fixed top-10"

@@ -84,7 +84,29 @@ export default function Root({ children }) {
 						pathname !== "/create-podcaster/step-two"
 					) {
 						router.push(`/create-profile`);
-					}
+					} 
+					// else if (
+					// 	res.data?.user?.paid !== true &&
+					// 	pathname !== "/login" &&
+					// 	pathname !== "/signup" &&
+					// 	pathname !== "/verify-email" &&
+					// 	pathname !== "/verified" &&
+					// 	pathname !== "/create-profile" &&
+					// 	pathname !== "/payment" &&
+					// 	pathname !== "/admin" &&
+					// 	pathname !== "/admin/details" &&
+					// 	pathname !== "/admin/create" &&
+					// 	pathname !== "/password/completed" &&
+					// 	pathname !== "/password/create" &&
+					// 	pathname !== "/password/forgot" &&
+					// 	pathname !== "/password/reset" &&
+					// 	pathname !== "/create-guest" &&
+					// 	pathname !== "/create-guest/step-two" &&
+					// 	pathname !== "/create-podcaster" &&
+					// 	pathname !== "/create-podcaster/step-two"
+					// ) {
+					// 	router.push(`/payment`);
+					// }
 				})
 				.catch((err) => {
 					console.log(err);
@@ -124,6 +146,7 @@ export default function Root({ children }) {
 			pathname !== "/signup" &&
 			pathname !== "/verify-email" &&
 			pathname !== "/verified" &&
+			pathname !== "/payment" &&
 			pathname !== "/create-profile" &&
 			pathname !== "/password/completed" &&
 			pathname !== "/password/create" &&
@@ -138,6 +161,7 @@ export default function Root({ children }) {
 			pathname !== "/create-press" &&
 			pathname !== "/create-press/edit" &&
 			pathname !== "/admin" &&
+			pathname !== "/admin/create-user" &&
 			pathname !== "/admin/settings" &&
 			pathname !== "/admin/create" &&
 			pathname !== "/admin/details" ? (
@@ -165,23 +189,6 @@ export default function Root({ children }) {
 							</div>
 						</section>
 					</section>
-					{/* 
-					{pathname !== "/login" &&
-			pathname !== "/signup" &&
-			pathname !== "/verify-email" &&
-			pathname !== "/verified" &&
-			pathname !== "/create-profile" &&
-			pathname !== "/password/completed" &&
-			pathname !== "/password/create" &&
-			pathname !== "/password/forgot" &&
-			pathname !== "/password/reset" &&
-			pathname !== "/create-guest" &&
-			pathname !== "/create-guest/edit" &&
-			pathname !== "/create-podcaster" &&
-			pathname !== "/create-podcaster/edit" &&
-			pathname !== "/create-press" &&
-			pathname !== "/create-press/edit" &&(
-					<Footer />)} */}
 				</main>
 			) : (
 				children

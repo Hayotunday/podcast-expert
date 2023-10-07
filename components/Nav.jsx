@@ -39,7 +39,7 @@ const Nav = ({ handleClick, navRef }) => {
 				<Link href={"#"} className="flex items-center justify-center">
 					<div className="">
 						<Image
-							src={"/images/pow.png"}
+							src={"/images/tpg.png"}
 							width={143.32}
 							height={60.29}
 							alt="Pow image"

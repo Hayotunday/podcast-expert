@@ -51,7 +51,7 @@ const Createprofile = () => {
 			<section className="flex flex-col w-full items-center p-10 gap-7">
 				<div className="mb-2 lg:hidden">
 					<Image
-						src={"/images/pow.png"}
+						src={"/images/tpg.png"}
 						width={150}
 						height={50}
 						className="self-end"

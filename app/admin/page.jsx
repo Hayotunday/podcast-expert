@@ -9,6 +9,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { updateSearch } from "@app/redux/features/search/searchSlice";
 
 import { HiOutlineHome } from "react-icons/hi";
+import { AiOutlineMenu } from "react-icons/ai";
+import { RxCross2 } from "react-icons/rx";
 import { BiLogOut } from "react-icons/bi";
 
 import AdminNav from "@components/AdminNav";
@@ -22,6 +24,7 @@ const AdminHome = () => {
 	const dispatch = useDispatch();
 
 	const [id, setId] = useState("");
+	const [isOpen, setIsOpen] = useState(false);
 	const [profiles, setProfiles] = useState([]);
 	const [search, setSearch] = useState([]);
 	const [isLoaded, setIsLoaded] = useState(true);
@@ -102,58 +105,66 @@ const AdminHome = () => {
 	};
 
 	if (isLoaded) {
-		return <Loader template={true} numOfTemplate={20} />
+		return (
+			<div className="w-screen h-screen flex items-center justify-center">
+				<Loader template={false} numOfTemplate={20} />
+			</div>
+		)
 	}
 
 	return (
-		<main className="flex flex-row w-full h-screen">
-			<AdminNav />
-			<section className="w-full">
-				<div className="p-5">
-					<div className="flex flex-row items-center justify-normal w-full gap-3">
-						<Link href={'/admin'} title="Home" className="md:hidden">
+		<main className="flex flex-row w-full h-full relative">
+			<div className="relative w-fit hidden lg:block">
+				<AdminNav />
+			</div>
+
+			<section className="w-full relative">
+				<div className="p-5 flex flex-row items-center justify-normal w-full gap-3 sticky top-0	z-30 bg-white">
+					{/* <Link href={'/admin'} title="Home" className="lg:hidden">
 							<HiOutlineHome color="#00CCBB" size={25} />
-						</Link>
-						<label className="bg-grey p-1.5 px-2 rounded-md flex flex-row items-center w-full lg:w-[563px] outline-0 focus:outline-0">
-							<input
-								type="text"
-								name="search"
-								id="search"
-								value={searched}
-								onChange={(e) => {
-									dispatch(updateSearch(e.target.value.trim()));
-								}}
-								placeholder="search user name or category"
-								className="bg-grey w-full text-sm outline-0 focus:outline-0"
-							/>
-							{/* <button
-							type="button"
-							className="bg-lightgreen p-1.5 rounded-md"
-							onClick={() => 	{}}
-						>
-							<Image
-								src={"/svgs/search.svg"}
-								width={15}
-								height={15}
-								alt="Search icon"
-							/>
-						</button> */}
-						</label>
-						<button
+						</Link> */}
+					<button onClick={() => {setIsOpen(!isOpen);console.log(isOpen)}} title="Home" className=" sticky top-0">
+						{!isOpen ? <AiOutlineMenu color="#00CCBB" size={25} /> : <RxCross2 color="#00CCBB" size={25} />}
+					</button>
+					<label className="bg-grey sticky top-0 p-1.5 px-2 rounded-md flex flex-row items-center w-full lg:w-[563px] outline-0 focus:outline-0">
+						<input
+							type="text"
+							name="search"
+							id="search"
+							value={searched}
+							onChange={(e) => {
+								dispatch(updateSearch(e.target.value.trim()));
+							}}
+							placeholder="search user name or category"
+							className="bg-grey w-full text-sm outline-0 focus:outline-0"
+						/>
+						{/* <button
+										type="button"
+										className="bg-lightgreen p-1.5 rounded-md"
+										onClick={() => 	{}}
+									>
+										<Image
+											src={"/svgs/search.svg"}
+											width={15}
+											height={15}
+											alt="Search icon"
+										/>
+									</button> */}
+					</label>
+					{/* <button
 							onClick={() => {
 								// setToggleDropdown(false);
 								logOut();
 							}}
 							title="Sign Out"
-							className="p-1.5 bg-lightgreen break-normal rounded-lg md:hidden"
+							className="p-1.5 bg-lightgreen break-normal rounded-lg lg:hidden"
 						>
 							<pre className="text-xs text-center text-primary font-publicSans">
 								Sign Out
 							</pre>
-						</button>
-					</div>
+						</button> */}
 				</div>
-				<div className=" p-10">
+				<div className="z-0 p-10">
 					{isLoaded ? (
 						<div className="w-full h-full flex items-center justify-center">
 							<Loader />
@@ -170,7 +181,7 @@ const AdminHome = () => {
 											},
 											index
 										) => (
-											<div key={index} className="h-60 w-full">
+											<div key={index} className="h-80 w-full">
 												<Featured
 													key={index}
 													image={image}
@@ -207,7 +218,7 @@ const AdminHome = () => {
 										},
 										index
 									) => (
-										<div key={index} className="h-60 w-full">
+										<div key={index} className="h-80 w-full">
 											<Featured
 												key={index}
 												image={image}
@@ -239,6 +250,10 @@ const AdminHome = () => {
 					)}
 				</div>
 			</section>
+			
+			<div className="absolute w-fit h-full z-50 lg:hidden">
+				{isOpen&&<AdminNav mobile isOpen={isOpen} setIsOpen={setIsOpen} />}
+			</div>
 		</main>
 	);
 };

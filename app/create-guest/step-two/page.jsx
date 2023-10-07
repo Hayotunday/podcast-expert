@@ -80,7 +80,7 @@ const Steptwo = () => {
 			)
 			.then((res) => {
 				if (res.status === 201) {
-					router.push("/");
+					router.push("/payment");
 				}
 			})
 			.catch((err) => {
@@ -116,7 +116,7 @@ const Steptwo = () => {
 			<div className="bg-grey w-full h-full p-5 flex flex-col gap-7">
 				<div className="mb-5 self-center">
 					<Image
-						src={"/images/pow.png"}
+						src={"/images/tpg.png"}
 						width={150}
 						height={50}
 						className="self-end"

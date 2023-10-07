@@ -58,7 +58,7 @@ const CreateAdmin = ({ searchParams }) => {
 			<section className="w-full h-screen bg-white flex flex-col items-center p-10">
 				<div className="mb-5 lg:hidden">
 					<Image
-						src={"/images/pow.png"}
+						src={"/images/tpg.png"}
 						width={150}
 						height={50}
 						className="self-end"

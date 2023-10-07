@@ -1,5 +1,6 @@
 import { handleFavorite, handleUnFavorite } from "@utils/functions";
 import axios from "axios";
+import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 
@@ -16,7 +17,7 @@ const Featured = ({
 	favorite,
 	unfavorite
 }) => {
-	const [fav, setFav] = useState(favorite.includes(id));
+	const [fav, setFav] = useState(favorite?.includes(id));
 
 
 	return (
@@ -32,13 +33,17 @@ const Featured = ({
 						}}
 						className="w-full h-full hover:shadow p-0.5 rounded-lg group"
 					>
-						<div className="rounded-xl h-40 w-full overflow-hidden">
+						<div className="rounded-xl h-60 w-full overflow-hidden">
 							{image || image === undefined ? (
-								<img
+								<Image
 									src={image}
 									id="img"
 									alt="image"
-									className="rounded-xl h-full w-full flex items-center justify-center group-hover:scale-110 transition-transform ease-in duration-1000"
+									width={280}
+									height={280}
+									quality={100}
+									priority
+									className="object-cover rounded-xl h-full w-full flex items-center justify-center group-hover:scale-110 transition-transform ease-in duration-1000"
 								/>
 							) : (
 								<div className="rounded-xl bg-green-500 text-primary uppercase h-full w-full text-9xl font-bold flex items-center justify-center">

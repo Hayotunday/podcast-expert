@@ -100,7 +100,7 @@ const Reset = () => {
 			<section className="lg:w-3/5 w-full h-screen bg-white flex flex-col items-center p-10">
 				<div className="mb-5 lg:hidden">
 					<Image
-						src={"/images/pow.png"}
+						src={"/images/tpg.png"}
 						width={150}
 						height={50}
 						className="self-end"
@@ -250,7 +250,7 @@ const Reset = () => {
 			{/* Image part */}
 			<section className="lg:w-2/5 h-screen hidden lg:flex flex-col items-center justify-around py-6 px-20">
 				<Image
-					src={"/images/pow.png"}
+					src={"/images/tpg.png"}
 					width={150}
 					height={70}
 					alt="Pow image"

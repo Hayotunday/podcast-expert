@@ -229,7 +229,7 @@ const Findpodcast = () => {
 											},
 											index
 										) => (
-											<div key={index} className="h-60 w-full">
+											<div key={index} className="h-80 w-full">
 												<Featured
 													key={index}
 													image={image}
@@ -266,7 +266,7 @@ const Findpodcast = () => {
 										},
 										index
 									) => (
-										<div key={index} className="h-60 w-full">
+										<div key={index} className="h-80 w-full">
 											<Featured
 												key={index}
 												image={image}

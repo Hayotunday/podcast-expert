@@ -12,7 +12,7 @@ const Footer = ({ isText }) => {
 						</h1>
 					) : (
 						<Image
-							src={"/images/pow.png"}
+							src={"/images/tpg.png"}
 							width={213}
 							height={90}
 							alt="Pow image"

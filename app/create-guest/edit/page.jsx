@@ -161,7 +161,7 @@ const CreateGuest = () => {
 			<div className="w-screen h-full p-5 lg:p-16 flex flex-col gap-7">
 				<div className="mb-5 self-center">
 					<Image
-						src={"/images/pow.png"}
+						src={"/images/tpg.png"}
 						width={150}
 						height={50}
 						className="self-end"

@@ -235,7 +235,7 @@ export default function Home() {
 							({ user: { image, name, _id, profile_type }, topic_categories },
 								index
 							) => (
-								<div key={index} className="h-60 w-full mx-2">
+								<div key={index} className="h-80 w-full mx-2">
 									<Featured
 										key={index}
 										image={image}
@@ -269,7 +269,7 @@ export default function Home() {
 							({ image, name, _id, profile_type },
 								index
 							) => (
-								<div key={index} className="h-60 w-full mx-2">
+								<div key={index} className="h-80 w-full mx-2">
 									<Featured
 										key={index}
 										image={image}
@@ -303,7 +303,7 @@ export default function Home() {
 							({ user: { image, name, _id, profile_type }, topic_categories },
 								index
 							) => (
-								<div key={index} className="h-60 w-full mx-2">
+								<div key={index} className="h-80 w-full mx-2">
 									<Featured
 										key={index}
 										image={image}
@@ -338,7 +338,7 @@ export default function Home() {
 							({ user: { image, name, _id, profile_type }, topic_categories },
 								index
 							) => (
-								<div key={index} className="h-60 w-full mx-2">
+								<div key={index} className="h-80 w-full mx-2">
 									<Featured
 										key={index}
 										image={image}

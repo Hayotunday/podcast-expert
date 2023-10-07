@@ -86,7 +86,7 @@ export default function Recent() {
 				{recent.length > 0 ? (
 					<div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-5">
 						{recent.map(({ image, name, _id, profile_type }, index) => (
-							<div key={index} className="h-60 w-full">
+							<div key={index} className="h-80 w-full">
 								<Featured
 									key={index}
 									image={image}
