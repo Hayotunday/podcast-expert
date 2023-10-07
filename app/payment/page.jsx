@@ -17,11 +17,13 @@ const Payment = () => {
   const dispatch = useDispatch()
 
   const [isLoaded, setIsLoaded] = useState()
+  const [mail, setMail] = useState()
   const [id, setId] = useState()
   const [data, setData] = useState()
 
   useEffect(() => {
     setId(localStorage.getItem("podcastId"));
+    setMail(localStorage.getItem("podcastMail"));
     const token =
       localStorage.getItem("podcastToken") === undefined ||
         localStorage.getItem("podcastToken") === null
@@ -83,7 +85,7 @@ const Payment = () => {
             <div className="w-full flex flex-col gap-2">
               <p className="text-primary text-left text-xl font-semibold">Contact Inforamtion</p>
               <div className='h-12 w-full rounded-md bg-white border flex items-center border-grey-100 px-6 text-sm focus:border-2 focus:border-blue-500'>
-                {data ? data?.user?.email : localStorage.getItem("podcastMail") }
+                {data ? data?.user?.email : mail }
               </div>
             </div>
 
@@ -106,7 +108,7 @@ const Payment = () => {
               <div className="w-full flex flex-row justify-between items-center gap-2">
                 <Input
                   inputholder={"MM / YY"}
-                  onChangeValue={(e) => { dispatch(updateMonthYear(e.target.value)); console.log(e.target.value) }}
+                  onChangeValue={(e) => { dispatch(updateMonthYear(e.target.value)); }}
                   value={monthYear}
                   type="month"
                   required
