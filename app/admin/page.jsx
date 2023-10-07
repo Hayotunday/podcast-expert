@@ -123,7 +123,7 @@ const AdminHome = () => {
 					{/* <Link href={'/admin'} title="Home" className="lg:hidden">
 							<HiOutlineHome color="#00CCBB" size={25} />
 						</Link> */}
-					<button onClick={() => {setIsOpen(!isOpen);console.log(isOpen)}} title="Home" className=" sticky top-0">
+					<button onClick={() => {setIsOpen(!isOpen);console.log(isOpen)}} title="Home" className="lg:hidden sticky top-0">
 						{!isOpen ? <AiOutlineMenu color="#00CCBB" size={25} /> : <RxCross2 color="#00CCBB" size={25} />}
 					</button>
 					<label className="bg-grey sticky top-0 p-1.5 px-2 rounded-md flex flex-row items-center w-full lg:w-[563px] outline-0 focus:outline-0">

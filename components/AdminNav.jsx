@@ -30,11 +30,13 @@ const AdminNav = ({ mobile, isOpen, setIsOpen }) => {
 	};
 
 	return (
-		<section className="w-72 h-full absolute lg:sticky top-0 bg-primary">
+		<section className="w-64 h-full absolute lg:sticky top-0 bg-primary">
 			<nav className="sticky top-0 w-full p-5">
-				<button onClick={() => { setIsOpen(!isOpen) }} title="Home" className="self-end flex justify-end w-full">
-					<RxCross2 color="#00CCBB" size={25} />
-				</button>
+				{mobile && (
+					<button onClick={() => { setIsOpen(!isOpen) }} title="Home" className="self-end flex justify-end w-full">
+						<RxCross2 color="#00CCBB" size={25} />
+					</button>
+				)}
 
 				<Link href={"#"} className="flex items-center justify-center">
 					<div className="">
