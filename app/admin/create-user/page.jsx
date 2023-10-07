@@ -80,7 +80,7 @@ const page = () => {
           )
           .then((res) => {
             if (res.status === 201) {
-              router.push("/");
+              router.push("/admin");
             }
           })
           .catch((err) => {
