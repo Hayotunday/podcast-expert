@@ -218,7 +218,7 @@ const Findpodcast = () => {
 					</div>
 
 					{profiles.length > 0 ? (
-						<div className="grid min-[380px]:grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 2xl:grid-cols-6 gap-5">
+						<div className="grid min-[380px]:grid-cols-2 sm:grid-cols-3 min-[1120px]:grid-cols-4 2xl:grid-cols-6 gap-5">
 							{searched ? (
 								search.length !== 0 ? (
 									search.map(

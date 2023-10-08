@@ -21,7 +21,7 @@ const page = () => {
     confirm: "",
   });
   const [profileType, setProfileType] = useState("");
-  const [image, setImage] = useState(false);
+  const [image, setImage] = useState("");
   const [check, setCheck] = useState(false);
   const [submitting, setSubmitting] = useState(false);
 

@@ -34,7 +34,11 @@ const Featured = ({
 						className="w-full h-full hover:shadow p-0.5 rounded-lg group"
 					>
 						<div className="rounded-xl h-60 w-full overflow-hidden">
-							{image || image === undefined ? (
+							{!image || image === undefined ? (
+								<div className="rounded-xl bg-green-500 text-primary uppercase h-full w-full text-9xl font-bold flex items-center justify-center">
+									{name.charAt(0)}
+								</div>
+								) : (
 								<Image
 									src={image}
 									id="img"
@@ -45,10 +49,6 @@ const Featured = ({
 									priority
 									className="object-cover rounded-xl h-full w-full flex items-center justify-center group-hover:scale-110 transition-transform ease-in duration-1000"
 								/>
-							) : (
-								<div className="rounded-xl bg-green-500 text-primary uppercase h-full w-full text-9xl font-bold flex items-center justify-center">
-									{name.charAt(0)}
-								</div>
 							)}
 						</div>
 

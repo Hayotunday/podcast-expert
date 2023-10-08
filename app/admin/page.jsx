@@ -49,9 +49,11 @@ const AdminHome = () => {
 							`${process.env.NEXT_PUBLIC_BASE_URL}/user/profiles?category=all&location=&topic=`, { id }
 						)
 						.then((res) => {
+							console.log(res)
 							const prof = res?.data?.filter((i) => {
 								return i.user._id !== id;
 							});
+							console.log(prof)
 							setProfiles(prof);
 						})
 						.catch((err) => console.log(err))
@@ -123,7 +125,7 @@ const AdminHome = () => {
 					{/* <Link href={'/admin'} title="Home" className="lg:hidden">
 							<HiOutlineHome color="#00CCBB" size={25} />
 						</Link> */}
-					<button onClick={() => {setIsOpen(!isOpen);console.log(isOpen)}} title="Home" className="lg:hidden sticky top-0">
+					<button onClick={() => { setIsOpen(!isOpen); console.log(isOpen) }} title="Home" className="lg:hidden sticky top-0">
 						{!isOpen ? <AiOutlineMenu color="#00CCBB" size={25} /> : <RxCross2 color="#00CCBB" size={25} />}
 					</button>
 					<label className="bg-grey sticky top-0 p-1.5 px-2 rounded-md flex flex-row items-center w-full lg:w-[563px] outline-0 focus:outline-0">
@@ -170,7 +172,7 @@ const AdminHome = () => {
 							<Loader />
 						</div>
 					) : profiles.length > 0 ? (
-						<div className="grid min-[380px]:grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 2xl:grid-cols-6 gap-5">
+						<div className="grid min-[380px]:grid-cols-2 sm:grid-cols-3 min-[1120px]:grid-cols-4 2xl:grid-cols-6 gap-5">
 							{searched ? (
 								search.length > 0 ? (
 									search.map(
@@ -211,11 +213,10 @@ const AdminHome = () => {
 								)
 							) : (
 								profiles.map(
-									(
-										{
-											user: { image, name, _id, profile_type },
-											topic_categories,
-										},
+									({
+										user: { image, name, _id, profile_type },
+										topic_categories,
+									},
 										index
 									) => (
 										<div key={index} className="h-80 w-full">
@@ -244,15 +245,15 @@ const AdminHome = () => {
 								priority
 							/>
 							<p className="text-center text-primary font-semibold text-lg">
-								No data found
+								No data founded
 							</p>
 						</div>
 					)}
 				</div>
 			</section>
-			
+
 			<div className="absolute w-fit h-full z-50 lg:hidden">
-				{isOpen&&<AdminNav mobile isOpen={isOpen} setIsOpen={setIsOpen} />}
+				{isOpen && <AdminNav mobile isOpen={isOpen} setIsOpen={setIsOpen} />}
 			</div>
 		</main>
 	);
