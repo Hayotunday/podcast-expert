@@ -20,6 +20,7 @@ export default function Home() {
 	const [id, setId] = useState("");
 	const [recent, setRecent] = useState([]);
 	const [recents, setRecents] = useState([]);
+	const [featured, setFeatured] = useState([]);
 	const [favorite, setFavorite] = useState([]);
 	const [search, setSearch] = useState([]);
 	const [isLoaded, setIsLoaded] = useState(true);
@@ -47,6 +48,21 @@ export default function Home() {
 					// console.log("user: ", res.data);
 					setRecent(res.data.user.recent);
 					setFavorite(res.data.user.saved_list);
+				})
+				.catch((err) => console.log(err))
+				.finally(() => { setIsLoaded(false) });
+		};
+
+		getUserDetails();
+	}, []);
+
+	useEffect(() => {
+		const getUserDetails = async () => {
+			await axios
+				.get(`${process.env.NEXT_PUBLIC_BASE_URL}/user/featured_populate`)
+				.then((res) => {
+					// console.log("user: ", res.data);
+					setFeatured(res.data);
 				})
 				.catch((err) => console.log(err))
 				.finally(() => { setIsLoaded(false) });
@@ -220,19 +236,20 @@ export default function Home() {
 
 	return (
 		<div className="bg-grey w-full h-full p-5 flex flex-col gap-7 ">
+
 			<div className="flex flex-row justify-between items-center w-full">
-				{/* <p className="text-primary text-sm sm:text-base lg:text-2xl font-bold">
+				<p className="text-primary text-sm sm:text-base lg:text-2xl font-bold">
 					Featured <span className="text-pinky">Podcasts</span>
-				</p> */}
+				</p>
 				{/* <p className="text-success text-sm font-normal">
 					View more
 				</p> */}
 			</div>
 			<div className="my-2 z-0">
-				{profiles.length > 0 && (
+				{featured.length > 0 && (<>
 					<Carousel responsive={responsive} transitionDuration={500} containerClass="carousel-container">
-						{profiles?.map(
-							({ user: { image, name, _id, profile_type }, topic_categories },
+						{featured?.map(
+							({ user: { image, name, _id, profile_type } },
 								index
 							) => (
 								<div key={index} className="h-80 w-full mx-2">
@@ -243,7 +260,7 @@ export default function Home() {
 										type={profile_type}
 										id={_id}
 										handleClick={handleAddRecent}
-										categories={topic_categories}
+										categories={""}
 										isFavorite={!favorite?.includes(_id)}
 										favorite={favorite}
 										setFavorite={updateFavorite}
@@ -251,6 +268,7 @@ export default function Home() {
 								</div>
 							))}
 					</Carousel>
+				</>
 				)}
 			</div>
 

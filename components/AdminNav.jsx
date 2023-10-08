@@ -30,7 +30,7 @@ const AdminNav = ({ mobile, isOpen, setIsOpen }) => {
 	};
 
 	return (
-		<section className="w-64 h-screen absolute lg:sticky top-0 bg-primary">
+		<section className="w-56 h-screen absolute lg:sticky top-0 bg-primary">
 			<nav className="sticky top-0 w-full p-5">
 				{mobile && (
 					<button onClick={() => { setIsOpen(!isOpen) }} title="Home" className="self-end flex justify-end w-full">

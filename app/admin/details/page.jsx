@@ -147,6 +147,7 @@ const Details = () => {
 	const [password, setPassword] = useState("");
 	const [isloaded, setIsLoaded] = useState();
 	const [isOpen, setIsOpen] = useState(false);
+	const [featured, setFeatured] = useState([]);
 
 	const [showDelete, setShowDelete] = useState(false);
 	const [showAdmin, setShowAdmin] = useState(false);
@@ -155,39 +156,6 @@ const Details = () => {
 	const user = searchParams.get("user");
 
 	const router = useRouter();
-
-	useEffect(() => {
-		const checks = async () => {
-			const token = localStorage.getItem("podcastToken");
-			setId(localStorage.getItem("podcastId"));
-			const config = {
-				headers: {
-					Authorization: `Bearer ${token}`,
-				},
-			};
-			await axios
-				.get(`${process.env.NEXT_PUBLIC_BASE_URL}/user/profile`, config)
-				.then(async (res) => {
-					if (!res.data.user.isAdmin) router.push("/");
-
-					await axios
-						.get(
-							`${process.env.NEXT_PUBLIC_BASE_URL}/user/profile-type/${user}`
-						)
-						.then((res) => {
-							// console.log(res.data);
-							setData(res.data);
-						})
-						.catch((err) => console.log(err));
-				})
-				.catch((err) => console.log(err))
-				.finally(() => {
-					setIsLoaded(false);
-				});
-		};
-
-		checks();
-	}, []);
 
 	const deleteAccount = async () => {
 		if (password !== "") {
@@ -226,12 +194,55 @@ const Details = () => {
 					alert("Unable to Make User Admin");
 					console.log(err);
 				})
-				.finally(()=>{
+				.finally(() => {
 					setShowAdmin(false)
 				});
 		} else {
 			alert("Please Fill password field");
 		}
+	};
+
+	const getFeatured = async () => {
+		await axios
+			.get(`${process.env.NEXT_PUBLIC_BASE_URL}/user/featured`)
+			.then((res) => {
+				const isFeatured = res.data?.filter((i) => {
+					return i.user === user
+				})
+				setFeatured(isFeatured.length === 0)
+			})
+			.catch((err) => console.log(err))
+			.finally(() => {
+				setIsLoaded(false);
+			});
+	};
+
+	const handleAddFeatured = async () => {
+		await axios
+			.post(`${process.env.NEXT_PUBLIC_BASE_URL}/admin/featured`, {
+				id: data.user._id,
+			})
+			.then((res) => {
+				res.status === 200 && alert(res.data);
+				getFeatured()
+			})
+			.catch((err) => {
+				alert("Unable to add user to Featured list");
+				console.log(err);
+			});
+	};
+
+	const handleRemoveFeatured = async () => {
+		await axios
+			.delete(`${process.env.NEXT_PUBLIC_BASE_URL}/admin/featured/${user}`)
+			.then((res) => {
+				res.status === 200 && alert(res.data);
+				getFeatured()
+			})
+			.catch((err) => {
+				alert("Unable to remove user from Featured list");
+				console.log(err);
+			});
 	};
 
 	const changePassword = async () => {
@@ -258,6 +269,41 @@ const Details = () => {
 			alert("Please fill all fields");
 		}
 	};
+
+	useEffect(() => {
+		const checks = async () => {
+			const token = localStorage.getItem("podcastToken");
+			setId(localStorage.getItem("podcastId"));
+			const config = {
+				headers: {
+					Authorization: `Bearer ${token}`,
+				},
+			};
+			await axios
+				.get(`${process.env.NEXT_PUBLIC_BASE_URL}/user/profile`, config)
+				.then(async (res) => {
+					if (!res.data.user.isAdmin) router.push("/");
+
+					await axios
+						.get(
+							`${process.env.NEXT_PUBLIC_BASE_URL}/user/profile-type/${user}`
+						)
+						.then((res) => {
+							// console.log(res.data);
+							setData(res.data);
+						})
+						.catch((err) => console.log(err));
+				})
+				.catch((err) => console.log(err))
+				.finally(() => {
+					getFeatured()
+					setIsLoaded(false);
+				});
+		};
+
+		checks();
+		getFeatured();
+	}, []);
 
 	return (
 		<main className="flex flex-row w-full h-screen relative">
@@ -334,7 +380,7 @@ const Details = () => {
 							</p>
 						</div> */}
 
-						<div className="flex flex-row flex-wrap items-center justify-center gap-5 mt-5">
+						<div className="flex flex-row flex-wrap items-center justify-center md:justify-start gap-5 mt-5">
 							<button
 								type="button"
 								className="bg-primary p-2 rounded-lg text-white text-center text-sm font-medium"
@@ -352,6 +398,13 @@ const Details = () => {
 								}}
 							>
 								Make Admin
+							</button>
+							<button
+								type="button"
+								className="bg-success p-2 rounded-lg text-primary text-center text-sm font-medium"
+								onClick={!featured ? handleRemoveFeatured : handleAddFeatured}
+							>
+								{!featured ? "Remove" : "Add"} to Featured
 							</button>
 							<button
 								type="button"

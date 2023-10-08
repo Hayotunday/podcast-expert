@@ -143,7 +143,7 @@ const Nav = ({ handleClick, navRef }) => {
 							height={20}
 							alt="favorite icon"
 						/>
-						<p className="text-white text-center">Favourites</p>
+						<p className="text-white text-center">Favorites</p>
 					</Link>
 					<Link
 						href={"/recent"}

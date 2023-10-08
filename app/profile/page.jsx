@@ -6,7 +6,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import axios from "axios";
 
-import { MdDeleteForever } from "react-icons/md";
+import { MdDeleteForever, MdPayment } from "react-icons/md";
 import { CgDanger } from "react-icons/cg";
 
 import { category_options } from "@utils/data";
@@ -169,6 +169,15 @@ const Guest = () => {
 			.delete(`${process.env.NEXT_PUBLIC_BASE_URL}/user/${id}`, config)
 			.then((res) => {
 				router.push("/login");
+			})
+			.catch((err) => console.log(err));
+	};
+
+	const handleMakePayment = async (data) => {
+		await axios
+			.post(`${process.env.NEXT_PUBLIC_BASE_URL}/auth/payment`)
+			.then((res) => {
+				window.location.href = res.data
 			})
 			.catch((err) => console.log(err));
 	};
@@ -663,6 +672,19 @@ const Guest = () => {
 							</Link>
 						</div>
 						<div className="">
+							<p className="flex text-primary font-semibold text-lg items-center">
+								Make payment for your podcast subscription
+							</p>
+							<button
+								type="button"
+								onClick={handleMakePayment}
+								className="bg-success text-primary flex flex-row gap-3 justify-center w-fit items-center capitalize rounded-lg p-2 self-center my-2"
+							>
+								<MdPayment size={20} />
+								Make Payment
+							</button>
+						</div>
+						<div className="">
 							<p className="flex text-red-600 font-semibold text-lg items-center">
 								<span>
 									<CgDanger size={20} />
@@ -1144,6 +1166,19 @@ const Guest = () => {
 							>
 								Change Password
 							</Link>
+						</div>
+						<div className="">
+							<p className="flex text-primary font-semibold text-lg items-center">
+								Make payment for your podcast subscription
+							</p>
+							<button
+								type="button"
+								onClick={handleMakePayment}
+								className="bg-success text-primary flex flex-row gap-3 justify-center w-fit items-center capitalize rounded-lg p-2 self-center my-2"
+							>
+								<MdPayment size={20} />
+								Make Payment
+							</button>
 						</div>
 						<div className="">
 							<p className="flex text-red-600 font-semibold text-lg items-center">
