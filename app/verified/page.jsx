@@ -45,17 +45,26 @@ const Verified = ({ }) => {
 		verifyMail();
 	}, []);
 
-	useEffect(() => {
-		const reDirect = async () => {
-			if (stat) {
-				setTimeout(() => {
-					paymentButton.current.click();
-				}, 2000);
-			}
-		};
+	const handleMakePayment = async (data) => {
+		await axios
+			.post(`${process.env.NEXT_PUBLIC_BASE_URL}/auth/payment`, { id, verified: false })
+			.then((res) => {
+				window.location.href = res.data
+			})
+			.catch((err) => console.log(err));
+	};
 
-		reDirect();
-	}, [stat]);
+	// useEffect(() => {
+	// 	const reDirect = async () => {
+	// 		if (stat) {
+	// 			setTimeout(() => {
+	// 				paymentButton.current.click();
+	// 			}, 2000);
+	// 		}
+	// 	};
+
+	// 	reDirect();
+	// }, [stat]);
 
 	return (
 		<main className="flex min-h-screen bg-verified bg-center bg-contain flex-col justify-around">
@@ -82,6 +91,12 @@ const Verified = ({ }) => {
 						You will be redirected when the verification is completed
 					</p>
 				</div>
+				<button type="button"
+					className="w-1/3 bg-success text-primary text-sm font-semibold text-center py-2 rounded-lg"
+					onClick={handleMakePayment}
+				>
+					Continue to Payment
+				</button>
 			</section>
 
 			<section className="fixed bottom-10 w-full">
@@ -101,9 +116,6 @@ const Verified = ({ }) => {
 				</div>
 			</section>
 
-			<button type="button" className="hidden" ref={paymentButton} onClick={async () => {
-				await axios.post(`${process.env.NEXT_PUBLIC_BASE_URL}/auth/verify-mail`, { id, verified: false })
-			}} />
 		</main>
 	);
 };

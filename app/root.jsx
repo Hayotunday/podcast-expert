@@ -110,9 +110,9 @@ export default function Root({ children }) {
 		};
 
 		const checkUserExists = async () => {
-			if (!token && !mail && !id) { setIsLoaded(false); return router.push(`/login?return=${pathname}`) }
 			if (
 				token === "" &&
+				mail === "" && id === "" &&
 				pathname !== "/login" &&
 				pathname !== "/signup" &&
 				pathname !== "/verify-email" &&
@@ -125,21 +125,33 @@ export default function Root({ children }) {
 				setIsLoaded(false);
 				return router.push(`/login?return=${pathname}`);
 			}
-			await axios.get(`${process.env.NEXT_PUBLIC_BASE_URL}/auth/exists`, { email: localStorage.getItem("podcastMail") })
-				.then((res) => {
-					console.log("checks: ", res)
-					if (res.data.exists === true) {
-						checks()
-					} else {
-						setIsLoaded(false);
-						localStorage.removeItem("podcastMail");
-						localStorage.removeItem("podcastId");
-						localStorage.removeItem("podcastToken");
-						return router.push(`/register`);
-					}
-				})
-				.catch((err) => { console.log(err?.message) })
-				.finally(() => setIsLoaded(false));
+			if (
+				pathname !== "/login" &&
+				pathname !== "/signup" &&
+				pathname !== "/verify-email" &&
+				pathname !== "/verified" &&
+				pathname !== "/password/completed" &&
+				pathname !== "/password/create" &&
+				pathname !== "/password/forgot" &&
+				pathname !== "/password/reset"
+			) {
+				await axios.get(`${process.env.NEXT_PUBLIC_BASE_URL}/auth/exists`, { email: localStorage.getItem("podcastMail") })
+					.then((res) => {
+						// console.log("checks: ", res)
+						if (res.data.exists === true) {
+							checks()
+						} else {
+							setIsLoaded(false);
+							localStorage.removeItem("podcastMail");
+							localStorage.removeItem("podcastId");
+							localStorage.removeItem("podcastToken");
+							return router.push(`/signup`);
+						}
+					})
+					.catch((err) => { console.log(err?.message) })
+					.finally(() => setIsLoaded(false));
+			}
+			setIsLoaded(false)
 		}
 
 		checkUserExists();
