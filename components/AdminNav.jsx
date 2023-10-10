@@ -6,6 +6,7 @@ import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 
 import { FiSettings } from "react-icons/fi";
+import { IoReturnDownBackOutline } from "react-icons/io5";
 import { RxCross2 } from "react-icons/rx";
 import { BsPersonFillAdd } from "react-icons/bs";
 import { BiLogOut } from "react-icons/bi";
@@ -77,6 +78,17 @@ const AdminNav = ({ mobile, isOpen, setIsOpen }) => {
 					>
 						<BsPersonFillAdd size={20} color="#00CCBB" />
 						<p className="text-white text-center">Create user</p>
+					</Link>
+					<Link
+						href={"/"}
+						className={
+							pathname !== "/"
+								? "flex flex-row p-2 gap-5 items-center justify-start rounded hover:bg-white hover:text-white hover:bg-opacity-10"
+								: "flex flex-row p-2 gap-5 items-center justify-start rounded bg-white text-white bg-opacity-10"
+						}
+					>
+						<IoReturnDownBackOutline size={20} color="#00CCBB" />
+						<p className="text-white text-center">Leave Admin</p>
 					</Link>
 					<hr className="mt-2" />
 

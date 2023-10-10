@@ -114,13 +114,16 @@ export default function Root({ children }) {
 				setIsLoaded(false);
 				return router.push(`/login?return=${pathname}`);
 			}
-			await axios.get(`${process.env.NEXT_PUBLIC_BASE_URL}/user/profile`, token)
+			await axios.get(`${process.env.NEXT_PUBLIC_BASE_URL}/user/profile`, { token })
 				.then((res) => {
 					if (res.data === true) {
 						checks()
 					} else {
 						setIsLoaded(false);
-						return router.push(`/login?return=${pathname}`);
+						localStorage.removeItem("podcastMail");
+						localStorage.removeItem("podcastId");
+						localStorage.removeItem("podcastToken");
+						return router.push(`/register`);
 					}
 				})
 				.catch((err) => { console.log(err?.message) })
