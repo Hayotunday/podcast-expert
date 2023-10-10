@@ -29,6 +29,8 @@ export default function Root({ children }) {
 				localStorage.getItem("podcastToken") === null
 				? ""
 				: localStorage.getItem("podcastToken");
+		const mail = localStorage.getItem("podcastMail");
+		const id = localStorage.getItem("podcastId");
 
 		const config = {
 			headers: {
@@ -100,6 +102,7 @@ export default function Root({ children }) {
 		};
 
 		const checkUserExists = async () => {
+			if (!token && !mail && !id) { setIsLoaded(false); return router.push(`/login?return=${pathname}`) }
 			if (
 				token === "" &&
 				pathname !== "/login" &&
@@ -114,9 +117,10 @@ export default function Root({ children }) {
 				setIsLoaded(false);
 				return router.push(`/login?return=${pathname}`);
 			}
-			await axios.get(`${process.env.NEXT_PUBLIC_BASE_URL}/user/profile`, { token })
+			await axios.get(`${process.env.NEXT_PUBLIC_BASE_URL}/auth/exists`, { email: localStorage.getItem("podcastMail") })
 				.then((res) => {
-					if (res.data === true) {
+					console.log("checks: ", res)
+					if (res.data.exists === true) {
 						checks()
 					} else {
 						setIsLoaded(false);
@@ -127,6 +131,7 @@ export default function Root({ children }) {
 					}
 				})
 				.catch((err) => { console.log(err?.message) })
+				.finally(() => setIsLoaded(false));
 		}
 
 		checkUserExists();
@@ -147,13 +152,13 @@ export default function Root({ children }) {
 		window.addEventListener("click", handleClickOutsideComponent);
 	}
 
-	// if (isLoaded) {
-	// 	return (
-	// 		<div className="w-screen h-screen">
-	// 			<Loader />;
-	// 		</div>
-	// 	);
-	// }
+	if (isLoaded) {
+		return (
+			<div className="w-screen h-screen flex items-center justify-center">
+				<Loader template={false} numOfTemplate={16} />
+			</div>
+		)
+	}
 
 	return (
 		<>

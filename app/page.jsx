@@ -318,19 +318,17 @@ export default function Home() {
 				{podcaster.length > 0 && (
 					<Carousel responsive={responsive} transitionDuration={500} containerClass="carousel-container">
 						{podcaster?.map(
-							({ user: { image, name, _id, profile_type }, topic_categories },
-								index
-							) => (
+							({ user, topic_categories }, index) => (
 								<div key={index} className="h-80 w-full mx-2">
 									<Featured
 										key={index}
-										image={image}
-										name={name}
-										type={profile_type}
-										id={_id}
+										image={user?.image}
+										name={user?.name}
+										type={user?.profile_type}
+										id={user?._id}
 										handleClick={handleAddRecent}
 										categories={topic_categories}
-										isFavorite={!favorite?.includes(_id)}
+										isFavorite={!favorite?.includes(user?._id)}
 										favorite={favorite}
 										setFavorite={updateFavorite}
 									/>

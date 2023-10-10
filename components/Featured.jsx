@@ -36,9 +36,9 @@ const Featured = ({
 						<div className="rounded-xl h-60 w-full overflow-hidden">
 							{!image || image === undefined ? (
 								<div className="rounded-xl bg-green-500 text-primary uppercase h-full w-full text-9xl font-bold flex items-center justify-center">
-									{name.charAt(0)}
+									{name?.charAt(0)}
 								</div>
-								) : (
+							) : (
 								<Image
 									src={image}
 									id="img"
