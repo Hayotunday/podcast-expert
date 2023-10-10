@@ -37,7 +37,7 @@ import { AiOutlineLeft } from "react-icons/ai";
 import Input from "@components/Input";
 import Loader from "@components/Loader";
 import Dropdown from "@components/Dropdown";
-import { age_options, gender_options, language_options } from "@utils/data";
+import { age_options, country_options, gender_options, language_options } from "@utils/data";
 import { FaXTwitter } from "react-icons/fa6";
 
 const EditPodcaster = () => {
@@ -204,13 +204,21 @@ const EditPodcaster = () => {
 									placeholder={"Age"}
 									options={age_options}
 								/>
-								<Input
+								{/* <Input
 									onChangeValue={(e) => {
 										dispatch(setCountry(e.target.value));
 									}}
 									value={country}
 									type="text"
 									placeholder={"Country"}
+								/> */}
+								<Dropdown
+									onChangeValue={(e) => {
+										dispatch(setCountry(e.target.value));
+									}}
+									value={country}
+									placeholder={"Country"}
+									options={country_options}
 								/>
 								<Input
 									onChangeValue={(e) => {
@@ -663,7 +671,7 @@ const EditPodcaster = () => {
 										<textarea
 											cols="30"
 											rows="5"
-											value={detail&& detail}
+											value={detail && detail}
 											maxLength={120}
 											onChange={(e) => {
 												dispatch(setDetails(e.target.value));

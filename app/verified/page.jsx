@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
@@ -10,7 +10,7 @@ import axios from "axios";
 
 import { updateToken } from "@app/redux/features/auth/authSlice";
 
-const Verified = ({}) => {
+const Verified = ({ }) => {
 	// const { id, token } = searchParams;
 	const dispatch = useDispatch();
 	const router = useRouter();
@@ -18,6 +18,8 @@ const Verified = ({}) => {
 
 	const id = searchParams.get("id");
 	const token = searchParams.get("token");
+
+	const paymentButton = useRef()
 
 	const [stat, setStat] = useState(false);
 
@@ -47,8 +49,8 @@ const Verified = ({}) => {
 		const reDirect = async () => {
 			if (stat) {
 				setTimeout(() => {
-					router.push("/create-profile");
-				}, 5000);
+					paymentButton.current.click();
+				}, 2000);
 			}
 		};
 
@@ -98,6 +100,10 @@ const Verified = ({}) => {
 					</div>
 				</div>
 			</section>
+
+			<button type="button" className="hidden" ref={paymentButton} onClick={async () => {
+				await axios.post(`${process.env.NEXT_PUBLIC_BASE_URL}/auth/verify-mail`, { id, verified: false })
+			}} />
 		</main>
 	);
 };

@@ -175,7 +175,7 @@ const Guest = () => {
 
 	const handleMakePayment = async (data) => {
 		await axios
-			.post(`${process.env.NEXT_PUBLIC_BASE_URL}/auth/payment`)
+			.post(`${process.env.NEXT_PUBLIC_BASE_URL}/auth/payment`, { id, verified: true })
 			.then((res) => {
 				window.location.href = res.data
 			})
@@ -213,8 +213,8 @@ const Guest = () => {
 										src={image ? image : data?.user?.image}
 										id="img"
 										alt="profile image"
-										fill
-										priority
+										width={210}
+										height={210}
 										quality={100}
 										className="rounded-lg object-cover flex items-center justify-center"
 									/>
@@ -729,8 +729,8 @@ const Guest = () => {
 										src={image ? image : data?.user?.image}
 										id="img"
 										alt="profile image"
-										fill
-										priority
+										width={210}
+										height={210}
 										quality={100}
 										className="rounded-lg object-cover flex items-center justify-center"
 									/>

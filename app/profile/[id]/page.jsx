@@ -116,8 +116,8 @@ const Guest = () => {
 										src={data?.user?.image}
 										id="img"
 										alt="profile image"
-										fill
-										priority
+										width={210}
+										height={210}
 										quality={100}
 										className="rounded-lg object-cover flex items-center justify-center"
 									/>
@@ -449,8 +449,8 @@ const Guest = () => {
 									src={data?.user?.image}
 									id="img"
 									alt="profile image"
-									fill
-									priority
+									width={210}
+									height={210}
 									quality={100}
 									className="rounded-lg object-cover flex items-center justify-center"
 								/>

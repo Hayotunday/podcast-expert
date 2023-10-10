@@ -211,13 +211,21 @@ const CreateGuest = () => {
 									placeholder={"Age"}
 									options={age_options}
 								/>
-								<Input
+								{/* <Input
 									onChangeValue={(e) => {
 										dispatch(setCountry(e.target.value));
 									}}
 									value={country}
 									type="text"
 									placeholder={"Country"}
+								/> */}
+								<Dropdown
+									onChangeValue={(e) => {
+										dispatch(setCountry(e.target.value));
+									}}
+									value={country}
+									placeholder={"Country"}
+									options={country_options}
 								/>
 								<Input
 									onChangeValue={(e) => {

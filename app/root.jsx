@@ -17,6 +17,7 @@ export default function Root({ children }) {
 	const navbarRef = useRef(null);
 	const menuRef = useRef(null);
 	const childrenRef = useRef(null);
+	const paymentButton = useRef(null)
 
 	const [user, setUser] = useState({ name: "", image: "" });
 	const [isLoaded, setIsLoaded] = useState(true);
@@ -25,7 +26,7 @@ export default function Root({ children }) {
 	useEffect(() => {
 		const token =
 			localStorage.getItem("podcastToken") === undefined ||
-			localStorage.getItem("podcastToken") === null
+				localStorage.getItem("podcastToken") === null
 				? ""
 				: localStorage.getItem("podcastToken");
 
@@ -36,21 +37,6 @@ export default function Root({ children }) {
 		};
 
 		const checks = async () => {
-			if (
-				token === "" &&
-				pathname !== "/login" &&
-				pathname !== "/signup" &&
-				pathname !== "/verify-email" &&
-				pathname !== "/verified" &&
-				pathname !== "/password/completed" &&
-				pathname !== "/password/create" &&
-				pathname !== "/password/forgot" &&
-				pathname !== "/password/reset"
-			) {
-				setIsLoaded(false);
-				return router.push(`/login?return=${pathname}`);
-			}
-
 			await axios
 				.get(`${process.env.NEXT_PUBLIC_BASE_URL}/user/profile`, config)
 				.then((res) => {
@@ -67,6 +53,27 @@ export default function Root({ children }) {
 						pathname !== "/password/reset"
 					) {
 						router.push(`/verify-email`);
+					} if (
+						res.data?.user?.paid !== true &&
+						pathname !== "/login" &&
+						pathname !== "/signup" &&
+						pathname !== "/verify-email" &&
+						pathname !== "/verified" &&
+						pathname !== "/create-profile" &&
+						pathname !== "/payment" &&
+						pathname !== "/admin" &&
+						pathname !== "/admin/details" &&
+						pathname !== "/admin/create" &&
+						pathname !== "/password/completed" &&
+						pathname !== "/password/create" &&
+						pathname !== "/password/forgot" &&
+						pathname !== "/password/reset" &&
+						pathname !== "/create-guest" &&
+						pathname !== "/create-guest/step-two" &&
+						pathname !== "/create-podcaster" &&
+						pathname !== "/create-podcaster/step-two"
+					) {
+						paymentButton.current.click();
 					} else if (
 						res.data.user.createdProfile !== true &&
 						pathname !== "/login" &&
@@ -84,29 +91,7 @@ export default function Root({ children }) {
 						pathname !== "/create-podcaster/step-two"
 					) {
 						router.push(`/create-profile`);
-					} 
-					// else if (
-					// 	res.data?.user?.paid !== true &&
-					// 	pathname !== "/login" &&
-					// 	pathname !== "/signup" &&
-					// 	pathname !== "/verify-email" &&
-					// 	pathname !== "/verified" &&
-					// 	pathname !== "/create-profile" &&
-					// 	pathname !== "/payment" &&
-					// 	pathname !== "/admin" &&
-					// 	pathname !== "/admin/details" &&
-					// 	pathname !== "/admin/create" &&
-					// 	pathname !== "/password/completed" &&
-					// 	pathname !== "/password/create" &&
-					// 	pathname !== "/password/forgot" &&
-					// 	pathname !== "/password/reset" &&
-					// 	pathname !== "/create-guest" &&
-					// 	pathname !== "/create-guest/step-two" &&
-					// 	pathname !== "/create-podcaster" &&
-					// 	pathname !== "/create-podcaster/step-two"
-					// ) {
-					// 	router.push(`/payment`);
-					// }
+					}
 				})
 				.catch((err) => {
 					console.log(err);
@@ -114,7 +99,34 @@ export default function Root({ children }) {
 				.finally(() => setIsLoaded(false));
 		};
 
-		checks();
+		const checkUserExists = async () => {
+			if (
+				token === "" &&
+				pathname !== "/login" &&
+				pathname !== "/signup" &&
+				pathname !== "/verify-email" &&
+				pathname !== "/verified" &&
+				pathname !== "/password/completed" &&
+				pathname !== "/password/create" &&
+				pathname !== "/password/forgot" &&
+				pathname !== "/password/reset"
+			) {
+				setIsLoaded(false);
+				return router.push(`/login?return=${pathname}`);
+			}
+			await axios.get(`${process.env.NEXT_PUBLIC_BASE_URL}/user/profile`, token)
+				.then((res) => {
+					if (res.data === true) {
+						checks()
+					} else {
+						setIsLoaded(false);
+						return router.push(`/login?return=${pathname}`);
+					}
+				})
+				.catch((err) => { console.log(err?.message) })
+		}
+
+		checkUserExists();
 	}, []);
 
 	const handleClickOutsideComponent = (event) => {
@@ -143,28 +155,28 @@ export default function Root({ children }) {
 	return (
 		<>
 			{pathname !== "/login" &&
-			pathname !== "/signup" &&
-			pathname !== "/verify-email" &&
-			pathname !== "/verified" &&
-			pathname !== "/payment" &&
-			pathname !== "/create-profile" &&
-			pathname !== "/password/completed" &&
-			pathname !== "/password/create" &&
-			pathname !== "/password/forgot" &&
-			pathname !== "/password/reset" &&
-			pathname !== "/create-guest" &&
-			pathname !== "/create-guest/edit" &&
-			pathname !== "/create-guest/step-two" &&
-			pathname !== "/create-podcaster" &&
-			pathname !== "/create-podcaster/edit" &&
-			pathname !== "/create-podcaster/step-two" &&
-			pathname !== "/create-press" &&
-			pathname !== "/create-press/edit" &&
-			pathname !== "/admin" &&
-			pathname !== "/admin/create-user" &&
-			pathname !== "/admin/settings" &&
-			pathname !== "/admin/create" &&
-			pathname !== "/admin/details" ? (
+				pathname !== "/signup" &&
+				pathname !== "/verify-email" &&
+				pathname !== "/verified" &&
+				pathname !== "/payment" &&
+				pathname !== "/create-profile" &&
+				pathname !== "/password/completed" &&
+				pathname !== "/password/create" &&
+				pathname !== "/password/forgot" &&
+				pathname !== "/password/reset" &&
+				pathname !== "/create-guest" &&
+				pathname !== "/create-guest/edit" &&
+				pathname !== "/create-guest/step-two" &&
+				pathname !== "/create-podcaster" &&
+				pathname !== "/create-podcaster/edit" &&
+				pathname !== "/create-podcaster/step-two" &&
+				pathname !== "/create-press" &&
+				pathname !== "/create-press/edit" &&
+				pathname !== "/admin" &&
+				pathname !== "/admin/create-user" &&
+				pathname !== "/admin/settings" &&
+				pathname !== "/admin/create" &&
+				pathname !== "/admin/details" ? (
 				<main className="bg-grey h-screen w-screen">
 					<section className="flex flex-row w-full h-full">
 						<Nav />
@@ -193,6 +205,9 @@ export default function Root({ children }) {
 			) : (
 				children
 			)}
+			<button type="button" className="hidden" ref={paymentButton} onClick={async () => {
+				await axios.post(`${process.env.NEXT_PUBLIC_BASE_URL}/auth/verify-mail`, { id, verified: false })
+			}} />
 		</>
 	);
 }

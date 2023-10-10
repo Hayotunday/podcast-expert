@@ -29,6 +29,7 @@ import Dropdown from "@components/Dropdown";
 import {
 	age_options,
 	category_options,
+	country_options,
 	gender_options,
 	language_options,
 } from "@utils/data";
@@ -221,13 +222,21 @@ const CreatePodcaster = () => {
 											placeholder={"Age"}
 											options={age_options}
 										/>
-										<Input
+										{/* <Input
 											onChangeValue={(e) => {
 												dispatch(setCountry(e.target.value));
 											}}
 											value={country}
 											type="text"
 											placeholder={"Country"}
+										/> */}
+										<Dropdown
+											onChangeValue={(e) => {
+												dispatch(setCountry(e.target.value));
+											}}
+											value={country}
+											placeholder={"Country"}
+											options={country_options}
 										/>
 										<Input
 											onChangeValue={(e) => {
@@ -237,14 +246,7 @@ const CreatePodcaster = () => {
 											type="text"
 											placeholder={"City"}
 										/>
-										{/* <Dropdown
-											onChangeValue={(e) => {
-												dispatch(setCountry(e));
-											}}
-											value={country}
-											placeholder={"Country"}
-											options={dropdown_options}
-										/>
+										{/* 
 										<Dropdown
 											onChangeValue={(e) => {
 												dispatch(setCity(e));
