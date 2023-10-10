@@ -22,6 +22,7 @@ const Verified = ({ }) => {
 	const paymentButton = useRef()
 
 	const [stat, setStat] = useState(false);
+	const [error, setError] = useState(false);
 
 	useEffect(() => {
 		const verifyMail = async () => {
@@ -38,6 +39,7 @@ const Verified = ({ }) => {
 					}
 				})
 				.catch((err) => {
+					setError(true);
 					console.log(err);
 				});
 		};
@@ -85,7 +87,7 @@ const Verified = ({ }) => {
 						alt="Verified image"
 					/>
 					<h1 className="text-success text-center font-bold text-4xl">
-						{stat ? "Verified" : "Verifying"}
+						{error ? "Invalid Link" : stat ? "Verified" : "Verifying"}
 					</h1>
 					<p className="text-success textcenter font-normal text-sm">
 						You will be redirected when the verification is completed
