@@ -29,8 +29,16 @@ export default function Root({ children }) {
 				localStorage.getItem("podcastToken") === null
 				? ""
 				: localStorage.getItem("podcastToken");
-		const mail = localStorage.getItem("podcastMail");
-		const id = localStorage.getItem("podcastId");
+		const mail =
+			localStorage.getItem("podcastMail") === undefined ||
+				localStorage.getItem("podcastMail") === null
+				? ""
+				: localStorage.getItem("podcastMail");
+		const id =
+			localStorage.getItem("podcastId") === undefined ||
+				localStorage.getItem("podcastId") === null
+				? ""
+				: localStorage.getItem("podcastId");
 
 		const config = {
 			headers: {
