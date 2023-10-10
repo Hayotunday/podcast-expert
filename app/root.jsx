@@ -78,7 +78,6 @@ export default function Root({ children }) {
 						pathname !== "/signup" &&
 						pathname !== "/verify-email" &&
 						pathname !== "/verified" &&
-						pathname !== "/create-profile" &&
 						pathname !== "/payment" &&
 						pathname !== "/admin" &&
 						pathname !== "/admin/details" &&
@@ -92,6 +91,7 @@ export default function Root({ children }) {
 						pathname !== "/create-podcaster" &&
 						pathname !== "/create-podcaster/step-two"
 					) {
+						console.log("first")
 						handleMakePayment()
 					} else if (
 						res.data.user.createdProfile !== true &&
@@ -144,7 +144,7 @@ export default function Root({ children }) {
 				pathname !== "/password/forgot" &&
 				pathname !== "/password/reset"
 			) {
-				await axios.get(`${process.env.NEXT_PUBLIC_BASE_URL}/auth/exists`, { email: localStorage.getItem("podcastMail") })
+				await axios.get(`${process.env.NEXT_PUBLIC_BASE_URL}/auth/exists/${mail}`)
 					.then((res) => {
 						// console.log("checks: ", res)
 						if (res.data.exists === true) {

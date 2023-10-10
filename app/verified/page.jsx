@@ -51,7 +51,8 @@ const Verified = ({ }) => {
 		await axios
 			.post(`${process.env.NEXT_PUBLIC_BASE_URL}/auth/payment`, { id, verified: false })
 			.then((res) => {
-				window.location.href = res.data
+				console.log(res)
+				// window.location.href = res.data
 			})
 			.catch((err) => console.log(err));
 	};
@@ -89,9 +90,6 @@ const Verified = ({ }) => {
 					<h1 className="text-success text-center font-bold text-4xl">
 						{error ? "Invalid Link" : stat ? "Verified" : "Verifying"}
 					</h1>
-					<p className="text-success textcenter font-normal text-sm">
-						You will be redirected when the verification is completed
-					</p>
 				</div>
 				<button type="button"
 					className="w-1/3 bg-success text-primary text-sm font-semibold text-center py-2 rounded-lg"

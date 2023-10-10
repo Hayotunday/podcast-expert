@@ -104,9 +104,9 @@ const Signup = () => {
 								router.push("/verify-email");
 							}
 						})
-						.catch((res) => {
-							// console.log(res);
-							if (res.status === 401) {
+						.catch((err) => {
+							console.log(err);
+							if (err.response.status === 401) {
 								alert("Email already taken. Enter a unique email to continue!");
 							}
 						});
@@ -275,7 +275,7 @@ const Signup = () => {
 					</form>
 				</div>
 
-				<div className="text-primary fixed bottom-3 self-center">
+				<div className="text-primary lg:fixed bottom-3 self-center">
 					<div className="flex flex-row items-center gap-3 w-full">
 						<Link href={"#"} className="">
 							<p className="">Terms and Conditions</p>

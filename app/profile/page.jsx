@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import axios from "axios";
 
 import { MdDeleteForever, MdPayment } from "react-icons/md";
@@ -31,12 +31,82 @@ const Guest = () => {
 	const [category, setCategory] = useState("");
 	const [image, setImage] = useState();
 
+	const pathname = usePathname()
+
 	const inputFile = useRef(null);
 
 	const onButtonClick = () => {
 		// `current` points to the mounted file input element
 		inputFile.current.click();
 	};
+
+	useEffect(() => {
+		const token =
+			localStorage.getItem("podcastToken") === undefined ||
+				localStorage.getItem("podcastToken") === null
+				? ""
+				: localStorage.getItem("podcastToken");
+		const mail =
+			localStorage.getItem("podcastMail") === undefined ||
+				localStorage.getItem("podcastMail") === null
+				? ""
+				: localStorage.getItem("podcastMail");
+		const id =
+			localStorage.getItem("podcastId") === undefined ||
+				localStorage.getItem("podcastId") === null
+				? ""
+				: localStorage.getItem("podcastId");
+
+		const config = {
+			headers: {
+				Authorization: `Bearer ${token}`,
+			},
+		};
+
+		const handleMakePayment = async (data) => {
+			await axios
+				.post(`${process.env.NEXT_PUBLIC_BASE_URL}/auth/payment`, { id, verified: false })
+				.then((res) => {
+					window.location.href = res.data
+				})
+				.catch((err) => console.log(err));
+		};
+
+		const checks = async () => {
+			await axios
+				.get(`${process.env.NEXT_PUBLIC_BASE_URL}/user/profile`, config)
+				.then((res) => {
+					if (
+						res.data?.user?.paid !== true &&
+						pathname !== "/login" &&
+						pathname !== "/signup" &&
+						pathname !== "/verify-email" &&
+						pathname !== "/verified" &&
+						pathname !== "/payment" &&
+						pathname !== "/admin" &&
+						pathname !== "/admin/details" &&
+						pathname !== "/admin/create" &&
+						pathname !== "/password/completed" &&
+						pathname !== "/password/create" &&
+						pathname !== "/password/forgot" &&
+						pathname !== "/password/reset" &&
+						pathname !== "/create-guest" &&
+						pathname !== "/create-guest/step-two" &&
+						pathname !== "/create-podcaster" &&
+						pathname !== "/create-podcaster/step-two"
+					) {
+						console.log("first")
+						handleMakePayment()
+					}
+				})
+				.catch((err) => {
+					console.log(err);
+				})
+				.finally(() => setIsLoaded(false));
+		};
+
+		checks();
+	}, []);
 
 	useEffect(() => {
 		const getUserDetails = async () => {
