@@ -46,6 +46,15 @@ export default function Root({ children }) {
 			},
 		};
 
+		const handleMakePayment = async (data) => {
+			await axios
+				.post(`${process.env.NEXT_PUBLIC_BASE_URL}/auth/payment`, { id, verified: false })
+				.then((res) => {
+					window.location.href = res.data
+				})
+				.catch((err) => console.log(err));
+		};
+
 		const checks = async () => {
 			await axios
 				.get(`${process.env.NEXT_PUBLIC_BASE_URL}/user/profile`, config)
@@ -83,7 +92,7 @@ export default function Root({ children }) {
 						pathname !== "/create-podcaster" &&
 						pathname !== "/create-podcaster/step-two"
 					) {
-						paymentButton.current.click();
+						handleMakePayment()
 					} else if (
 						res.data.user.createdProfile !== true &&
 						pathname !== "/login" &&
