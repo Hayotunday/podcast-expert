@@ -82,7 +82,7 @@ export default function Home() {
 						pathname !== "/create-podcaster" &&
 						pathname !== "/create-podcaster/step-two"
 					) {
-						console.log("first")
+
 						handleMakePayment()
 					}
 				})

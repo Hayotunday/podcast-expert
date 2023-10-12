@@ -72,7 +72,7 @@ export default function Root({ children }) {
 						pathname !== "/password/reset"
 					) {
 						router.push(`/verify-email`);
-					} if (
+					} else if (
 						res.data?.user?.paid !== true &&
 						pathname !== "/login" &&
 						pathname !== "/signup" &&
@@ -82,6 +82,8 @@ export default function Root({ children }) {
 						pathname !== "/admin" &&
 						pathname !== "/admin/details" &&
 						pathname !== "/admin/create" &&
+						pathname !== "/admin/create-user" &&
+						pathname !== "/admin/featured" &&
 						pathname !== "/password/completed" &&
 						pathname !== "/password/create" &&
 						pathname !== "/password/forgot" &&
@@ -91,7 +93,7 @@ export default function Root({ children }) {
 						pathname !== "/create-podcaster" &&
 						pathname !== "/create-podcaster/step-two"
 					) {
-						console.log("first")
+
 						handleMakePayment()
 					} else if (
 						res.data.user.createdProfile !== true &&
@@ -211,7 +213,7 @@ export default function Root({ children }) {
 				pathname !== "/create-press/edit" &&
 				pathname !== "/admin" &&
 				pathname !== "/admin/create-user" &&
-				pathname !== "/admin/settings" &&
+				pathname !== "/admin/featured" &&
 				pathname !== "/admin/create" &&
 				pathname !== "/admin/details" ? (
 				<main className="bg-grey h-screen w-screen">

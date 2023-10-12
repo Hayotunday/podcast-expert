@@ -232,7 +232,7 @@ const CreatePodcaster = () => {
 										/> */}
 										<Dropdown
 											onChangeValue={(e) => {
-												dispatch(setCountry(e.target.value));
+												dispatch(setCountry(e));
 											}}
 											value={country}
 											placeholder={"Country"}

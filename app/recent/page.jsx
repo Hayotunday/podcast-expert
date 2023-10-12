@@ -72,7 +72,7 @@ export default function Recent() {
 						pathname !== "/create-podcaster" &&
 						pathname !== "/create-podcaster/step-two"
 					) {
-						console.log("first")
+
 						handleMakePayment()
 					}
 				})

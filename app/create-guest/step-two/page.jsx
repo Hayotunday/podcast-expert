@@ -80,7 +80,7 @@ const Steptwo = () => {
 			)
 			.then((res) => {
 				if (res.status === 201) {
-					router.push("/payment");
+					router.push("/");
 				}
 			})
 			.catch((err) => {
