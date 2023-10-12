@@ -51,8 +51,8 @@ const Verified = ({ }) => {
 		await axios
 			.post(`${process.env.NEXT_PUBLIC_BASE_URL}/auth/payment`, { id, verified: false })
 			.then((res) => {
-				console.log(res)
-				// window.location.href = res.data
+				// console.log(res)
+				window.location.href = res.data
 			})
 			.catch((err) => console.log(err));
 	};
